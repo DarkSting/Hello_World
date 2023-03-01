@@ -8,4 +8,4 @@ this is an introduction for the github
 Console.WriteLine(str);
 }`
 
-[car image](image.jpg)
+[car image]
