@@ -10,5 +10,7 @@ this is an introduction for the github
 `foreach(int str in list){
 Console.WriteLine(str);
 }`
+
 [car image](image.jpg)
+[car image]
 
