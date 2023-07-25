@@ -8,6 +8,12 @@ const playerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  joinedTeam:{
+    type:String,
+    default:""
+
+  },
   // Gaming alias of the player
   gamingAlias: {
     type: String,
