@@ -11,6 +11,7 @@ import MuiAlert from '@mui/material/Alert';
 import { Close, CloseFullscreen, Minimize, RemoveCircle } from '@mui/icons-material';
 import Draggable from 'react-draggable';
 import DroppableAreaArray from '../../../components/widgets/DroppableAreaArray';
+import Wrapper from '../../../components/widgets/wrapper';
 
 const CardBox = styled(Box)({
   marginBottom:'10px', 
@@ -81,14 +82,20 @@ const TripPage = () => {
   function populateTrainData (){
    
     let array =[];
+    return(
+    <Box>
+    <Typography variant='h5' sx={{marginBottom:'10px',backgroundColor:'#55555511',borderRadius:'3px',padding:'20px'}}> Trains</Typography>
+    <Box sx={{display:'flex',flexDirection:'row',gap:1}}>
+    {trainResults.map((item,index)=>{
 
- return (trainResults.map((item,index)=>{
+    return <DraggableItem key={index} width='200px' color='#4682A9' header={item.name} fileName="train" data={item} displayBody={renderDraggableItemBody(item??null)}/>
 
-     return <DraggableItem key={index} width='200px' color='#4682A9' header={item.name} fileName="train" data={item} displayBody={renderDraggableItemBody(item??null)}/>
+    })}
+    </Box>
+    </Box>
+    
+    )
 
-})
-
-)
 }
  
    //render card body
@@ -118,12 +125,22 @@ function populateStationData (){
    
     let array =[];
 
- return (stationResults.map((item,index)=>{
-     return <DraggableItem key={index} width='200px' color='#4682A9' header={item?.stationName} fileName="station" data={item} displayBody={renderDraggableItemBody(item??null)}/>
+    return(
+      <Box sx={{marginTop:'50px'}}>
+      <Typography variant='h5' sx={{marginBottom:'10px',backgroundColor:'#55555511',borderRadius:'3px',padding:'20px'}}> Stations</Typography>
+      <Box sx={{display:'flex',flexDirection:'row',gap:1}}>
+      {stationResults.map((item,index)=>{
+  
+      return <DraggableItem key={index} width='200px' color='#4682A9' header={item?.stationName} fileName="station" data={item} displayBody={renderDraggableItemBody(item??null)}/>
+  
+      })}
+      </Box>
+      </Box>
+      
+      )
 
-})
 
-)
+
 }
  
  {/*clears the selected items */}
@@ -163,6 +180,7 @@ function populateStationData (){
   }
 
   
+   {/*create array*/}
   function createArray(results){
 
     console.log(results);
@@ -178,6 +196,11 @@ function populateStationData (){
     setStationDroppedData([]);
   }
 
+  function handleSubmit(){
+
+
+
+  }
 
 
   return (
@@ -228,7 +251,7 @@ function populateStationData (){
             {createArray(stationDroppedData)}
             <DroppableAreaArray storedData={stationDroppedData} filename="station" notifyUpdate={setStationDroppedData} header="drag a station here" color="black"  type="train" Snack={snack}/>
             <Button variant='outlined' onClick={()=>{
-               handleClose();
+              handleSubmit();
                clearArray();
             }
              } color="primary">
@@ -242,14 +265,14 @@ function populateStationData (){
     </div>
    
    {/*content*/}
-    <Wrap>
+    <Wrapper sx={{overflowX:'scroll',width:'80%'}}>
       <CardBox >
         {trainResults.length>0?populateTrainData():<Typography>No trains available</Typography>}
       </CardBox>
       <CardBox >
         {trainResults.length>0?populateStationData():<Typography>No stations available</Typography>}
       </CardBox>
-    </Wrap>
+    </Wrapper>
 
     {/*action state notifier*/}
     <Snackbar open={opensnack} autoHideDuration={3000} onClose={handleSnackClose}>

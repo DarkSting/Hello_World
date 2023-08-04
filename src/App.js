@@ -4,6 +4,7 @@ import Dashboard from "./views/adminpage/AdminDashboard"
 import { Route,RouterProvider,Routes, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import Feed from "./components/Feed";
 import TripPage from "./views/adminpage/TripPage/TripPage";
+import StationForm from "./views/adminpage/StationPage/StationPage";
 
 
 const router = createBrowserRouter(
@@ -14,7 +15,7 @@ const router = createBrowserRouter(
          
          <Route path="/" element={ <Feed />} />
           <Route path="trains" element={<TripPage />} />
-          <Route path="settrip" element={<Feed />} />
+          <Route path="settrip" element={<StationForm />} />
           <Route path="addtrains" element={<Feed />} />
      
     
