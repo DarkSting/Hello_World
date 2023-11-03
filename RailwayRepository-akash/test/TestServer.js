@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 const { Server, Socket } = require('socket.io');
 
-
 // app config
 const app = express();
 const  http = require('http');
@@ -18,7 +17,7 @@ const io = new Server(httpServer,{
 //middlewares
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST", "DELETE","PUT"],
     credentials: true,
   })
@@ -27,17 +26,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes
-app.use("/train", require("./Routes/TrainRoutes"));
-app.use("/user", require("./Routes/UserRoutes"));
-app.use("/trip", require("./Routes/TripRoutes"));
-app.use("/station", require("./Routes/StationRoutes"));
-app.use("/tournement", require("./Routes/TrainPathRoutes"));
-
+app.use("/train", require("../Routes/TrainRoutes"));
+app.use("/user", require("../Routes/UserRoutes"));
+app.use("/trip", require("../Routes/TripRoutes"));
+app.use("/station", require("../Routes/StationRoutes"));
+app.use("/route", require("../Routes/TrainPathRoutes"));
 
 
 // mongodb
 mongoose
-  .connect("mongodb+srv://akash:akash123@cluster0.24bmwfn.mongodb.net/Train", {
+  .connect("mongodb+srv://akashtest:12345@test.9rz1ljg.mongodb.net/railway-test", {
     useCreateIndex: true,
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -46,10 +44,11 @@ mongoose
   .catch((err) => console.log(err));
 
 //port
-const PORT = process.env.PORT|| 8080;
-
+const PORT = process.env.PORT|| 5000;
 
 //listen
-httpServer.listen(PORT, () => console.log(`server started at ${PORT}`));
+httpServer.listen(PORT, () => console.log(`server started at ${process.env.PORT}`));
+
+module.exports = {app};
 
 

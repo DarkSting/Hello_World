@@ -6,7 +6,6 @@ const TripSchema = new mongoose.Schema({
 
     train:{
         type:String,
-        ref:'trains',
         required:[true,'train reference is required']
     },
     departure:{
@@ -17,12 +16,21 @@ const TripSchema = new mongoose.Schema({
         type:Date,
         required:[true,'arrival time not provided']
     },
-    booking:[{
+    bookings:[{
 
         type:mongoose.Schema.Types.ObjectId,
-        ref:'bookingsessions'
-    }]
+        ref:'bookings'
+        }]
     ,
+    bookingOpened:{
+        type:Date,
+        default:Date.now
+
+    },
+    bookingOpeningExpired:{
+        type:Date,
+        required:[true, 'provide expiry date']
+    },
     createdAt:{
         type:Date,
         default:Date.now
@@ -35,10 +43,11 @@ const TripSchema = new mongoose.Schema({
         type:String,
         ref:'routes'
     },
-    Stops:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'stations'
-    }]
+    isOpened:{
+        type:Boolean,
+        default:true
+    }
+ 
 
 })
 

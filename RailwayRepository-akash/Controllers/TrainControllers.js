@@ -52,7 +52,7 @@ const addTrain = async(req,res)=>{
 
   const{
   name,
-  trainNumber} = req.body;
+  trainNumber,boxcount} = req.body;
 
   let r = null;
 
@@ -64,8 +64,13 @@ const addTrain = async(req,res)=>{
 
   }
 
+  const alreadExist = await trainModel.findOne({trainNumber:trainNumber});
 
-  let trainboxes =await gettingTrainBoxArray(5);
+  if(alreadExist){
+    return res.status(409).json(alreadExist);
+  }
+
+  let trainboxes =await gettingTrainBoxArray(boxcount);
   
   
 
@@ -100,6 +105,7 @@ const addTrain = async(req,res)=>{
 
 
 }
+
 
 /**
  * decription : creats train prices.
@@ -461,6 +467,7 @@ const bookSeat = async (objectID) => {
   //checks whether train is available or not
   foundTrain = await trainModel.findOne({ trainNumber: trainId });
 
+
   //if available generating a seatid for the available seats
   if (foundTrain) {
     
@@ -472,8 +479,7 @@ const bookSeat = async (objectID) => {
     
       currentSeats.forEach(async(isOccupied, index) => {
         //updating the train box with the reserved seat
-        
-       
+
 
         if (
           index === seatIndex &&
@@ -483,7 +489,7 @@ const bookSeat = async (objectID) => {
           currentSeats[index] = true;
           console.log(currentSeats);
           try{
-            await trainBoxModel.updateOne({trainBoxNumber:trainBoxid},{seats:currentSeats});
+            await trainBoxModel.updateOne({_id:foundTrainBox._id},{seats:currentSeats});
             arrayResults.push({code:200,msg:objectID,data:true}) ;
           }catch(e){
             arrayResults.push({code:500,msg:objectID,data:false});
@@ -545,6 +551,7 @@ const getTrain = async (req, res) => {
   const { id,name,trainNumber } = req.body;
 
   let trainBoxesArray = [];
+  let trainBoxesWithIDs = [];
 
   console.log("controll is working");
 
@@ -562,7 +569,11 @@ const getTrain = async (req, res) => {
   const foundTrainBox = await trainBoxModel.find({});
   
   for(let currentTrainBox of foundTrainBox ){
-    trainBoxesArray.push(currentTrainBox);
+
+    if(outTrain.trainBoxes.includes(currentTrainBox._id)){
+      trainBoxesArray.push(currentTrainBox);
+      trainBoxesWithIDs.push(currentTrainBox._id);
+    }
   }
   
 
@@ -570,7 +581,8 @@ const getTrain = async (req, res) => {
     id: outTrain.trainNumber,
     name: outTrain.name,
     totalSeats:outTrain.totalSeats,
-    trainBoxes: trainBoxesArray
+    trainBoxes: trainBoxesArray,
+    trainBoxesWithIDs : trainBoxesWithIDs
   });
 };
 
