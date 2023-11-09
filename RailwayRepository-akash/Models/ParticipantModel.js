@@ -5,7 +5,8 @@ const status = [null,'PLAYED', 'NO_SHOW' , 'WALK_OVER' , 'NO_PARTY']
 const ParticipantSchema = new mongoose.Schema({
 
       id:{
-        type:String
+        type:String,
+        default:"123"
      },
       resultText:{
         type:String,
@@ -23,7 +24,8 @@ const ParticipantSchema = new mongoose.Schema({
       }
       ,
       name:{
-        type:String
+        type:String,
+        default:"Null"
       }
     
 

@@ -1,27 +1,22 @@
 const mongoose = require("mongoose");
+const { RoundSchema } = require("./RoundModel");
 
-//train schema 
+//train schema
 const TournementSchema = new mongoose.Schema({
-  
   name: {
     type: String,
+    default: "unknown",
   },
-  currentRound:{
-    type:mongoose.Schema.Types.ObjectId
+  currentRound: {
+    type: Number,
+    default: -1,
   },
-  
-  roundHistory:[
-    {
-      type:mongoose.Schema.Types.ObjectId,
-      ref:'round'
-    }
-  ]
 
- 
+  roundHistory: [RoundSchema],
 });
 
-const TournementModel = mongoose.model('tournement',TournementSchema)
+const TournementModel = mongoose.model("tournement", TournementSchema);
 
- module.exports = {
-  TournementModel
- }
+module.exports = {
+  TournementModel,
+};
