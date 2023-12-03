@@ -1,0 +1,108 @@
+﻿@model RaythosAerospace.Models.Repositories.OrderRepository.OrderModel
+
+@{ 
+    UserModel user = ViewBag.User;
+    AirCraftModel AirCraft = ViewBag.AirCraft;
+}
+
+<h4>OrderModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.OrderId" class="control-label"></label>
+                <input asp-for="@Model.OrderId" class="form-control" />
+                <span asp-validation-for="@Model.OrderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.OrderDateTime" class="control-label"></label>
+                <input asp-for="@Model.OrderDateTime" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss")" class="form-control" />
+                <span asp-validation-for="@Model.OrderDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.UserId" class="control-label"></label>
+                <input asp-for="@Model.UserId" value="@user.UserId" class="form-control" readonly />
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CustomerEmail" class="control-label"></label>
+                <input asp-for="@Model.CustomerEmail" class="form-control" readonly />
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShippingAddress" class="control-label"></label>
+                <input asp-for="@Model.ShippingAddress" class="form-control" />
+                <span asp-validation-for="@Model.ShippingAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AirCraftId" class="control-label"></label>
+                <input asp-for="@Model.AirCraftId" class="form-control" />
+                <span asp-validation-for="@Model.AirCraftId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.PaymentMethod" class="control-label"></label>
+                <input asp-for="@Model.PaymentMethod" class="form-control" />
+                <span asp-validation-for="@Model.PaymentMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShippingMethod" class="control-label"></label>
+                <input asp-for="@Model.ShippingMethod" class="form-control" />
+                <span asp-validation-for="@Model.ShippingMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShippingId" class="control-label"></label>
+                <select asp-for="@Model.ShippingId" class ="form-control" asp-items="ViewBag.ShippingId">
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShippingCost" class="control-label"></label>
+                <input asp-for="@Model.ShippingCost" class="form-control" />
+                <span asp-validation-for="@Model.ShippingCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.EstimatedDeliveryDate" class="control-label"></label>
+                <input asp-for="@Model.EstimatedDeliveryDate" class="form-control" />
+                <span asp-validation-for="@Model.EstimatedDeliveryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Subtotal" class="control-label"></label>
+                <input asp-for="@Model.Subtotal" class="form-control" />
+                <span asp-validation-for="@Model.Subtotal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Discounts" class="control-label"></label>
+                <input asp-for="@Model.Discounts" class="form-control" />
+                <span asp-validation-for="@Model.Discounts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.TotalAmount" class="control-label"></label>
+                <input asp-for="@Model.TotalAmount" class="form-control" />
+                <span asp-validation-for="@Model.TotalAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.OrderStatus" class="control-label"></label>
+                <input asp-for="@Model.OrderStatus" class="form-control" />
+                <span asp-validation-for="@Model.OrderStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{ 
+    
+<script>
+    $(document).ready(function () {
+
+    })
+</script>
+
+}

@@ -1,0 +1,155 @@
+﻿@model RaythosAerospace.Models.Repositories.AirCraftRepository.AirCraftModel
+
+@{ 
+    Layout = "_Layout";
+}
+
+<h4>AirCraftModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="aircraft" asp-action="create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.AircraftId" class="control-label"></label>
+                <input asp-for="@Model.AircraftId" class="form-control" />
+                <span asp-validation-for="@Model.AircraftId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.AircraftType" class="control-label"></label>
+                <select asp-for="@Model.AircraftType" class="form-control" asp-items="@(ViewBag.AircraftTypes as List<SelectListItem>)"></select>
+                <span asp-validation-for="@Model.AircraftType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.RegistrationNumber" class="control-label"></label>
+                <input asp-for="@Model.RegistrationNumber" class="form-control" />
+                <span asp-validation-for="@Model.RegistrationNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Manufacturer" class="control-label"></label>
+                <input asp-for="@Model.Manufacturer" class="form-control" />
+                <span asp-validation-for="@Model.Manufacturer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.YearOfManufacture" class="control-label"></label>
+                <input asp-for="@Model.YearOfManufacture" class="form-control" />
+                <span asp-validation-for="@Model.YearOfManufacture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.SeatingCapacity" class="control-label"></label>
+                <input asp-for="@Model.SeatingCapacity" class="form-control" />
+                <span asp-validation-for="@Model.SeatingCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.MaximumRange" class="control-label"></label>
+                <input asp-for="@Model.MaximumRange" class="form-control" />
+                <span asp-validation-for="@Model.MaximumRange" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.EngineId" class="control-label"></label>
+                <select id="engineDropdown" class="form-control">
+                    <option value="">Select an Engine</option>
+                    @foreach (EngineModel current in ViewBag.Engines)
+                    {
+                        <option value="@current.EngineId">@current.EngineType</option>
+                    }
+                </select>
+                <input type="hidden" id="selectedEngineIdField" asp-for="@Model.EngineId" />
+               
+                <span asp-validation-for="@Model.EngineId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.MaxAllowedEngines" class="control-label"></label>
+                <input asp-for="@Model.MaxAllowedEngines" class="form-control" />
+                <span asp-validation-for="@Model.MaxAllowedEngines" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.FuelCapacity" class="control-label"></label>
+                <input asp-for="@Model.FuelCapacity" class="form-control" />
+                <span asp-validation-for="@Model.FuelCapacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Weight" class="control-label"></label>
+                <input asp-for="@Model.Weight" class="form-control" />
+                <span asp-validation-for="@Model.Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Length" class="control-label"></label>
+                <input asp-for="@Model.Length" class="form-control" />
+                <span asp-validation-for="@Model.Length" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Width" class="control-label"></label>
+                <input asp-for="@Model.Width" class="form-control" />
+                <span asp-validation-for="@Model.Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Height" class="control-label"></label>
+                <input asp-for="@Model.Height" class="form-control" />
+                <span asp-validation-for="@Model.Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.SeatID" class="control-label"></label>
+                <select id="seatDropdown" class="form-control">
+                    <option value="">Select an Seat</option>
+                    @foreach (SeatModel current in ViewBag.Seats)
+                    {
+                        <option value="@current.SeatID">@current.SeatType</option>
+                    }
+                </select>
+                <input type="hidden" id="selectedseatIdField"  asp-for="@Model.SeatID" />
+
+                <span asp-validation-for="@Model.SeatID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.MaxSeatesAllowed" class="control-label"></label>
+                <input asp-for="@Model.MaxSeatesAllowed" class="form-control" />
+                <span asp-validation-for="@Model.MaxSeatesAllowed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.MaxWingSpan" class="control-label"></label>
+                <input asp-for="@Model.MaxWingSpan" class="form-control" />
+             
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ManfacturedDate" class="control-label"></label>
+                <input asp-for="@Model.ManfacturedDate" class="form-control" />
+        
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-outline-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#engineDropdown').change(function () {
+                var selectedEngineId = $(this).val();
+                console.log("hello")
+                console.log('Selected EngineId: ' + selectedEngineId);
+
+                $('#selectedEngineIdField').val(selectedEngineId);
+
+               
+            });
+
+            $('#seatDropdown').change(function () {
+                var selectedSeatId = $(this).val();
+                console.log('Selected Seat: ' + selectedSeatId);
+
+                $('#selectedseatIdField').val(selectedSeatId);
+
+
+            });
+        });
+
+    </script>
+
+}
