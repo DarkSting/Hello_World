@@ -43,7 +43,7 @@ build/
 project.assets.json
 bin/
 obj/
-
+Keys/
 # Resharper
 _ReSharper*/
 

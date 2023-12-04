@@ -4,6 +4,7 @@
     UserModel user = ViewBag.User;
     AirCraftModel AirCraft = ViewBag.AirCraft;
     IEnumerable<ShippingModel> Shippings = ViewBag.Shippings;
+    string uniqueID = Guid.NewGuid().ToString();
 }
 
 <h4>OrderModel</h4>
@@ -13,8 +14,45 @@
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="@Model.ShippingAddress" class="control-label"></label>
+                <input asp-for="@Model.ShippingAddress" class="form-control" />
+                <span asp-validation-for="@Model.ShippingAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.ShippingMethod" class="control-label"></label>
+                <select asp-for="@Model.ShippingId" id="shipping-dropdown" class="form-control">
+                    <option value="">Select a shipping method</option>
+                    @foreach (ShippingModel current in Shippings)
+                    {
+                        <option value="@current.ShippingId">@current.ShippingType</option>
+
+                    }
+                </select>
+                <label id="ship-desc"></label>
+
+                @foreach (ShippingModel current in Shippings)
+                {
+                    <input type="hidden" id="@current.ShippingId" value="@current.ShippingCost" />
+
+                }
+
+
+
+                @foreach (ShippingModel current in Shippings)
+                {
+
+                    string selectedId = current.ShippingId.ToString() + "1";
+                    string shipdescId = current.ShippingId.ToString() + "desc";
+
+                    <input type="hidden" id="@selectedId" value="@current.ShippingType" />
+                    <input type="hidden" id="@shipdescId" value="@current.ShippingDesc" />
+
+                }
+
+            </div>
+            <div class="form-group">
                 <label asp-for="@Model.OrderId" class="control-label"></label>
-                <input asp-for="@Model.OrderId" class="form-control" />
+                <input asp-for="@Model.OrderId" value="@uniqueID" class="form-control" readonly />
                 <span asp-validation-for="@Model.OrderId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -28,14 +66,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.CustomerEmail" class="control-label"></label>
-                <input asp-for="@Model.CustomerEmail" class="form-control" readonly />
-                
+                <input asp-for="@Model.CustomerEmail" value="@user.Email" class="form-control" readonly />
+
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.ShippingAddress" class="control-label"></label>
-                <input asp-for="@Model.ShippingAddress" class="form-control" />
-                <span asp-validation-for="@Model.ShippingAddress" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="@Model.AirCraftId" class="control-label"></label>
                 <input asp-for="@Model.AirCraftId" value="@AirCraft.AircraftId" class="form-control" readonly />
@@ -43,49 +77,21 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.PaymentMethod" class="control-label"></label>
-                <select asp-for="@Model.PaymentMethod" class="form-control" asp-items="(ViewBag.OrderStatus as List<SelectListItem>)" ></select>
+                <select asp-for="@Model.PaymentMethod" class="form-control" asp-items="(ViewBag.OrderStatus as List<SelectListItem>)"></select>
                 <span asp-validation-for="@Model.PaymentMethod" class="text-danger"></span>
             </div>
 
             <input type="hidden" id="selected-shipping-value" asp-for="@Model.ShippingMethod" class="form-control" />
 
+
             <div class="form-group">
-                <label asp-for="@Model.ShippingMethod" class="control-label"></label>
-                <select asp-for="@Model.ShippingId" id="shipping-dropdown" class="form-control">
-                    <option value="">Select a shipping method</option>
-                    @foreach (ShippingModel current in Shippings)
-                    {
-                        <option value="@current.ShippingId">@current.ShippingType</option>
-
-                    }
-                </select>
-
-                @foreach (ShippingModel current in Shippings)
-                {
-                    <input type="hidden" id="@current.ShippingId" value="@current.ShippingCost" />
-
-                }
-
-               
-
-                @foreach (ShippingModel current in Shippings)
-                {
-
-                    string selectedId = current.ShippingId.ToString()+"1";
-
-                    <input type="hidden" id="@selectedId" value="@current.ShippingType" />
-
-                }
-
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.ShippingCost"  class="control-label"></label>
+                <label asp-for="@Model.ShippingCost" class="control-label"></label>
                 <input asp-for="@Model.ShippingCost" id="shipping-cost" class="form-control" />
                 <span asp-validation-for="@Model.ShippingCost" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.EstimatedDeliveryDate" class="control-label"></label>
-                <input asp-for="@Model.EstimatedDeliveryDate" class="form-control" />
+                <input asp-for="@Model.EstimatedDeliveryDate" class="form-control"  />
                 <span asp-validation-for="@Model.EstimatedDeliveryDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -105,7 +111,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.OrderStatus" class="control-label"></label>
-                <select asp-for="@Model.OrderStatus" class="form-control"   asp-items="(ViewBag.PaymentMethod as List<SelectListItem>)"></select>
+                <select asp-for="@Model.OrderStatus" class="form-control">
+                    <option value="@OrderStatusEnum.Initiating">Initiating</option>
+                </select>
                 <span asp-validation-for="@Model.OrderStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -130,16 +138,21 @@
         $('#shipping-dropdown').change(function () {
             let selectedShipping = $(this).val();
 
-            let selectedType = $(this).text();
 
-            console.log($('#' + selectedShipping.toString() + '1').val());
+           
+            var shipcost = 0;
 
             if (selectedShipping === "") {
                 shipcost = 0;
             }
             else {
-                var shipcost = +$('#' + selectedShipping.toString()).val();
+                shipcost = +$('#' + selectedShipping.toString()).val();
             }
+
+            console.log(shipcost);
+
+            //setting ship description
+            $("#ship-desc").text($('#' + selectedShipping.toString() + 'desc').val())
 
             $('#selected-shipping-value').val($('#'+ selectedShipping.toString()+'1').val())
 

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RaythosAerospace.CustomServices;
+using RaythosAerospace.Keys;
 using RaythosAerospace.Models.Repositories;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
@@ -12,6 +14,7 @@ using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace RaythosAerospace
@@ -30,13 +33,14 @@ namespace RaythosAerospace
         {
             services.AddMvc();
             services.AddDbContextPool<AppDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("OfficeConnection"))
+                options.UseSqlServer(Configuration.GetConnectionString("AppConnection"))
             );
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAirCraftRepository, AirCraftRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-
+            services.AddSingleton<ICustomService, CustomService>();
+            
 
         }
 
@@ -53,6 +57,9 @@ namespace RaythosAerospace
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+          
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
