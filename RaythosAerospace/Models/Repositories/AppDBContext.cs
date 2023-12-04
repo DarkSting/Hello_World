@@ -214,7 +214,7 @@ namespace RaythosAerospace.Models.Repositories
                 .HasData(seats);
             modelBuilder.Entity<ShippingModel>()
                 .HasData(shipping);
-
+            
         }
 
        

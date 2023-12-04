@@ -49,5 +49,23 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
 
             return updated;
         }
+
+        public IEnumerable<ShippingModel> GetShippingMethods()
+        {
+            return _context.Shippings.ToList();
+        }
+
+        public OrderModel UpdateOrderState(OrderModel model)
+        {
+            EntityEntry changed = _context.Orders.Attach(model);
+            changed.State = EntityState.Modified;
+
+            return model;
+        }
+
+        public IEnumerable<OrderModel> GetAllOrders()
+        {
+            return _context.Orders.ToList();
+        }
     }
 }

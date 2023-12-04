@@ -33,6 +33,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         [Required(ErrorMessage = "Please provide the seating capacity")]
         [Display(Name = "Seat Capacity")]
+
         public int SeatingCapacity { get; set; }
 
         [Required(ErrorMessage = "Please provide the range")]
@@ -90,6 +91,10 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         [Display(Name = "Manfactured Date")]
         [Required(ErrorMessage ="Please provide the manufactured date")]
         public DateTime ManfacturedDate { get; set; }
+
+        [Required(ErrorMessage = "Please provide the aircraft price")]
+        [Display(Name ="AirCraft price")]
+        public double AirCraftPrice { get; set; }
 
         //navigation properties
         public ICollection<OrderAircraftModel> OrderAirCraft { get; set; }

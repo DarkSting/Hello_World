@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
+using RaythosAerospace.Models.Repositories.InvoiceRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
 using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
@@ -37,51 +39,87 @@ namespace RaythosAerospace.Controllers
         }
 
         // GET: OrderController/Create
-        public ActionResult Create(string? airCraftId, string? userId)
+        [HttpGet]
+        public ViewResult Create(string? airCraftId, string? userId)
         {
-            AirCraftModel foundCraft = _airCraftRepo.Find("A0001");
-            UserModel foundUser = _userRepo.Find("U0001");
-
-            ViewBag.AirCraft = foundCraft;
-            ViewBag.User = foundUser;
+            PrepareDataForLoadPage(userId, airCraftId, ViewBag);
 
             return View();
+        }
+
+
+        private void PrepareDataForLoadPage(string? userid, string? aircraftid,dynamic bag)
+        {
+            AirCraftModel foundCraft = _airCraftRepo.Find(aircraftid == null ? "A0001" : aircraftid);
+            UserModel foundUser = _userRepo.Find(userid == null ? "U0001" : userid);
+
+
+            //populating the airbag
+            bag.AirCraft = foundCraft;
+            bag.User = foundUser;
+            bag.PaymentMethod = Enum.GetValues(typeof(OrderStatusEnum))
+                            .Cast<OrderStatusEnum>()
+                            .Select(e => new SelectListItem
+                            {
+                                Value = e.ToString(),
+                                Text = e.ToString()
+                            }).ToList();
+            bag.OrderStatus = Enum.GetValues(typeof(PaymentMethodEnum))
+                            .Cast<PaymentMethodEnum>()
+                            .Select(e => new SelectListItem
+                            {
+                                Value = e.ToString(),
+                                Text = e.ToString()
+                            }).ToList();
+            bag.Shippings = _orderRepo.GetShippingMethods();
         }
 
         // POST: OrderController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(OrderModel model)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            
+
+            if (ModelState.IsValid)
+                {
+                    _orderRepo.Create(model);
+                    return RedirectToAction("Home/Index");
+                }
+
+
+            PrepareDataForLoadPage(model.UserId, model.AirCraftId, ViewBag);
+            return View();
         }
 
         // GET: OrderController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public ActionResult Edit(string id)
         {
-            return View();
+            OrderModel foundModel = _orderRepo.Find(id);
+            PrepareDataForLoadPage(foundModel.UserId,foundModel.AirCraftId,ViewBag);
+            return View(foundModel);
+        }
+
+        public ActionResult Orders()
+        {
+            IEnumerable<OrderModel> models = _orderRepo.GetAllOrders();
+            return View(models);
         }
 
         // POST: OrderController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(OrderModel model)
         {
-            try
+
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                _orderRepo.Update(model);
             }
-            catch
-            {
-                return View();
-            }
+
+            PrepareDataForLoadPage(model.UserId, model.AirCraftId, ViewBag);
+
+            return View();
+            
         }
 
         // GET: OrderController/Delete/5

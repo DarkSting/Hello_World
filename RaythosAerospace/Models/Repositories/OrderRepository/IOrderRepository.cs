@@ -11,5 +11,11 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
         OrderModel Create(OrderModel order);
         OrderModel Update(OrderModel updated);
         OrderModel Delete(string id);
+
+        IEnumerable<ShippingModel> GetShippingMethods();
+
+        IEnumerable<OrderModel> GetAllOrders();
+
+        OrderModel UpdateOrderState(OrderModel model);
     }
 }

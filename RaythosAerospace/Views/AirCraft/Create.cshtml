@@ -21,6 +21,11 @@
                 <span asp-validation-for="@Model.AircraftType" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="@Model.AirCraftPrice" class="control-label"></label>
+                <input asp-for="@Model.AirCraftPrice" class="form-control" />
+
+            </div>
+            <div class="form-group">
                 <label asp-for="@Model.RegistrationNumber" class="control-label"></label>
                 <input asp-for="@Model.RegistrationNumber" class="form-control" />
                 <span asp-validation-for="@Model.RegistrationNumber" class="text-danger"></span>
@@ -55,7 +60,7 @@
                     }
                 </select>
                 <input type="hidden" id="selectedEngineIdField" asp-for="@Model.EngineId" />
-               
+
                 <span asp-validation-for="@Model.EngineId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -97,7 +102,7 @@
                         <option value="@current.SeatID">@current.SeatType</option>
                     }
                 </select>
-                <input type="hidden" id="selectedseatIdField"  asp-for="@Model.SeatID" />
+                <input type="hidden" id="selectedseatIdField" asp-for="@Model.SeatID" />
 
                 <span asp-validation-for="@Model.SeatID" class="text-danger"></span>
             </div>
@@ -109,13 +114,14 @@
             <div class="form-group">
                 <label asp-for="@Model.MaxWingSpan" class="control-label"></label>
                 <input asp-for="@Model.MaxWingSpan" class="form-control" />
-             
+
             </div>
             <div class="form-group">
                 <label asp-for="@Model.ManfacturedDate" class="control-label"></label>
                 <input asp-for="@Model.ManfacturedDate" class="form-control" />
-        
+
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-outline-primary" />
             </div>
