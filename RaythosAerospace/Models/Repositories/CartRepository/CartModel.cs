@@ -12,13 +12,12 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
     {
         [Key]
         public string CartNumber { get; set; }
-        public int UnitPrice { get; set; }
 
         public string UseId { get; set; }
         public UserModel User { get; set; }
         public string Description { get; set; }
 
-
+ 
         public ICollection<CartItemModel> CartItems { get; set; }
     }
 }

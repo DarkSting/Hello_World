@@ -9,8 +9,6 @@ namespace RaythosAerospace.Models.Repositories.InvoiceRepository
     {
         Card,
         CashOnDelivery,
-        Skril,
-
 
     }
 }

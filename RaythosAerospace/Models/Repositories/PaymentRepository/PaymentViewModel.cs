@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace RaythosAerospace.Models.Repositories.PaymentRepository
 {
-    public class PaymentModel
+    public class PaymentViewModel
     {
-        public double Amount { get; set; }
-        public string Token { get; set; }
+        public string TotalValue { get; set; }
     }
 }

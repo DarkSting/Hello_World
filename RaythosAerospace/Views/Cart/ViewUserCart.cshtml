@@ -1,0 +1,60 @@
+﻿@model PaymentModel
+
+@{
+    IEnumerable<CartItemModel> items = ViewBag.CartItems;
+    CartModel cart = ViewBag.Cart;
+    Dictionary<string, AirCraftModel> aircrafts = ViewBag.AirCrafts;
+    double totalprice = 0;
+}
+
+
+@foreach (CartItemModel item in items)
+{
+    string aircraftdesc = aircrafts[item.AirCraftId].AircraftType;
+
+    <div class="cart-item">
+        <h4>@aircraftdesc</h4>
+        <p>Price: @item.UnitPrice</p>
+        <!-- Other item details you want to display -->
+        <button type="button" class="delete-item" data-itemid="@item.CartItemId">Delete</button>
+    </div>
+
+    totalprice += item.UnitPrice;
+
+}
+
+<h1>$ @totalprice</h1>
+
+<form asp-action="Checkout" method="post">
+
+    <div class="form-row">
+
+        <input asp-for="@Model.Amount" type="hidden" value="@totalprice" />
+
+    </div>
+    <button type="submit" class="btn btn-secondary">Checkout</button>
+</form>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('.delete-item').click(function () {
+                var itemId = $(this).data('itemid');
+                $.ajax({
+                    url: '/Cart/DeleteItem', // Your delete endpoint
+                    method: 'DELETE',
+                    data: { itemId: itemId },
+                    success: function (response) {
+                        if (response.success) {
+                            $(this).closest('.cart-item').remove();
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error deleting item:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}

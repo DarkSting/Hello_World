@@ -9,6 +9,7 @@ using RaythosAerospace.CustomServices;
 using RaythosAerospace.Keys;
 using RaythosAerospace.Models.Repositories;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
+using RaythosAerospace.Models.Repositories.CartRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
 using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
@@ -33,13 +34,14 @@ namespace RaythosAerospace
         {
             services.AddMvc();
             services.AddDbContextPool<AppDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AppConnection"))
+                options.UseSqlServer(Configuration.GetConnectionString("OfficeConnection"))
             );
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAirCraftRepository, AirCraftRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<ICustomService, CustomService>();
+            services.AddScoped<ICartRepository, CartRepository>();
             
 
         }

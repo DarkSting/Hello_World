@@ -23,11 +23,12 @@ namespace RaythosAerospace.Controllers
             logger.LogDebug(keys.GetPublicKey());
         }
 
-        [HttpGet]
-        public IActionResult ProcessPayment()
+
+        public IActionResult Checkout(PaymentModel view)
         {
             _logger.LogError(_key.GetSecretKey());
             ViewBag.publicKey = _key.GetPublicKey().Trim();
+
             return View();
         }
 
@@ -37,10 +38,9 @@ namespace RaythosAerospace.Controllers
         {
 
 
-
             var currency = "usd"; // Currency code
-            var successUrl = "https://localhost:44331/Home/success";
-            var cancelUrl = "https://localhost:44331/Home/cancel";
+            var successUrl = "https://localhost:44331/payment/paymentsuccess";
+            var cancelUrl = "https://localhost:44331/payment/paymentfailed";
             StripeConfiguration.ApiKey = _key.GetSecretKey();
 
             var options = new SessionCreateOptions
@@ -82,6 +82,16 @@ namespace RaythosAerospace.Controllers
 
             return Redirect(session.Url);
 
+        }
+
+        public IActionResult PaymentSuccess()
+        {
+            return View();
+        }
+
+        public IActionResult PaymentFailed()
+        {
+            return View();
         }
     } 
 }
