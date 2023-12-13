@@ -13,5 +13,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public string SelectedSeatType { get; set; }
         public IEnumerable<SeatModel> seats { get; set; }
         public IEnumerable<EngineModel> engines { get; set; }
+
+        public IEnumerable<AirCraftModel> AirCrafts { get; set; }
     }
 }

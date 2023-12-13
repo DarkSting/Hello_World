@@ -12,13 +12,40 @@ namespace RaythosAerospace.Controllers
 {
     public class CartController : Controller
     {
+
         private readonly ICartRepository _cartRepo;
         private readonly IAirCraftRepository _aircraftRepo;
+
         public CartController(ICartRepository cartRepo, IAirCraftRepository aircraftRepo)
         {
+
             _cartRepo = cartRepo;
             _aircraftRepo = aircraftRepo;
+
         }
+
+        
+        [HttpPost]
+        public IActionResult AddToCart([FromBody]CartItemViewModel item)
+        {
+            string userId = "U0001";
+
+            CartModel foundCart = _cartRepo.GetCart(userId);
+
+            CartItemModel cartitem = new CartItemModel
+            {
+                AirCraftId = item.aircraft.AircraftId,
+                CartId = foundCart.CartNumber,
+                ItemAddedDate = DateTime.Now,
+                UnitPrice = item.aircraft.AirCraftPrice,
+
+            };
+
+            _cartRepo.AddCartItem(cartitem);
+
+            return View("~/Views/AirCraft/Customize.cshtml",item );
+        }
+
         // GET: CartController
         [HttpGet]
         public IActionResult ViewUserCart(string userid)

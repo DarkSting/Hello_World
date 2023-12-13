@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
+using RaythosAerospace.Models.Repositories.CartRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,13 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
+        public ViewResult ViewAnAirCraft(string id)
+        {
+            CartItemViewModel cv = new CartItemViewModel();
+            cv.aircraft = _repo.Find(id);
+            return View("~/Views/AirCraft/Customize.cshtml",cv);
+        }
+
         [HttpGet]
         // GET: AirCraftController/Create
         public ViewResult Create()
@@ -36,6 +44,13 @@ namespace RaythosAerospace.Controllers
 
             _FillDropDowns(ViewBag);
             return View();
+        }
+
+        public ViewResult ViewAirCrafts()
+        {
+            AirCraftViewModel vm = new AirCraftViewModel();
+            vm.AirCrafts = _repo.GetAirCrafts();
+            return View(vm);
         }
 
         //fills the dropdowns

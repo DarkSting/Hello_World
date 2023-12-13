@@ -10,8 +10,8 @@ using RaythosAerospace.Models.Repositories;
 namespace RaythosAerospace.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20231205044847_added properties to cartitem table")]
-    partial class addedpropertiestocartitemtable
+    [Migration("20231213102702_new property added to the cart item")]
+    partial class newpropertyaddedtothecartitem
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

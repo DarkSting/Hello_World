@@ -7,7 +7,7 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
 {
     public interface ICartRepository
     {
-        CartItemModel AddCartItem(CartItemModel item,string cartid);
+        CartItemModel AddCartItem(CartItemModel item);
         CartModel CreateCart(CartModel cart);
 
         CartModel GetCart(string userid);

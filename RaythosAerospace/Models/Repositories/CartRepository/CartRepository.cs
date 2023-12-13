@@ -12,9 +12,9 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
         {
             _context = context;
         }
-        public CartItemModel AddCartItem(CartItemModel item,string cartid)
+        public CartItemModel AddCartItem(CartItemModel item)
         {
-            item.CartId = cartid;
+
             _context.CartItems.Add(item);
             _context.SaveChanges();
 

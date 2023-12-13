@@ -1,0 +1,32 @@
+﻿@model AirCraftViewModel
+
+
+<table>
+    <thead class="thead-dark">
+        <tr>
+            <th>Air Craft Name</th>
+            <th>Engine type</th>
+            <th>View</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(AirCraftModel current in Model.AirCrafts) { 
+
+        <tr>
+           
+            <td>
+                @current.AircraftType
+            </td>
+            <td>
+                @current.EngineType
+            </td>
+            <td>
+                <a asp-action="ViewAnAirCraft"  asp-route-id="@current.AircraftId">View</a>
+            </td>
+        </tr>
+        }
+
+        
+    </tbody>
+</table>

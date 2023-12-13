@@ -11,6 +11,7 @@ namespace RaythosAerospace.CustomServices
     {
 
         private KeyModel _key;
+
         public CustomService()
         {
             string filePath = "Keys/keys.json"; // Update this with your file path
@@ -20,6 +21,7 @@ namespace RaythosAerospace.CustomServices
             _key =   JsonSerializer.Deserialize<KeyModel>(jsonString);
             
         }
+
         public string GetPublicKey()
         {
             return _key.publicKey;
