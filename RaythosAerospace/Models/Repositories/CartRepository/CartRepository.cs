@@ -62,13 +62,27 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
             return cart;
         }
 
-        public CartItemModel RemoveCartItem(string id, string cartid)
+        public CartItemModel RemoveCartItemByAirCraftTag(string id)
         {
-            CartItemModel cartItem = _context.CartItems.FirstOrDefault(f => f.CartId == cartid);
+            CartItemModel cartItem = _context.CartItems.FirstOrDefault(f => f.AirCraftId == id);
             _context.CartItems.Remove(cartItem);
             _context.SaveChanges();
 
             return cartItem;
+        }
+
+        public void RemoveCartItem(string id)
+        {
+            IEnumerable<CartItemModel> cartItem = _context.CartItems.Where(f => f.AirCraftId == id).ToList() ;
+
+            if (cartItem.Any())
+            {
+                _context.CartItems.RemoveRange(cartItem);
+                _context.SaveChanges();
+            }
+           
+
+           
         }
     }
 }

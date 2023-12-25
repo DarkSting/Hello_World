@@ -10,9 +10,10 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
         CartItemModel AddCartItem(CartItemModel item);
         CartModel CreateCart(CartModel cart);
 
+        CartItemModel RemoveCartItemByAirCraftTag(string id);
         CartModel GetCart(string userid);
         CartModel RemoveCart(CartModel cart);
-        CartItemModel RemoveCartItem(string id, string cartid);
+        void RemoveCartItem(string id);
         int CartItemCount(string cartid);
         DateTime ItemAddedDate(string id, string cartid);
 

@@ -1,0 +1,54 @@
+﻿.shakeElement{
+
+    animation: shake 0.8s ease-in-out;
+    border-radius:5px;
+    border:none;
+}
+
+@keyframes shake{
+
+    0% {
+        transform: translate(0);
+        background-color: #ff0000ff;
+    }
+    25% {
+        transform: translate(10px);
+        background-color: #ff000090;
+    }
+    50% {
+        transform: translate(-10px);
+        background-color: #ff000030;
+    }
+    75% {
+        transform: translate(10px);
+        background-color: #ff000020;
+    }
+    100% {
+        transform: translate(0);
+        background-color: #ff000000;
+    }
+}
+
+@keyframes changeColorWhenRemove{
+
+
+    0% {
+        background-color:#ff0000ff;
+    }
+
+    25% {
+        background-color: #ff000090;
+    }
+
+    50% {
+        background-color: #ff000030;
+    }
+
+    75% {
+        background-color: #ff000020;
+    }
+
+    100% {
+        background-color: #ff000000;
+    }
+}

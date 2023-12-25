@@ -8,22 +8,57 @@
 }
 
 
-@foreach (CartItemModel item in items)
+@foreach (AirCraftModel current in aircrafts.Values)
 {
-    string aircraftdesc = aircrafts[item.AirCraftId].AircraftType;
+    string aircraftdesc = current.AircraftType;
 
-    <div class="cart-item">
+    int count = 0;
+    double price = 0;
+    double unitprice = 0;
+
+    foreach(CartItemModel model in items)
+    {
+        if (model.AirCraftId == current.AircraftId)
+        {
+            count++;
+            price += model.UnitPrice;
+            
+        }
+    }
+
+    <div id="item-@current.AircraftId" class="cart-item">
         <h4>@aircraftdesc</h4>
-        <p>Price: @item.UnitPrice</p>
+        <p id="item-total-@current.AircraftId">Price: @current.AirCraftPrice</p>
+        <!--unit price-->
+        <input type="hidden" value="@(price/count)" id="item-price-@current.AircraftId" />
         <!-- Other item details you want to display -->
-        <button type="button" class="delete-item" data-itemid="@item.CartItemId">Delete</button>
+        <p id="item-count-@current.AircraftId">@count</p>
+        <button class="btn btn-danger item-button-decrease-count" data-itemid="@current.AircraftId">-</button>
+        <button type="button" class="btn btn-dark delete-item" data-itemid="@current.AircraftId">Delete</button>
     </div>
 
-    totalprice += item.UnitPrice;
+    totalprice += price;
 
 }
 
-<h1>$ @totalprice</h1>
+<!-- Modal -->
+<div class="modal" id="messageBox" tabindex="-1" role="dialog" aria-labelledby="messageBoxLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageBoxLabel">Modal title</h5>
+            </div>
+            <div class="modal-body">
+                <!-- Content from AJAX response will be placed here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1 id="total-price">$ @totalprice</h1>
 
 <form asp-action="Checkout" method="post">
 
@@ -39,22 +74,109 @@
 
     <script>
         $(document).ready(function () {
+            reduceItemCount();
+
+            //removing the item from the cart
             $('.delete-item').click(function () {
-                var itemId = $(this).data('itemid');
+                let itemId = $(this).data('itemid');
+                console.log(itemId);
+                
                 $.ajax({
-                    url: '/Cart/DeleteItem', // Your delete endpoint
+                    url: `/Cart/DeleteItem?itemid=${itemId}`, // Your delete endpoint
                     method: 'DELETE',
-                    data: { itemId: itemId },
                     success: function (response) {
-                        if (response.success) {
-                            $(this).closest('.cart-item').remove();
+
+                        console.log(response);
+                        //removes the item elements from the cart and displays a successfull message
+                        if (response) {
+                            $('#messageBoxLabel').text('Success Modal');
+                            $('.modal-body').html('<p>Success: ' + response.msg + '</p>');
+               
+                        } else {
+                            $('#messageBoxLabel').text('Error Modal');
+                            $('.modal-body').html('<p>Error: ' + response.error + '</p>');
                         }
+
+                        // Show the modal
+                        $('#messageBox').modal('show');
+                        $('#messageBox').on('hidden.bs.modal', function () {
+                            // Reload the page when the modal is closed
+                            location.reload();
+                        });
+
                     },
                     error: function (error) {
-                        console.error('Error deleting item:', error);
+                        $('#messageBoxLabel').text('Error Modal');
+                        $('.modal-body').html('<p>Error: ' + error.message + '</p>');
+                        $('#messageBox').modal('show');
                     }
                 });
             });
         });
+
+
+        function reduceItemCount() {
+            $('.item-button-decrease-count').click(function () {
+
+                var itemdata = $(this).data('itemid');
+
+                console.log(itemdata);
+
+                //getting the previous value and update the current count 
+                let prevcount = parseInt($(`#item-count-${itemdata}`).text());
+
+                if (prevcount == 1) {
+
+                    //disabling the count reducing button
+                    $(this).prop('disabled', true);
+
+                }
+                else {
+                    //re-evaluating the total
+                    $(`#item-count-${itemdata}`).text((prevcount - 1).toString());
+                    let totalprice = parseFloat($('#total-price').text().slice(1, $('#total-price').text().length).trim());
+                    console.log($(`#item-price-${itemdata}`).val());
+                    totalprice -= parseFloat($(`#item-price-${itemdata}`).val())
+                    $('#total-price').text('$ ' + totalprice.toString());
+
+                    
+                    //animating the element when removing
+                    $(this).prop('disabled', true);
+                    let itemdiv = $('#item-' + itemdata);
+                    let currentclass = itemdiv.attr('class');
+                    itemdiv.toggleClass('shakeElement');
+                    let currentElement = $(this);
+                    setTimeout(function () {
+                        itemdiv.attr('class', currentclass);
+                        currentElement.prop('disabled', false);
+                    }, 850);
+
+                    //update the database
+                    //reduceCountDeleteAJAX(itemdata);
+                }
+
+            })
+        }
+
+        //reduces the item count
+        function reduceCountDeleteAJAX(itemdata) {
+            $.ajax(
+                {
+                    url: `/Cart/ReduceItemCount?itemid=${itemdata}`, // Your delete endpoint
+                    method: 'DELETE',
+                    success: function (response) {
+
+                        console.log(response);
+
+
+                    },
+                    error: function (error) {
+                        $('#messageBoxLabel').text('Error Modal');
+                        $('.modal-body').html('<p>Error: ' + error.message + '</p>');
+                        $('#messageBox').modal('show');
+                    }
+                });
+        }
+
     </script>
 }

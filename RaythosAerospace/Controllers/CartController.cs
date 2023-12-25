@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RaythosAerospace.Controllers
 {
@@ -51,9 +52,11 @@ namespace RaythosAerospace.Controllers
         public IActionResult ViewUserCart(string userid)
         {
 
-            _prepareDataForLoad(ViewBag,"U0001");
+            userid = "U0001";
 
-            return View();
+           PaymentModel model = _prepareDataForLoad(ViewBag,userid);
+
+            return View(model);
         }
 
 
@@ -62,7 +65,7 @@ namespace RaythosAerospace.Controllers
             return View("~/Views/Payment/Checkout.cshtml",model);
         }
 
-        private void _prepareDataForLoad(dynamic bag,string userid)
+        private PaymentModel _prepareDataForLoad(dynamic bag,string userid)
         {
             //getting the cart and cart items for a given user
             CartModel foundCart = _cartRepo.GetCart(userid);
@@ -83,12 +86,45 @@ namespace RaythosAerospace.Controllers
             bag.CartItems = cartitems;
             bag.AirCrafts = aircrafts;
 
+            PaymentModel paymentdet = new PaymentModel();
+
+            paymentdet.aircrafts = aircrafts;
+            paymentdet.cartitems = cartitems;
+
+            return paymentdet;
+
         }
 
-        // GET: CartController/Details/5
-        public ActionResult Details(int id)
+        //deletes an item from the cart
+        [HttpDelete]
+        public IActionResult DeleteItem(string itemid)
         {
-            return View();
+            
+            _cartRepo.RemoveCartItem(itemid);
+    
+
+            var message = new
+            {
+                msg = $"{itemid} is removed from the cart"
+
+            };
+
+            return Ok(JsonConvert.SerializeObject(message));
+        }
+
+       [HttpDelete]
+        public IActionResult ReduceItemCount(string itemid)
+        {
+            CartItemModel deleted = _cartRepo.RemoveCartItemByAirCraftTag(itemid);
+            AirCraftModel deletedAirCraft = _aircraftRepo.Find(deleted.AirCraftId);
+
+            var message = new
+            {
+                msg = $"{deletedAirCraft.AircraftType} is removed from the cart"
+
+            };
+
+            return Ok(JsonConvert.SerializeObject(message));
         }
 
         // GET: CartController/Create
