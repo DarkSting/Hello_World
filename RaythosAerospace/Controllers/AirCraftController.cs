@@ -24,6 +24,11 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
+        public IActionResult AircraftCatalog()
+        {
+            return View();
+        }
+
         // GET: AirCraftController/Details/5
         public ViewResult Details(int id)
         {

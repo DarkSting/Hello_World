@@ -19,17 +19,17 @@ namespace RaythosAerospace.Controllers
             _repo = repo;
         }
 
-        public ViewResult Index()
+        public IActionResult Index()
         {
             return View();
         }
 
-        public ViewResult Insert()
+        public IActionResult Registration()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Login()
         {
             return View();
         }

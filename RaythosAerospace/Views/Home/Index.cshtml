@@ -1,17 +1,36 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "_Home";
+    ViewData["Title"] = "Raythos Aerospace - Home";
 }
 
+<section class="hero-section text-center">
+    <img src="~/images/aircraft.jpg" alt="Aircraft" class="img-fluid hero-img" />
+    <div class="container mt-4">
+        <h1 class="display-4">Welcome to Raythos Aerospace</h1>
+    </div>
+</section>
 
+<section class="container mt-4">
+    <div class="description-container text-center">
+        <p class="lead description-container-paragraph">
+            Raythos Aerospace, where we redefine the future of aviation. As a pioneering aircraft manufacturing company, we take pride in delivering cutting-edge solutions that go beyond expectations.
+        </p>
+        <p class="lead description-container-paragraph">
+            Our commitment to innovation and excellence drives us to create aircraft that not only meet industry standards but also set new benchmarks. Explore our diverse range of services, from customizable aircraft models to state-of-the-art features that cater to your unique preferences. At Raythos Aerospace, we prioritize your journey. Whether you're a seasoned aviation enthusiast or exploring the skies for the first time, our platform offers a seamless experience. Immerse yourself in a world of possibilities as you register and unlock exclusive features tailored just for you.
+        </p>
+        <p class="lead description-container-paragraph mb-4">
+            Join us in shaping the future of aerospace. Embark on a journey with Raythos, where every detail is crafted with precision and every flight is an experience. Your destination is not just a place; it's an experience. Explore the future of aviation with Raythos Aerospace.
+        </p>
+    </div>
+</section>
 
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <a asp-controller="aircraft" asp-action="create" class="btn btn-primary"> add aircraft</a>
-    <a asp-controller="order" asp-action="create" class="btn btn-success"> place order</a>
-    <a asp-controller="order" asp-action="orders" class="btn btn-warning"> display list</a>
-    <a asp-controller="payment" asp-action="processpayment" class="btn btn-success"> payment</a>
-    <a asp-controller="cart" asp-action="ViewUserCart" class="btn btn-success"> view cart</a>
-    <a asp-controller="aircraft" asp-action="ViewAirCrafts" class="btn btn-danger"> view aircrafts</a>
-</div>
+<section class="cta-section text-center py-4">
+    <div class="container">
+        <h2 class="display-4 mb-4">Ready to Explore?</h2>
+        <p class="lead mb-4">Join us in shaping the future of aerospace. Register now and unlock exclusive features tailored just for you.</p>
+        <div class="text-center mb-4">
+            <a href="@Url.Action("Registration", "Home")" class="btn btn-secondary btn-lg cta-btn mr-2">Register</a>
+            <a href="@Url.Action("Login", "Home")" class="btn btn-secondary btn-lg cta-btn">Login</a>
+        </div>
+    </div>
+</section>

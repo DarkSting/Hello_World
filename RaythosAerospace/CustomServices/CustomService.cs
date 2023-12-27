@@ -1,4 +1,4 @@
-﻿using RaythosAerospace.Keys;
+﻿// using RaythosAerospace.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace RaythosAerospace.CustomServices
     public class CustomService : ICustomService
     {
 
-        private KeyModel _key;
+        // private KeyModel _key;
 
         public CustomService()
         {
@@ -18,18 +18,18 @@ namespace RaythosAerospace.CustomServices
             string jsonString = System.IO.File.ReadAllText(filePath);
 
             // Deserialize JSON to an object
-            _key =   JsonSerializer.Deserialize<KeyModel>(jsonString);
+            // _key =   JsonSerializer.Deserialize<KeyModel>(jsonString);
             
         }
 
         public string GetPublicKey()
         {
-            return _key.publicKey;
+            return "Abcd"; //return _key.publicKey;
         }
 
         public string GetSecretKey()
         {
-            return _key.secretKey;
+            return "Abcd"; //return _key.secretKey;
         }
 
         public void ReadKeys()
