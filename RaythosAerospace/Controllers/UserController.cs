@@ -10,7 +10,7 @@ namespace RaythosAerospace.Controllers
     public class UserController : Controller
     {
         // GET: UserController
-        public ActionResult Index()
+        public IActionResult Dashboard()
         {
             return View();
         }
@@ -22,7 +22,7 @@ namespace RaythosAerospace.Controllers
         }
 
         // GET: UserController/Create
-        public ViewResult Create()
+        public IActionResult Create()
         {
             return View();
         }
