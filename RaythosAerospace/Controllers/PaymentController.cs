@@ -8,9 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using RaythosAerospace.Models.Repositories.CartRepository;
+using RaythosAerospace.Models.Repositories.AirCraftRepository;
+using Microsoft.AspNetCore.Cors;
 
 namespace RaythosAerospace.Controllers
 {
+
+
     public class PaymentController : Controller
     {
         private readonly ICustomService _key;
@@ -33,15 +39,54 @@ namespace RaythosAerospace.Controllers
         }
 
 
-        [HttpPost]
+        
+        
         public IActionResult ProcessPayment(PaymentModel payment)
         {
 
+            PaymentModel deserializedObj = payment;
 
             var currency = "usd"; // Currency code
             var successUrl = "https://localhost:44331/payment/paymentsuccess";
             var cancelUrl = "https://localhost:44331/payment/paymentfailed";
             StripeConfiguration.ApiKey = _key.GetSecretKey();
+
+            List<SessionLineItemOptions> items = new List<SessionLineItemOptions>();
+            
+            //attaching items 
+            foreach (AirCraftModel current in deserializedObj.aircrafts.Values)
+            {
+                string aircraftdesc = current.AircraftType;
+
+                int count = 0;
+                double price = 0;
+
+                foreach (CartItemModel model in deserializedObj.cartitems)
+                {
+                    if (model.AirCraftId == current.AircraftId)
+                    {
+                        count++;
+                        price += model.UnitPrice;
+
+                    }
+                }
+
+                items.Add(new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        Currency = currency,
+                        UnitAmount =(long)price,
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = current.AircraftType,
+                            Description = "test"
+                        }
+                    }
+                        ,
+                    Quantity = count
+                });
+            }
 
             var options = new SessionCreateOptions
             {
@@ -51,29 +96,13 @@ namespace RaythosAerospace.Controllers
                 },
 
 
-                //items
-                LineItems = new List<SessionLineItemOptions> {
-                    new SessionLineItemOptions
-                    {
-                        PriceData = new SessionLineItemPriceDataOptions
-                        {
-                            Currency=currency,
-                            UnitAmount = Convert.ToInt32(payment.Amount) * 100,
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = "Product Name",
-                                Description = "Product Description"
-                            }
-                        }
-                        ,
-                        Quantity=1
-                    }
-                },
 
-                Mode="payment",
-                SuccessUrl=successUrl,
-                CancelUrl=cancelUrl,
-            };
+                LineItems = items,
+
+                Mode = "payment",
+                    SuccessUrl = successUrl,
+                    CancelUrl = cancelUrl,
+                };
             //options
 
 

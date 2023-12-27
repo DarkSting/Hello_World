@@ -5,6 +5,8 @@
     CartModel cart = ViewBag.Cart;
     Dictionary<string, AirCraftModel> aircrafts = ViewBag.AirCrafts;
     double totalprice = 0;
+    Model.aircrafts = aircrafts;
+    Model.cartitems = items;
 }
 
 
@@ -14,7 +16,6 @@
 
     int count = 0;
     double price = 0;
-    double unitprice = 0;
 
     foreach(CartItemModel model in items)
     {
@@ -152,7 +153,7 @@
                     }, 850);
 
                     //update the database
-                    //reduceCountDeleteAJAX(itemdata);
+                    reduceCountDeleteAJAX(itemdata);
                 }
 
             })

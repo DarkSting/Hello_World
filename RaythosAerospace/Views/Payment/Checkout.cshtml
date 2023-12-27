@@ -7,37 +7,55 @@
         </label>
         <input type="hidden" id="public-key" value="@ViewBag.publicKey" />
         <input asp-for="@Model.Amount" />
+        <input type="hidden" asp-for="@Model.cartitems"/>
         <!-- Used to display form errors. -->
         <div id="card-errors" role="alert"></div>
     </div>
 
     <button type="submit" id="submit">Checkout</button>
-    <div class="container">
 
-        <div class="row">
-            <div class="col-md-6">
-                <img src="item-image.jpg" class="img-fluid" alt="Item Image">
-            </div>
-            <div class="col-md-6">
-                <h2>Item Name</h2>
-                <p class="text-muted">Item Description</p>
-                <hr>
-                <p><strong>Price:</strong> $99.99</p>
-                <p><strong>Category:</strong> Electronics</p>
-                <p><strong>Availability:</strong> In Stock</p>
-                <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" class="form-control" value="1" min="1">
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-primary btn-block">Add to Cart</button>
+    <div class="container">
+        @foreach (AirCraftModel current in Model.aircrafts.Values)
+        {
+            string aircraftdesc = current.AircraftType;
+
+            int count = 0;
+            double price = 0;
+
+            foreach (CartItemModel model in Model.cartitems)
+            {
+                if (model.AirCraftId == current.AircraftId)
+                {
+                    count++;
+                    price += model.UnitPrice;
+
+                }
+            }
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="item-image.jpg" class="img-fluid" alt="Item Image">
+                </div>
+                <div class="col-md-6">
+                    <h2>Item Name</h2>
+                    <p class="text-muted">@current.AircraftType</p>
+                    <hr>
+                    <p><strong>Price:</strong>@current.AirCraftPrice</p>
+                    <p><strong>Engine:</strong> @current.EngineType</p>
+                    <p><strong>Color:</strong> @current.Color</p>
+                    <p><strong>Fuel Capacity:</strong> @current.FuelCapacity</p>
+                    <p><strong>Maximum Range:</strong> @current.MaximumRange</p>
+                    <p><strong>Seats Availability:</strong> @current.SeatingCapacity</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" id="quantity" class="form-control" value="@count" min="1" disabled="disabled">
+                        </div>
+
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 
 </form>
-

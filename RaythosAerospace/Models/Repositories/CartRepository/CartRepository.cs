@@ -38,7 +38,16 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
         //get all cart items
         public IEnumerable<CartItemModel> GetAllCartItems(string cartid)
         {
-            return _context.CartItems.Where(s => s.CartId == cartid).ToList();
+            List<CartItemModel> models = _context.CartItems.Where(s => s.CartId == cartid).ToList();
+
+            //removing the circular reference in navigation properties 
+            foreach(CartItemModel current in models)
+            {
+                current.Cart = null;
+                current.AirCraft = null;
+            }
+
+            return models;
         }
 
         public CartModel GetCart(string userid)

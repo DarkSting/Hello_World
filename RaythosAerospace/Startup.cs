@@ -42,7 +42,7 @@ namespace RaythosAerospace
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<ICustomService, CustomService>();
             services.AddScoped<ICartRepository, CartRepository>();
-            
+
 
         }
 
@@ -60,15 +60,16 @@ namespace RaythosAerospace
                 app.UseHsts();
             }
 
-          
+
+            
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
-
+      
             app.UseAuthorization();
-       
+
 
             app.UseEndpoints(endpoints =>
             {

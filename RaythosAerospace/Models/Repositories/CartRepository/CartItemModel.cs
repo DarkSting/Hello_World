@@ -19,6 +19,8 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
         public DateTime ItemAddedDate { get; set; }
         public double UnitPrice { get; set; }
         public string AirCraftId { get; set; }
+
+        public bool IsSelected { get; set; }
         public AirCraftModel AirCraft { get; set; }
     }
 }

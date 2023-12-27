@@ -11,6 +11,8 @@ namespace RaythosAerospace.Models.Repositories.PaymentRepository
     {
         public double Amount { get; set; }
         public string Token { get; set; }
+
+        public string userid { get; set; }
         public IEnumerable<CartItemModel> cartitems { get; set; }
 
         public Dictionary<string, AirCraftModel> aircrafts { get; set; }

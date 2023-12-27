@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Cors;
 
 namespace RaythosAerospace.Controllers
 {
@@ -52,16 +53,29 @@ namespace RaythosAerospace.Controllers
         public IActionResult ViewUserCart(string userid)
         {
 
+            
             userid = "U0001";
 
            PaymentModel model = _prepareDataForLoad(ViewBag,userid);
 
+            TempData["StripePayment"] = JsonConvert.SerializeObject(model);
+
             return View(model);
         }
 
-
-        public ViewResult Checkout(PaymentModel model)
+ 
+        [HttpPost]
+        
+        public ViewResult Checkout(PaymentModel paymet)
         {
+            string userid = "U0001";
+
+            PaymentModel model = _prepareDataForLoad(ViewBag, userid);
+
+            model.Amount = paymet.Amount;
+
+            TempData["StripePayment"] = JsonConvert.SerializeObject(model);
+
             return View("~/Views/Payment/Checkout.cshtml",model);
         }
 
@@ -78,8 +92,15 @@ namespace RaythosAerospace.Controllers
                 if (!aircrafts.ContainsKey(current.AirCraftId))
                 {
                     AirCraftModel foundAirCraft = _aircraftRepo.Find(current.AirCraftId);
+
+                    //removing circular reference
+                    foundAirCraft.CartItems = null;
+
                     aircrafts.Add(current.AirCraftId, foundAirCraft);
                 }
+
+                //removing circular reference
+                current.AirCraft = null;
             }
 
             bag.Cart = foundCart;
