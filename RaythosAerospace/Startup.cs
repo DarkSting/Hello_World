@@ -8,9 +8,11 @@ using Microsoft.Extensions.Hosting;
 using RaythosAerospace.CustomServices;
 // using RaythosAerospace.Keys;
 using RaythosAerospace.Models.Repositories;
+using RaythosAerospace.Models.Repositories.AdminRepository;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using RaythosAerospace.Models.Repositories.CartRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
@@ -42,6 +44,8 @@ namespace RaythosAerospace
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<ICustomService, CustomService>();
             services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             
 
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using RaythosAerospace.Models.Repositories.AdminRepository;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using RaythosAerospace.Models.Repositories.CartRepository;
 using RaythosAerospace.Models.Repositories.InvoiceRepository;
@@ -41,6 +42,9 @@ namespace RaythosAerospace.Models.Repositories
         public DbSet<ShippingModel> Shippings { get; set; }
 
         public DbSet<UserModel> Users { get; set; }
+
+        public DbSet<AdminModel> Admins { get; set; }
+
 
 
         //populating data when creation of the table 
