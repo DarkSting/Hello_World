@@ -4,6 +4,7 @@ using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using RaythosAerospace.Models.Repositories.CartRepository;
 using RaythosAerospace.Models.Repositories.InvoiceRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace RaythosAerospace.Models.Repositories
 {
-    public class AppDBContext :DbContext
+    public class AppDBContext : DbContext
     {
 
-        public AppDBContext(DbContextOptions<AppDBContext> options):base(options)
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         {
 
         }
@@ -23,7 +24,7 @@ namespace RaythosAerospace.Models.Repositories
 
         //tables that has been created
         public DbSet<AirCraftModel> AirCrafts { get; set; }
-       // DbSet<UserModel> Users { get; set; }
+        // DbSet<UserModel> Users { get; set; }
 
         public DbSet<EngineModel> Engines { get; set; }
 
@@ -36,6 +37,7 @@ namespace RaythosAerospace.Models.Repositories
 
         public DbSet<OrderModel> Orders { get; set; }
 
+        public DbSet<ProductModel> Products { get; set; }
         public DbSet<ShippingModel> Shippings { get; set; }
 
         public DbSet<UserModel> Users { get; set; }
@@ -57,6 +59,30 @@ namespace RaythosAerospace.Models.Repositories
                 .HasOne(s => s.Seat)
                 .WithMany(a => a.AirCraftModels)
                 .HasForeignKey(f => f.SeatID);
+
+            /////////////////// product table ////////////////////////////////
+            modelBuilder.Entity<ProductModel>()
+                .HasOne(u => u.User)
+                .WithMany(p => p.Products)
+                .HasForeignKey(f => f.UserId);
+
+            modelBuilder.Entity<ProductModel>()
+                .HasOne(u => u.Cart)
+                .WithMany(p => p.Products)
+                .HasForeignKey(f => f.CartId);
+
+            modelBuilder.Entity<ProductModel>()
+               .HasOne(u => u.Order)
+               .WithMany(p => p.Products)
+               .HasForeignKey(f => f.OrderId);
+
+            modelBuilder.Entity<ProductModel>()
+              .HasOne(a => a.AirCraft)
+              .WithOne(p => p.Product)
+              .HasForeignKey<ProductModel>(o => o.AirCraftId);
+
+
+
 
             ////////////////////////// OrderAircraft table ///////////////////////
 

@@ -1,4 +1,5 @@
 ﻿using RaythosAerospace.Models.Repositories.AirCraftRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
         public string Description { get; set; }
 
  
+        //navigation property
         public ICollection<CartItemModel> CartItems { get; set; }
+
+        public ICollection<ProductModel> Products { get; set; }
     }
 }

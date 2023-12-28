@@ -14,6 +14,7 @@ namespace RaythosAerospace.Controllers
     {
 
         private readonly IAirCraftRepository _repo;
+
         public AirCraftController(IAirCraftRepository repo)
         {
             _repo = repo;
@@ -26,6 +27,7 @@ namespace RaythosAerospace.Controllers
 
         public IActionResult AircraftCatalog()
         {
+            ViewBag.aircrafts = _repo.GetAirCrafts();
             return View();
         }
 
@@ -103,9 +105,6 @@ namespace RaythosAerospace.Controllers
             return RedirectToAction();
         }
 
-
-
-      
 
 
     }

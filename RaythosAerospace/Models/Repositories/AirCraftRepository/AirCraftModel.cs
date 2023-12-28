@@ -1,5 +1,6 @@
 ﻿using RaythosAerospace.Models.Repositories.CartRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -100,5 +101,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public ICollection<OrderAircraftModel> OrderAirCraft { get; set; }
 
         public ICollection<CartItemModel> CartItems { get; set; }
+
+        public ProductModel Product { get; set; }
     }
 }

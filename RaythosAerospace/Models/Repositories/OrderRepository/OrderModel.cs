@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using RaythosAerospace.Models.Repositories.UserRepository;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using RaythosAerospace.Models.Repositories.InvoiceRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 
 namespace RaythosAerospace.Models.Repositories.OrderRepository
 {
@@ -23,13 +24,10 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
         [Required]
         public string UserId { get; set; }
 
-        public string CustomerEmail { get; set; }
 
         // Addresses
         [Required]
         public string ShippingAddress { get; set; }
-
-        public string AirCraftId { get; set; }
 
 
         // Payment Information
@@ -51,6 +49,8 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
         [Required]
         public double Subtotal { get; set; }
 
+        public string ProductId { get; set; }
+
 
         public double Discounts { get; set; }
 
@@ -65,6 +65,8 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
         public ICollection<OrderAircraftModel> OrderAirCraft { get; set; }
 
         public InvoiceModel Invoice { get; set; }
+
+        public ICollection<ProductModel> Products { get; set; }
 
 
     }

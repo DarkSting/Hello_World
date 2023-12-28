@@ -54,9 +54,7 @@ namespace RaythosAerospace.Controllers
 
             userid = "U0001";
 
-           PaymentModel model = _prepareDataForLoad(ViewBag,userid);
-
-            return View(model);
+            return View(_prepareDataForLoad(ViewBag, userid));
         }
 
 
@@ -69,7 +67,7 @@ namespace RaythosAerospace.Controllers
         {
             //getting the cart and cart items for a given user
             CartModel foundCart = _cartRepo.GetCart(userid);
-            Dictionary<string, AirCraftModel> aircrafts = new Dictionary<string, AirCraftModel>();
+            Dictionary<string, CheckoutViewModel> aircrafts = new Dictionary<string, CheckoutViewModel>();
             IEnumerable<CartItemModel> cartitems = _cartRepo.GetAllCartItems(foundCart.CartNumber);
 
             //iterating the aircrafts and adding them into the dictionary
@@ -78,7 +76,12 @@ namespace RaythosAerospace.Controllers
                 if (!aircrafts.ContainsKey(current.AirCraftId))
                 {
                     AirCraftModel foundAirCraft = _aircraftRepo.Find(current.AirCraftId);
-                    aircrafts.Add(current.AirCraftId, foundAirCraft);
+                    CheckoutViewModel temp = new CheckoutViewModel
+                    {
+                        AirCraft = foundAirCraft,
+
+                    };
+                    aircrafts.Add(current.AirCraftId, temp);
                 }
             }
 
@@ -86,12 +89,13 @@ namespace RaythosAerospace.Controllers
             bag.CartItems = cartitems;
             bag.AirCrafts = aircrafts;
 
-            PaymentModel paymentdet = new PaymentModel();
+            PaymentModel model = new PaymentModel
+            {
+                aircrafts = aircrafts,
+                cartitems = cartitems
+            };
 
-            paymentdet.aircrafts = aircrafts;
-            paymentdet.cartitems = cartitems;
-
-            return paymentdet;
+            return model;
 
         }
 

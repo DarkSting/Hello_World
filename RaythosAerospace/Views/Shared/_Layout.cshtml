@@ -25,7 +25,7 @@
                     <a class="nav-link" href="@Url.Action("Index", "User")">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("AircraftCatalog", "User")">Aircraft Catalog</a>
+                    <a class="nav-link" href="@Url.Action("AircraftCatalog", "AirCraft")">Aircraft Catalog</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Order History</a>
@@ -60,6 +60,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>

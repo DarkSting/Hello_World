@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RaythosAerospace.CustomServices;
+using RaythosAerospace.Models.Repositories.AirCraftRepository;
+using RaythosAerospace.Models.Repositories.CartRepository;
 using RaythosAerospace.Models.Repositories.PaymentRepository;
 using Stripe;
 using Stripe.Checkout;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RaythosAerospace.Controllers
 {
@@ -15,12 +18,14 @@ namespace RaythosAerospace.Controllers
     {
         private readonly ICustomService _key;
         ILogger<PaymentController> _logger;
+        private readonly IAirCraftRepository _airCraftRepo;
 
-        public PaymentController(ICustomService keys, ILogger<PaymentController> logger)
+        public PaymentController(ICustomService keys, ILogger<PaymentController> logger,IAirCraftRepository airCraftRepository)
         {
             _key = keys;
             _logger = logger;
             logger.LogDebug(keys.GetPublicKey());
+            _airCraftRepo = airCraftRepository;
         }
 
 
@@ -43,6 +48,57 @@ namespace RaythosAerospace.Controllers
             var cancelUrl = "https://localhost:44331/payment/paymentfailed";
             StripeConfiguration.ApiKey = _key.GetSecretKey();
 
+            List<SessionLineItemOptions> items = new List<SessionLineItemOptions>();
+
+            PurchaseViewModel purchasedet = new PurchaseViewModel();
+
+            //set the id of the client who purchase the products
+
+            foreach(CheckoutViewModel current in payment.aircrafts.Values)
+            {
+                if (current.IsSelected)
+                {
+                    
+                    AirCraftModel airCraftModel = _airCraftRepo.Find(current.AirCraft.AircraftId);
+
+                    //adding products for purchases 
+                    Models.Repositories.PaymentRepository.Product currentProduct = new Models.Repositories.PaymentRepository.Product
+                    {
+                        ProductID = airCraftModel.AircraftId,
+                        Count = current.Count,
+                        UnitPrice = Convert.ToInt32(current.UnitPrice),
+                       
+                       
+                    };
+
+                    purchasedet.Products.Add(currentProduct);
+                    purchasedet.totalPrice += currentProduct.UnitPrice * currentProduct.Count;
+
+                    items.Add(new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            Currency = currency,
+                            UnitAmount = Convert.ToInt32(airCraftModel.AirCraftPrice)*100,
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = airCraftModel.AircraftType,
+                                Description = "need Engine"
+                            }
+                        }
+                        ,
+                        Quantity = current.Count
+                    });
+                }
+            }
+
+            TempData["PurchaseData"] = JsonConvert.SerializeObject(purchasedet);
+
+            if (items.Count == 0)
+            {
+                 return RedirectToAction("ViewUserCart", "Cart");
+            }
+
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>
@@ -52,23 +108,7 @@ namespace RaythosAerospace.Controllers
 
 
                 //items
-                LineItems = new List<SessionLineItemOptions> {
-                    new SessionLineItemOptions
-                    {
-                        PriceData = new SessionLineItemPriceDataOptions
-                        {
-                            Currency=currency,
-                            UnitAmount = Convert.ToInt32(payment.Amount) * 100,
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = "Product Name",
-                                Description = "Product Description"
-                            }
-                        }
-                        ,
-                        Quantity=1
-                    }
-                },
+                LineItems =items,
 
                 Mode="payment",
                 SuccessUrl=successUrl,
@@ -86,7 +126,10 @@ namespace RaythosAerospace.Controllers
 
         public IActionResult PaymentSuccess()
         {
-            return View();
+            PurchaseViewModel model = JsonConvert.DeserializeObject<PurchaseViewModel>((TempData["PurchaseData"] as string));
+            TempData["PurchaseData"] = null;
+
+            return View(model);
         }
 
         public IActionResult PaymentFailed()

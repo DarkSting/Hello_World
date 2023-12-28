@@ -3,43 +3,12 @@
 @{
     IEnumerable<CartItemModel> items = ViewBag.CartItems;
     CartModel cart = ViewBag.Cart;
-    Dictionary<string, AirCraftModel> aircrafts = ViewBag.AirCrafts;
+    Dictionary<string, CheckoutViewModel> aircrafts = ViewBag.AirCrafts;
     double totalprice = 0;
 }
 
 
-@foreach (AirCraftModel current in aircrafts.Values)
-{
-    string aircraftdesc = current.AircraftType;
 
-    int count = 0;
-    double price = 0;
-    double unitprice = 0;
-
-    foreach(CartItemModel model in items)
-    {
-        if (model.AirCraftId == current.AircraftId)
-        {
-            count++;
-            price += model.UnitPrice;
-            
-        }
-    }
-
-    <div id="item-@current.AircraftId" class="cart-item">
-        <h4>@aircraftdesc</h4>
-        <p id="item-total-@current.AircraftId">Price: @current.AirCraftPrice</p>
-        <!--unit price-->
-        <input type="hidden" value="@(price/count)" id="item-price-@current.AircraftId" />
-        <!-- Other item details you want to display -->
-        <p id="item-count-@current.AircraftId">@count</p>
-        <button class="btn btn-danger item-button-decrease-count" data-itemid="@current.AircraftId">-</button>
-        <button type="button" class="btn btn-dark delete-item" data-itemid="@current.AircraftId">Delete</button>
-    </div>
-
-    totalprice += price;
-
-}
 
 <!-- Modal -->
 <div class="modal" id="messageBox" tabindex="-1" role="dialog" aria-labelledby="messageBoxLabel" aria-hidden="true">
@@ -58,16 +27,61 @@
     </div>
 </div>
 
-<h1 id="total-price">$ @totalprice</h1>
 
-<form asp-action="Checkout" method="post">
 
+<form asp-controller="Payment" asp-action="ProcessPayment" method="post">
+
+    <div class="row d-flex justify-content-center">
+        @foreach (CheckoutViewModel current in aircrafts.Values)
+        {
+            string aircraftdesc = current.AirCraft.AircraftType;
+
+            int count = 0;
+            double price = 0;
+            double unitprice = 0;
+
+            foreach (CartItemModel model in items)
+            {
+                if (model.AirCraftId == current.AirCraft.AircraftId)
+                {
+                    count++;
+                    price += model.UnitPrice;
+
+                }
+            }
+
+        <div class="col-10" id="item-@current.AirCraft.AircraftId" class="cart-item">
+            <h4>@aircraftdesc</h4>
+            <p id="item-total-@current.AirCraft.AircraftId">Price: @current.AirCraft.AirCraftPrice</p>
+            <!--unit price-->
+            <input type="hidden" asp-for="@current.AirCraft.AircraftType" />
+            <input type="hidden" value="@(price/count)" id="item-price-@current.AirCraft.AircraftId" />
+            <!-- Other item details you want to display -->
+            <div class="d-flex flex-row align-items-start">
+                <button class="btn btn-secondary btn-danger mr-2 item-button-decrease-count" data-itemid="@current.AirCraft.AircraftId">-</button>
+                <h5 id="item-count-@current.AirCraft.AircraftId">@count</h5>
+            </div>
+            <input type="hidden" asp-for="@Model.aircrafts[current.AirCraft.AircraftId].AirCraft.AircraftId" />
+            <input type="hidden" asp-for="@Model.aircrafts[current.AirCraft.AircraftId].Count" value="@count" id="model-count-@Model.aircrafts[current.AirCraft.AircraftId].AirCraft.AircraftId"/>
+
+            <div class="d-flex justify-content-end">
+
+                <input type="checkbox" asp-for="@Model.aircrafts[current.AirCraft.AircraftId].IsSelected" class="form-control" />
+                <button type="button" class="btn btn-dark mr-2 delete-item" data-itemid="@current.AirCraft.AircraftId">Delete</button>
+            </div>
+        </div>
+
+            totalprice += price;
+
+        }
+    </div>
     <div class="form-row">
 
         <input asp-for="@Model.Amount" type="hidden" value="@totalprice" />
 
     </div>
     <button type="submit" class="btn btn-secondary">Checkout</button>
+    <h1 id="total-price" class="ml-auto">$ @totalprice</h1>
 </form>
 
 @section Scripts {
@@ -139,6 +153,7 @@
                     totalprice -= parseFloat($(`#item-price-${itemdata}`).val())
                     $('#total-price').text('$ ' + totalprice.toString());
 
+                    $(`#model-count-${itemdata}`).val(prevcount - 1)
                     
                     //animating the element when removing
                     $(this).prop('disabled', true);

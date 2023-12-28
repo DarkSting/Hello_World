@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaythosAerospace.Models.Repositories;
 
 namespace RaythosAerospace.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231228120219_product-table-create-for-tracking")]
+    partial class producttablecreatefortracking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -360,6 +362,12 @@ namespace RaythosAerospace.Migrations
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AirCraftId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerEmail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Discounts")
                         .HasColumnType("float");
 
@@ -375,9 +383,6 @@ namespace RaythosAerospace.Migrations
 
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingAddress")
@@ -482,9 +487,6 @@ namespace RaythosAerospace.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Customization")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("UnitPrice")
@@ -500,8 +502,6 @@ namespace RaythosAerospace.Migrations
                         .HasFilter("[AirCraftId] IS NOT NULL");
 
                     b.HasIndex("CartId");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("UserId");
 
@@ -630,10 +630,6 @@ namespace RaythosAerospace.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CartId");
 
-                    b.HasOne("RaythosAerospace.Models.Repositories.OrderRepository.OrderModel", "Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("RaythosAerospace.Models.Repositories.UserRepository.UserModel", "User")
                         .WithMany("Products")
                         .HasForeignKey("UserId");
@@ -641,8 +637,6 @@ namespace RaythosAerospace.Migrations
                     b.Navigation("AirCraft");
 
                     b.Navigation("Cart");
-
-                    b.Navigation("Order");
 
                     b.Navigation("User");
                 });
@@ -678,8 +672,6 @@ namespace RaythosAerospace.Migrations
                     b.Navigation("Invoice");
 
                     b.Navigation("OrderAirCraft");
-
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("RaythosAerospace.Models.Repositories.OrderRepository.ShippingModel", b =>

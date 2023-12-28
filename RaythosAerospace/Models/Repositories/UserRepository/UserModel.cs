@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using RaythosAerospace.Models.Repositories.OrderRepository;
 using RaythosAerospace.Models.Repositories.CartRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 
 namespace RaythosAerospace.Models.Repositories.UserRepository
 {
@@ -27,5 +28,7 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
         //navigate properties
         public ICollection<OrderModel> Orders { get; set; }
         public CartModel Cart { get; set; }
+
+        public ICollection<ProductModel> Products { get; set; }
     }
 }

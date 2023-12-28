@@ -1,16 +1,17 @@
 ﻿// using RaythosAerospace.Keys;
+using RaythosAerospace.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-
 namespace RaythosAerospace.CustomServices
 {
     public class CustomService : ICustomService
     {
 
         // private KeyModel _key;
+        private KeyModel _key;
 
         public CustomService()
         {
@@ -18,24 +19,24 @@ namespace RaythosAerospace.CustomServices
             string jsonString = System.IO.File.ReadAllText(filePath);
 
             // Deserialize JSON to an object
-            // _key =   JsonSerializer.Deserialize<KeyModel>(jsonString);
-            
+            _key = JsonSerializer.Deserialize<KeyModel>(jsonString);
+
         }
 
         public string GetPublicKey()
         {
-            return "Abcd"; //return _key.publicKey;
+            return _key.publicKey;
         }
 
         public string GetSecretKey()
         {
-            return "Abcd"; //return _key.secretKey;
+            return _key.secretKey;
         }
 
         public void ReadKeys()
         {
             //reading key for stripe
-            
+
         }
     }
 }

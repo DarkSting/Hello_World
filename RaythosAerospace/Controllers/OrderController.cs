@@ -87,7 +87,7 @@ namespace RaythosAerospace.Controllers
                 }
 
 
-            PrepareDataForLoadPage(model.UserId, model.AirCraftId, ViewBag);
+            //PrepareDataForLoadPage(model.UserId, model.AirCraftId, ViewBag);
             return View();
         }
 
@@ -96,7 +96,7 @@ namespace RaythosAerospace.Controllers
         public ActionResult Edit(string id)
         {
             OrderModel foundModel = _orderRepo.Find(id);
-            PrepareDataForLoadPage(foundModel.UserId,foundModel.AirCraftId,ViewBag);
+            //PrepareDataForLoadPage(foundModel.UserId,foundModel.AirCraftId,ViewBag);
             return View(foundModel);
         }
 
@@ -116,7 +116,7 @@ namespace RaythosAerospace.Controllers
                 _orderRepo.Update(model);
             }
 
-            PrepareDataForLoadPage(model.UserId, model.AirCraftId, ViewBag);
+            //PrepareDataForLoadPage(model.UserId, model.AirCraftId, ViewBag);
 
             return View();
             

@@ -1,2 +1,12 @@
-﻿<h1>Payment Successful!</h1>
-<p>Your payment has been processed successfully. Thank you for your purchase.</p>
+﻿@model PurchaseViewModel
+
+
+<div>
+
+    @foreach (Product current in Model.Products)
+    {
+        <h1>product :@current.ProductID</h1>
+        <h1>count :@current.Count</h1>
+    }
+
+</div>
