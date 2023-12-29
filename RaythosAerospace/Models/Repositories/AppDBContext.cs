@@ -265,7 +265,8 @@ namespace RaythosAerospace.Models.Repositories
                 {
                     availability = true,
                     Price = 3,
-                    ColorId = "C000" + i.ToString()
+                    ColorId = "C000" + i.ToString(),
+                    Color=paints[i]
                 };
 
                 colors[i] = current;

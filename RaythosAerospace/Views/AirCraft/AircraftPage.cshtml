@@ -1,0 +1,268 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Raythos Aerospace - Aircraft Page";
+    bool IsSeatAble = true;
+
+    if (Model.aircraft.SeatingCapacity == 0)
+    {
+        IsSeatAble = false;
+    }
+}
+
+@model CartItemViewModel
+
+<div class="aircraft-page-container">
+    <form>
+        <input type="hidden" asp-for="@Model.aircraft.AircraftId" />
+        <section class="aircraft-page-product-container">
+            <div class="aircraft-page-img-card">
+                <img src="~/images/aircraft-a320.jpg" alt="" id="aircraft-page-featured-image">
+                <div class="aircraft-page-small-card">
+                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                </div>
+            </div>
+
+            <div class="aircraft-page-product-info">
+                <h3>@Model.aircraft.AircraftType</h3>
+                <h4 id="aircraft-page-total-price">USD : @Model.aircraft.AirCraftPrice</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+                <div class="form-group">
+                    <label for="aircraft-page-exterior-color">Exterior Color:</label>
+
+                    <select asp-for="@Model.ColorId" class="form-control aircraft-page-size-option" id="aircraft-page-exterior-color" asp-items="@(new SelectList(ViewBag.Colors, "ColorId", "Color"))">
+                        <option value="null">Choose a color</option>
+                        <!-- Add more color options -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="aircraft-page-interior-color">Interior Color:</label>
+
+                    <select asp-for="@Model.InteriorColorId" class="form-control aircraft-page-size-option" id="aircraft-page-interior-color" asp-items="@(new SelectList(ViewBag.Colors, "ColorId", "Color"))">
+                        <option value="null">Choose a color</option>
+                        <!-- Add more color options -->
+                    </select>
+                </div>
+
+                <div class="form-group mt-2 ">
+                    <p>Count</p>
+                    <input asp-for="@Model.count" id="aircraft-page-plane-count" value="1" class="form-control aircraft-page-size-option" />
+                </div>
+
+                @if (
+
+                  IsSeatAble
+
+                  )
+                {
+                    <div class="form-group">
+                        <label for="aircraft-page-seat-count">Number of Seats:</label>
+                        <select asp-for="@Model.SeatId" class="form-control aircraft-page-size-option" id="aircraft-page-seat" asp-items="@(new SelectList(ViewBag.Seats, "SeatID", "SeatType"))">
+                        </select>
+                    </div>
+
+
+                    @foreach (var currentcolor in ViewBag.Seats)
+                    {
+                        <input type="hidden" id="aircraft-page-seat-price-@((currentcolor as SeatModel).SeatID)" value="@((currentcolor as SeatModel).UnitPrice)" />
+                    }
+                }
+
+
+
+                @foreach (var currentcolor in ViewBag.Colors)
+                {
+                    <input type="hidden" id="aircraft-page-color-price-@((currentcolor as ColorModel).ColorId)" value="@((currentcolor as ColorModel).Price)" />
+                }
+
+
+                @foreach (var currentcolor in ViewBag.Engines)
+                {
+                    <input type="hidden" id="aircraft-page-engine-price-@((currentcolor as EngineModel).EngineId)" value="@((currentcolor as EngineModel).UnitPrice)" />
+                }
+
+                <button type="button" class="btn btn-primary aircraft-page-restore-button">Restore to default</button>
+
+                <button class="btn btn-primary aircraft-page-buy-button" type="submit">Buy Now</button>
+
+                <div class="mt-4">
+                    <p>Delivery:</p>
+                    <p>Free standard shipping on orders over $1,000,000 before tax, plus free returns.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="row mt-4 justify-content-center">
+            <div class="col-md-12 aircraft-page-details text-center">
+                <h4 class="mt-4 mb-4">Aircraft Details</h4>
+                <div class="aircraft-details-grid">
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Aircraft Type:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.AircraftType</span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Registration Number:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.RegistrationNumber</span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Manufacturer:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.Manufacturer</span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Year of Manufacture:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.MaximumRange</span>
+                    </div>
+                    @if (
+                       IsSeatAble
+
+                       )
+                    {
+                        <div class="aircraft-detail">
+                            <span class="aircraft-detail-label">Seat Capacity:</span>
+                            <span class="aircraft-detail-value">@Model.aircraft.MaxSeatesAllowed</span>
+                        </div>
+                    }
+
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Maximum Range:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.MaximumRange</span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Engine Type:</span>
+                        <span class="aircraft-detail-value"></span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Fuel Capacity:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.FuelCapacity</span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Weight:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.Weight</span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Length:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.Length</span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Width:</span>
+                        <span class="aircraft-detail-value">@Model.aircraft.Width</span>
+                    </div>
+                    <div class="aircraft-detail">
+                        <span class="aircraft-detail-label">Comfort:</span>
+                        <span class="aircraft-detail-value">Luxury</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+
+   <script>
+       $(document).ready(function ()
+       {
+
+           var instockcount = @Model.aircraft.ItemCount;
+
+           //controls the count 
+           listenToCountChange()
+
+
+           //set the dropdown changes to default
+           $('.aircraft-page-restore-button').on('click', function () {
+
+               $('#aircraft-page-interior-color').prop('selectedIndex', 0);
+               $('#aircraft-page-exterior-color').prop('selectedIndex', 0);
+               $('#aircraft-page-seat')?.prop('selectedIndex', 0);
+
+               updateTotalCost();
+           })
+
+           //change total according to the dropdown
+           $('#aircraft-page-exterior-color').change(function () {
+
+               updateTotalCost();
+           })
+
+           $('#aircraft-page-interior-color').change(function () {
+
+               updateTotalCost();
+           })
+
+           $('#aircraft-page-seat').change(function () {
+
+               updateTotalCost();
+           })
+
+
+       })
+
+       function listenToCountChange() {
+           $('#aircraft-page-plane-count').on('input', function () {
+
+               var instockcount = @Model.aircraft.ItemCount;
+
+               var inputCount = $(this).val();
+
+               if (inputCount > instockcount) {
+                   $('#aircraft-page-plane-count').val(instockcount);
+               }
+               else if (inputCount <= 0) {
+                   $('#aircraft-page-plane-count').val(1);
+               }
+
+               console.log("button invoked")
+           })
+       }
+
+       function updateTotalCost() {
+           var totalprice = @Model.aircraft.AirCraftPrice;
+
+           //selects the dropdown values
+           var selectedInteriorColorId = $('#aircraft-page-exterior-color').val().trim();
+           var selectedExteriorColorId = $('#aircraft-page-interior-color').val().trim();
+           var selectedSeatId = "null";
+
+
+           //disable the seats for the drones
+           if (getElementIfExists($('#aircraft-page-seat'))) {
+               selectedSeatId = $('#aircraft-page-seat').val().trim()
+           }
+
+
+           //gets the percentages from the planes
+           var colorPricePrctExter = selectedExteriorColorId !== "null" ? parseInt($(`#aircraft-page-color-price-${selectedExteriorColorId}`).val()) : 0;
+           var colorPricePrctInter = selectedInteriorColorId !== "null" ? parseInt($(`#aircraft-page-color-price-${selectedInteriorColorId}`).val()) : 0;
+           var seatPricePrct = selectedSeatId !== "null" ? parseInt($(`#aircraft-page-seat-price-${selectedSeatId}`).val()) : 0;
+
+           console.log(colorPricePrctExter);
+           console.log(colorPricePrctInter);
+           console.log(seatPricePrct);
+
+
+           totalprice = Math.ceil
+               (totalprice + ((colorPricePrctExter + colorPricePrctInter + seatPricePrct) * totalprice) / 100)
+
+           console.log(totalprice);
+
+           //setting the total price
+           $('#aircraft-page-total-price').text('USD : '+totalprice);
+
+
+       }
+
+       function getElementIfExists(selector) {
+           const $element = $(selector);
+           return $element.length ? true : false;
+       }
+
+   </script>
+
+ }

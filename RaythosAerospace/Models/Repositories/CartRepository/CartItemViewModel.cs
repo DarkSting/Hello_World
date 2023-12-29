@@ -12,6 +12,8 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
        public int count { get; set; }
 
         public string ColorId { get; set; }
+
+        public string InteriorColorId { get; set; }
         public string EngineId { get; set; }
         public string SeatId { get; set; }
 

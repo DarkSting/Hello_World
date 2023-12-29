@@ -37,13 +37,6 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
-        public ViewResult ViewAnAirCraft(string airCraftId)
-        {
-            CartItemViewModel viewModel = new CartItemViewModel();
-            viewModel.aircraft = _repo.Find(airCraftId);
-            
-            return View("~/Views/AirCraft/Customize.cshtml", viewModel);
-        }
 
         [HttpGet]
         // GET: AirCraftController/Create
@@ -52,6 +45,18 @@ namespace RaythosAerospace.Controllers
 
             _FillDropDowns(ViewBag);
             return View();
+        }
+
+        public IActionResult AircraftPage(string airCraftId)
+        {
+
+            CartItemViewModel viewModel = new CartItemViewModel();
+            viewModel.aircraft = _repo.Find(airCraftId);
+
+            //prepare data
+            _FillDropDowns(ViewBag);
+
+            return View(viewModel);
         }
 
         public ViewResult ViewAirCrafts()
@@ -75,6 +80,7 @@ namespace RaythosAerospace.Controllers
                             }).ToList();
 
             bag.AircraftTypes = enumList;
+            bag.Colors = _repo.GetAllColors();
             return bag;
         }
 

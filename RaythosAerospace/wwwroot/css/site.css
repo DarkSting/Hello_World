@@ -59,15 +59,104 @@ main {
 }
 
 /* Aircraft Catalog */
-.catalog-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 30px;
+.aircraft-page-container {
+    margin: 20px;
+    padding: 20px;
 }
 
-.catalog-card-img {
-    height: 200px;
+.aircraft-page-product-container {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    gap: 40px;
+}
+
+.aircraft-page-img-card img {
+    width: 100%;
+    flex-shrink: 0;
+    border-radius: 4px;
+    height: 500px;
     object-fit: cover;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+}
+
+.aircraft-page-small-card {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 15px;
+    gap: 12px;
+}
+
+    .aircraft-page-small-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+.aircraft-page-product-info {
+    width: 60%;
+}
+
+    .aircraft-page-product-info h3 {
+        font-size: 32px;
+        font-weight: 600;
+    }
+
+    .aircraft-page-product-info h4 {
+        font-size: 22px;
+        font-weight: 500;
+        color: #ff4242;
+        margin: 6px 0;
+    }
+
+    .aircraft-page-product-info p {
+        color: #424551;
+        margin: 15px 0;
+        width: 70%;
+    }
+
+.aircraft-page-size-option {
+    width: 300px;
+    margin-bottom: 15px;
+}
+
+.aircraft-page-buy-button {
+    background: #17696a;
+    border-radius: 4px;
+    padding: 10px 40px;
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+
+    .aircraft-page-buy-button:hover {
+        background: #ff4242;
+        transition: ease-in 0.4s;
+    }
+
+.aircraft-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 40px;
+}
+
+.aircraft-detail {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    padding: 20px;
+    height: 110px;
+    width: 200px;
+    border-radius: 8px;
+    background-color: #C5C5C5;
+}
+
+.aircraft-detail-label {
+    font-weight: bold;
+    color: #424551;
+}
+
+.aircraft-detail-value {
+    color: black;
 }
