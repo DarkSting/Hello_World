@@ -36,7 +36,7 @@ namespace RaythosAerospace
         {
             services.AddMvc();
             services.AddDbContextPool<AppDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AppConnection"))
+                options.UseSqlServer(Configuration.GetConnectionString("OfficeConnection"))
             );
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAirCraftRepository, AirCraftRepository>();

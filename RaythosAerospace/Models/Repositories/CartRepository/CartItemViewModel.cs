@@ -11,7 +11,10 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
        public AirCraftModel aircraft { get; set; }
        public int count { get; set; }
 
-       public string  other { get; set; }
+        public string ColorId { get; set; }
+        public string EngineId { get; set; }
+        public string SeatId { get; set; }
 
+        public bool productAdded { get; set; }
     }
 }

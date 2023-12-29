@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RaythosAerospace.Models.Repositories.ProductRepository;
+
 
 namespace RaythosAerospace.Controllers
 {
@@ -16,12 +18,14 @@ namespace RaythosAerospace.Controllers
 
         private readonly ICartRepository _cartRepo;
         private readonly IAirCraftRepository _aircraftRepo;
+        private readonly IProductRepository _productRepo;
 
-        public CartController(ICartRepository cartRepo, IAirCraftRepository aircraftRepo)
+        public CartController(ICartRepository cartRepo, IAirCraftRepository aircraftRepo,IProductRepository productRepo)
         {
 
             _cartRepo = cartRepo;
             _aircraftRepo = aircraftRepo;
+            _productRepo = productRepo;
 
         }
 
@@ -33,18 +37,29 @@ namespace RaythosAerospace.Controllers
 
             CartModel foundCart = _cartRepo.GetCart(userId);
 
-            CartItemModel cartitem = new CartItemModel
+            AirCraftModel foundcraft = _aircraftRepo.Find(item.aircraft.AircraftId);
+
+            if (foundcraft.ItemCount < item.count)
             {
-                AirCraftId = item.aircraft.AircraftId,
-                CartId = foundCart.CartNumber,
-                ItemAddedDate = DateTime.Now,
-                UnitPrice = item.aircraft.AirCraftPrice,
+                ProductModel product = new ProductModel
+                {
+                    AirCraftId = item.aircraft.AircraftId,
+                    CartId = foundCart.CartNumber,
+                    AddedDate = DateTime.Now.Date,
+                    Count = item.count,
+                    UnitPrice = (int)item.aircraft.AirCraftPrice,
+                    UserId = userId,
+                    ProductId = Guid.NewGuid().ToString(),
 
-            };
 
-            _cartRepo.AddCartItem(cartitem);
+                };
+                item.productAdded = true;
+                _productRepo.AddProduct(product);
+            }
 
-            return View("~/Views/AirCraft/Customize.cshtml",item );
+          
+
+            return View("~/Views/AirCraft/Customize.cshtml",item);
         }
 
         // GET: CartController

@@ -34,6 +34,7 @@ namespace RaythosAerospace.Models.Repositories
         public DbSet<InvoiceModel> Invoices { get; set; }
 
         public DbSet<CartModel> Carts { get; set; }
+
         public DbSet<CartItemModel> CartItems { get; set; }
 
         public DbSet<OrderModel> Orders { get; set; }
@@ -44,6 +45,10 @@ namespace RaythosAerospace.Models.Repositories
         public DbSet<UserModel> Users { get; set; }
 
         public DbSet<AdminModel> Admins { get; set; }
+
+        public DbSet<ColorModel> Colors { get; set; }
+
+        public DbSet<CustomizationModel> Customization { get; set; }
 
 
 
@@ -64,6 +69,18 @@ namespace RaythosAerospace.Models.Repositories
                 .WithMany(a => a.AirCraftModels)
                 .HasForeignKey(f => f.SeatID);
 
+            /////////////////// customization table ////////////////////////////////
+            modelBuilder.Entity<CustomizationModel>()
+                 .HasOne(s => s.Seat)
+                 .WithMany(a => a.customize)
+                 .HasForeignKey(f => f.SeatId);
+
+            modelBuilder.Entity<CustomizationModel>()
+                 .HasOne(s => s.Engine)
+                 .WithMany(a => a.customize)
+                 .HasForeignKey(f => f.EngineId);
+
+
             /////////////////// product table ////////////////////////////////
             modelBuilder.Entity<ProductModel>()
                 .HasOne(u => u.User)
@@ -82,10 +99,15 @@ namespace RaythosAerospace.Models.Repositories
 
             modelBuilder.Entity<ProductModel>()
               .HasOne(a => a.AirCraft)
-              .WithOne(p => p.Product)
-              .HasForeignKey<ProductModel>(o => o.AirCraftId);
+              .WithMany(p => p.Products)
+              .HasForeignKey(o => o.AirCraftId);
 
+            modelBuilder.Entity<ProductModel>()
+               .HasOne(o => o.Customize)
+               .WithOne(i => i.Product)
+               .HasForeignKey<ProductModel>(o => o.CustomizationId);
 
+            ////////////////////////// Customization table ///////////////////////
 
 
             ////////////////////////// OrderAircraft table ///////////////////////
@@ -190,12 +212,24 @@ namespace RaythosAerospace.Models.Repositories
 
             };
 
+            string[] paints =
+            {
+
+                "LIGHT GREEN",
+                "LIGHT BLUE",
+                "LIGHT PURPLE",
+                "LIGHT PINK",
+                "LIGHT GREEN",
+                "BLACK",
+                "RED",
+            };
 
             ////////////////////////
 
             ShippingModel[] shipping = new ShippingModel[4];
             EngineModel[] engines = new EngineModel[8];
             SeatModel[] seats = new SeatModel[5];
+            ColorModel[] colors = new ColorModel[paints.Length];
     
 
             for (int i = 0; i < engines.Length; i++)
@@ -225,7 +259,19 @@ namespace RaythosAerospace.Models.Repositories
                 seats[i] = current;
             }
 
-            for(int i = 0; i < shipping.Length; i++)
+            for (int i = 0; i < paints.Length; i++)
+            {
+                ColorModel current = new ColorModel
+                {
+                    availability = true,
+                    Price = 3,
+                    ColorId = "C000" + i.ToString()
+                };
+
+                colors[i] = current;
+            }
+
+            for (int i = 0; i < shipping.Length; i++)
             {
                 ShippingModel current = new ShippingModel
                 {
@@ -244,7 +290,9 @@ namespace RaythosAerospace.Models.Repositories
                 .HasData(seats);
             modelBuilder.Entity<ShippingModel>()
                 .HasData(shipping);
-            
+            modelBuilder.Entity<ColorModel>()
+                .HasData(colors);
+
         }
 
        

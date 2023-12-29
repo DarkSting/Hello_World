@@ -76,7 +76,9 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         public SeatModel Seat { get; set; }
 
-        public string Color { get; set; }
+        public string ColorId { get; set; }
+
+        public ColorModel Color { get; set; }
 
 
         [Required(ErrorMessage = "Please provide the craft count")]
@@ -102,6 +104,8 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         public ICollection<CartItemModel> CartItems { get; set; }
 
-        public ProductModel Product { get; set; }
+        public ICollection<ProductModel> Products { get; set; }
+
+    
     }
 }

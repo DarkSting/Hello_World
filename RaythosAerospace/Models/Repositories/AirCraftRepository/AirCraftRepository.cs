@@ -127,5 +127,15 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         {
             return _context.Engines.Find(id);
         }
+
+        public IList<ColorModel> GetAllColors()
+        {
+            return _context.Colors.ToList();
+        }
+
+        public void AddCustomization(CustomizationModel custom)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -17,6 +17,8 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
 
         IList<ProductModel> GetProductByUser(string userid);
 
+        void AddOrder(ProductModel model);
+
 
 
     }

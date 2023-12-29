@@ -13,6 +13,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         AirCraftModel Insert(AirCraftModel model);
         AirCraftModel Update(AirCraftModel model);
 
+
         IEnumerable<EngineModel> GetEngineTypes();
         IEnumerable<SeatModel> GetSeatTypes();
 
@@ -27,6 +28,9 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         AirCraftModel UpdateEngine(EngineModel engine,string id);
 
         AirCraftModel UpdateSeats(SeatModel seat, string id);
+
+        IList<ColorModel> GetAllColors();
+        void AddCustomization(CustomizationModel custom);
 
 
 

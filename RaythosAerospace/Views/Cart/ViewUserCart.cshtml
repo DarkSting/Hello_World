@@ -27,11 +27,10 @@
     </div>
 </div>
 
-
-
 <form asp-controller="Payment" asp-action="ProcessPayment" method="post">
 
     <div class="row d-flex justify-content-center">
+
         @foreach (CheckoutViewModel current in aircrafts.Values)
         {
             string aircraftdesc = current.AirCraft.AircraftType;

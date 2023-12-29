@@ -7,7 +7,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 {
     public class AirCraftViewModel
     {
-        public AirCraftModel model { get; set; }
+        public AirCraftModel aircraft { get; set; }
 
         public string SelectedEngineType { get; set; }
         public string SelectedSeatType { get; set; }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaythosAerospace.Models.Repositories;
 
 namespace RaythosAerospace.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231229061403_added-new-color-table-and-changes-made-to-exiting-tables")]
+    partial class addednewcolortableandchangesmadetoexitingtables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,9 +133,6 @@ namespace RaythosAerospace.Migrations
                     b.Property<string>("ColorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
@@ -142,7 +141,7 @@ namespace RaythosAerospace.Migrations
 
                     b.HasKey("ColorId");
 
-                    b.ToTable("Colors");
+                    b.ToTable("ColorModel");
 
                     b.HasData(
                         new
@@ -223,7 +222,7 @@ namespace RaythosAerospace.Migrations
 
                     b.HasIndex("SeatId");
 
-                    b.ToTable("Customization");
+                    b.ToTable("CustomizationModel");
                 });
 
             modelBuilder.Entity("RaythosAerospace.Models.Repositories.AirCraftRepository.EngineModel", b =>

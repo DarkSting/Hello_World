@@ -22,5 +22,6 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         //navigate properties
         public ICollection<AirCraftModel> AirCraftModels { get; set; }
+        public ICollection<CustomizationModel> customize { get; set; }
     }
 }

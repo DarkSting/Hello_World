@@ -18,5 +18,8 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
         DateTime ItemAddedDate(string id, string cartid);
 
         IEnumerable<CartItemModel> GetAllCartItems(string cartid);
+
+
+
     }
 }

@@ -54,73 +54,81 @@ namespace RaythosAerospace.Controllers
 
             //set the id of the client who purchase the products
 
-            foreach(CheckoutViewModel current in payment.aircrafts.Values)
+            try
             {
-                if (current.IsSelected)
+                foreach (CheckoutViewModel current in payment.aircrafts.Values)
                 {
-                    
-                    AirCraftModel airCraftModel = _airCraftRepo.Find(current.AirCraft.AircraftId);
-
-                    //adding products for purchases 
-                    Models.Repositories.PaymentRepository.Product currentProduct = new Models.Repositories.PaymentRepository.Product
+                    if (current.IsSelected)
                     {
-                        ProductID = airCraftModel.AircraftId,
-                        Count = current.Count,
-                        UnitPrice = Convert.ToInt32(current.UnitPrice),
-                       
-                       
-                    };
 
-                    purchasedet.Products.Add(currentProduct);
-                    purchasedet.totalPrice += currentProduct.UnitPrice * currentProduct.Count;
+                        AirCraftModel airCraftModel = _airCraftRepo.Find(current.AirCraft.AircraftId);
 
-                    items.Add(new SessionLineItemOptions
-                    {
-                        PriceData = new SessionLineItemPriceDataOptions
+                        //adding products for purchases 
+                        Models.Repositories.PaymentRepository.Product currentProduct = new Models.Repositories.PaymentRepository.Product
                         {
-                            Currency = currency,
-                            UnitAmount = Convert.ToInt32(airCraftModel.AirCraftPrice)*100,
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            ProductID = airCraftModel.AircraftId,
+                            Count = current.Count,
+                            UnitPrice = Convert.ToInt32(current.UnitPrice),
+
+
+                        };
+
+                        purchasedet.Products.Add(currentProduct);
+                        purchasedet.totalPrice += currentProduct.UnitPrice * currentProduct.Count;
+
+                        items.Add(new SessionLineItemOptions
+                        {
+                            PriceData = new SessionLineItemPriceDataOptions
                             {
-                                Name = airCraftModel.AircraftType,
-                                Description = "need Engine"
+                                Currency = currency,
+                                UnitAmount = Convert.ToInt32(airCraftModel.AirCraftPrice) * 100,
+                                ProductData = new SessionLineItemPriceDataProductDataOptions
+                                {
+                                    Name = airCraftModel.AircraftType,
+                                    Description = "need Engine"
+                                }
                             }
-                        }
-                        ,
-                        Quantity = current.Count
-                    });
+                            ,
+                            Quantity = current.Count
+                        });
+                    }
                 }
-            }
 
-            TempData["PurchaseData"] = JsonConvert.SerializeObject(purchasedet);
+                TempData["PurchaseData"] = JsonConvert.SerializeObject(purchasedet);
 
-            if (items.Count == 0)
-            {
-                 return RedirectToAction("ViewUserCart", "Cart");
-            }
+                if (items.Count == 0)
+                {
+                    return RedirectToAction("ViewUserCart", "Cart");
+                }
 
-            var options = new SessionCreateOptions
-            {
-                PaymentMethodTypes = new List<string>
+                var options = new SessionCreateOptions
+                {
+                    PaymentMethodTypes = new List<string>
                 {
                     "card"
                 },
 
 
-                //items
-                LineItems =items,
+                    //items
+                    LineItems = items,
 
-                Mode="payment",
-                SuccessUrl=successUrl,
-                CancelUrl=cancelUrl,
-            };
-            //options
+                    Mode = "payment",
+                    SuccessUrl = successUrl,
+                    CancelUrl = cancelUrl,
+                };
+                //options
 
 
-            var service = new SessionService();
-            var session = service.Create(options);
+                var service = new SessionService();
+                var session = service.Create(options);
 
-            return Redirect(session.Url);
+                return Redirect(session.Url);
+            }
+            catch(Exception e)
+            {
+                return View();
+            }
+            
 
         }
 

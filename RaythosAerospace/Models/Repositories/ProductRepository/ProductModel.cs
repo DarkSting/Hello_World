@@ -21,7 +21,7 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
         public int UnitPrice { get; set; }
         public int Count { get; set; }
         public string UserId { get; set; }
-        public int Customization { get; set; }
+        public string CustomizationId { get; set; }
         public DateTime AddedDate { get; set; }
 
         public string CartId { get; set; }
@@ -30,6 +30,8 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
 
         //navigation properties
         public AirCraftModel AirCraft { get; set; }
+
+        public CustomizationModel Customize { get; set; }
 
         public UserModel User { get; set; }
 

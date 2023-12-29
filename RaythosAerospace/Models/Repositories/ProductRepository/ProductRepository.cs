@@ -13,29 +13,44 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
         {
             _context = context;
         }
-        public ProductModel AddProduct(ProductModel model)
+
+        public void AddOrder(ProductModel model)
         {
             throw new NotImplementedException();
+        }
+
+        public ProductModel AddProduct(ProductModel model)
+        {
+            _context.Products.Add(model);
+            _context.SaveChanges();
+
+            return model;
         }
 
         public ProductModel DeleteProduct(string productid)
         {
-            throw new NotImplementedException();
+            ProductModel foundproduct =_context.Products.FirstOrDefault(f => f.ProductId == productid);
+
+            _context.Products.Remove(foundproduct);
+            _context.SaveChanges();
+
+            return foundproduct;
         }
 
         public IList<ProductModel> GetAllProducts()
         {
-            throw new NotImplementedException();
+            return _context.Products.ToList();
         }
 
         public ProductModel GetProduct(string productid)
         {
-            throw new NotImplementedException();
+            return _context.Products.Find(productid);
         }
+    
 
         public IList<ProductModel> GetProductByUser(string userid)
         {
-            throw new NotImplementedException();
+            return _context.Products.Where(u => u.UserId == userid).ToList();
         }
     }
 }

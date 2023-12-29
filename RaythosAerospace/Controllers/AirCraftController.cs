@@ -37,11 +37,12 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
-        public ViewResult ViewAnAirCraft(string id)
+        public ViewResult ViewAnAirCraft(string airCraftId)
         {
-            CartItemViewModel cv = new CartItemViewModel();
-            cv.aircraft = _repo.Find(id);
-            return View("~/Views/AirCraft/Customize.cshtml",cv);
+            CartItemViewModel viewModel = new CartItemViewModel();
+            viewModel.aircraft = _repo.Find(airCraftId);
+            
+            return View("~/Views/AirCraft/Customize.cshtml", viewModel);
         }
 
         [HttpGet]
