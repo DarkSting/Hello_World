@@ -1,5 +1,6 @@
 ﻿using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using RaythosAerospace.Models.Repositories.CartRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,8 @@ namespace RaythosAerospace.Models.Repositories.PaymentRepository
     {
         public double Amount { get; set; }
         public string Token { get; set; }
-        public IEnumerable<CartItemModel> cartitems { get; set; }
+        public IEnumerable<ProductModel> cartitems { get; set; }
 
-        public Dictionary<string, CheckoutViewModel> aircrafts { get; set; }
+        public Dictionary<string, CheckoutModel> aircrafts { get; set; }
     }
 }

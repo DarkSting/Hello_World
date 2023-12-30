@@ -1,16 +1,13 @@
 ﻿@model PaymentModel
 
 @{
-    IEnumerable<CartItemModel> items = ViewBag.CartItems;
+    IEnumerable<ProductModel> items = ViewBag.CartItems;
     CartModel cart = ViewBag.Cart;
-    Dictionary<string, CheckoutViewModel> aircrafts = ViewBag.AirCrafts;
+    Dictionary<string, CheckoutModel> aircrafts = ViewBag.AirCrafts;
     double totalprice = 0;
 }
 
-
-
-
-<!-- Modal -->
+<!-- Dialog box -->
 <div class="modal" id="messageBox" tabindex="-1" role="dialog" aria-labelledby="messageBoxLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -27,67 +24,136 @@
     </div>
 </div>
 
+<!--Item list body-->
 <form asp-controller="Payment" asp-action="ProcessPayment" method="post">
 
     <div class="row d-flex justify-content-center">
 
-        @foreach (CheckoutViewModel current in aircrafts.Values)
+        @foreach (CheckoutModel current in aircrafts.Values)
         {
             string aircraftdesc = current.AirCraft.AircraftType;
 
-            int count = 0;
-            double price = 0;
-            double unitprice = 0;
+            int count = current.Count;
+            double price = current.ProductTotalCost*count;
+            double unitprice = current.AirCraft.AirCraftPrice;
 
-            foreach (CartItemModel model in items)
+
+        <div class="card catalog-card col-10 mt-2 checkout-element-card" id="item-@current.AirCraft.AircraftId" class="cart-item">
+            <h4>@aircraftdesc</h4>
+            <input type="hidden" id="product-id" value="@current.ProductId" />
+            <p id="item-unit-price-@current.ProductId">Price: @current.AirCraft.AirCraftPrice</p>
+            <input type="hidden" asp-for="@Model.aircrafts[current.ProductId].ProductTotalCost" id="item-custom-unit-price-@current.ProductId" value="@current.ProductTotalCost" />
+
+            @if (Model.aircrafts[current.ProductId].Seat != null || Model.aircrafts[current.ProductId].ExteriorClr != null || Model.aircrafts[current.ProductId].InteriorClr != null)
             {
-                if (model.AirCraftId == current.AirCraft.AircraftId)
-                {
-                    count++;
-                    price += model.UnitPrice;
-
-                }
+                <p class="mt-2"><strong>Price with customization</strong></p>
+                <p id="item-total-@current.ProductId">Price: @current.ProductTotalCost</p>
             }
 
-        <div class="col-10" id="item-@current.AirCraft.AircraftId" class="cart-item">
-            <h4>@aircraftdesc</h4>
-            <p id="item-total-@current.AirCraft.AircraftId">Price: @current.AirCraft.AirCraftPrice</p>
             <!--unit price-->
             <input type="hidden" asp-for="@current.AirCraft.AircraftType" />
             <input type="hidden" value="@(price/count)" id="item-price-@current.AirCraft.AircraftId" />
-            <!-- Other item details you want to display -->
+            <!--air craft details-->
             <div class="d-flex flex-row align-items-start">
                 <button class="btn btn-secondary btn-danger mr-2 item-button-decrease-count" data-itemid="@current.AirCraft.AircraftId">-</button>
+                <h6>Count :  </h6>
                 <h5 id="item-count-@current.AirCraft.AircraftId">@count</h5>
             </div>
-            <input type="hidden" asp-for="@Model.aircrafts[current.AirCraft.AircraftId].AirCraft.AircraftId" />
-            <input type="hidden" asp-for="@Model.aircrafts[current.AirCraft.AircraftId].Count" value="@count" id="model-count-@Model.aircrafts[current.AirCraft.AircraftId].AirCraft.AircraftId"/>
+            <input type="hidden" asp-for="@Model.aircrafts[current.ProductId].AirCraft.AircraftId" />
+            <input type="hidden" asp-for="@Model.aircrafts[current.ProductId].Count" value="@count" id="model-count-@Model.aircrafts[current.ProductId].AirCraft.AircraftId" />
 
-            <div class="d-flex justify-content-end">
+            <!--aircraft customizations-->
+            @if (Model.aircrafts[current.ProductId].Seat != null || Model.aircrafts[current.ProductId].ExteriorClr != null || Model.aircrafts[current.ProductId].InteriorClr != null)
+            {
+                <h5 class="mt-5">Customizations</h5>
+            }
 
-                <input type="checkbox" asp-for="@Model.aircrafts[current.AirCraft.AircraftId].IsSelected" class="form-control" />
-                <button type="button" class="btn btn-dark mr-2 delete-item" data-itemid="@current.AirCraft.AircraftId">Delete</button>
+            <!--seat customization-->
+            @if (Model.aircrafts[current.ProductId].Seat != null)
+            {
+                <div id="customization-seat-@current.Customization.CustomId" class="mt-2">
+                    <input type="hidden" id="customization-id" value="@current.Customization.CustomId" />
+                    <input type="hidden" id="customization-product-id" value="@current.ProductId" />
+                    <input type="hidden" id="customization-seat-id" asp-for="@Model.aircrafts[current.ProductId].Seat.SeatID" />
+                    <input type="hidden" id="customization-seat-price" value="@Model.aircrafts[current.ProductId].Seat.UnitPrice" />
+                    <div class="customization-elements mb-2">
+                        <h5 class="custom-text-h5">Custom Seat : @Model.aircrafts[current.ProductId].Seat.SeatType</h5>
+                        <button type="button" class="btn btn-dark ml-2 remove-customization-btn" data-itemid="customization-seat-@current.Customization.CustomId">-</button>
+                    </div>
+                </div>
+            }
+
+            <!--exterior customization-->
+            @if (Model.aircrafts[current.ProductId].ExteriorClr != null)
+            {
+                <div id="customization-exterior-@current.Customization.CustomId" class="mt-2">
+                    <input type="hidden" id="customization-id" value="@current.Customization.CustomId" />
+                    <input type="hidden" id="customization-product-id" value="@current.ProductId" />
+                    <input type="hidden" id="customization-exterior-color-id" asp-for="@Model.aircrafts[current.ProductId].ExteriorClr.ColorId" />
+                    <input type="hidden" id="customization-exterior-price" value="@Model.aircrafts[current.ProductId].ExteriorClr.Price" />
+                    <div class="customization-elements mb-2">
+                        <h5 class="custom-text-h5">Exterior Color : @Model.aircrafts[current.ProductId].ExteriorClr.Color</h5>
+                        <button type="button" class="btn btn-dark ml-2 remove-customization-btn" data-itemid="customization-exterior-@current.Customization.CustomId">-</button>
+                    </div>
+                </div>
+            }
+
+
+            <!--interior customization-->
+            @if (Model.aircrafts[current.ProductId].InteriorClr != null)
+            {
+                <div id="customization-interior-@current.Customization.CustomId" class="mt-2">
+                    <input type="hidden" id="customization-id" value="@current.Customization.CustomId" />
+                    <input type="hidden" id="customization-product-id" value="@current.ProductId" />
+                    <input type="hidden" id="customization-interior-color-id" asp-for="@Model.aircrafts[current.ProductId].InteriorClr.ColorId" />
+                    <input type="hidden" id="customization-interior-price" value="@Model.aircrafts[current.ProductId].InteriorClr.Price" />
+                    <div class="customization-elements mb-2">
+                        <h5 class="custom-text-h5">Interior Color : @Model.aircrafts[current.ProductId].InteriorClr.Color</h5>
+                        <button type="button" class="btn btn-dark ml-2 remove-customization-btn" data-itemid="customization-interior-@current.Customization.CustomId">-</button>
+                    </div>
+                </div>
+            }
+
+            <!--select box and remove item-->
+            <div class="row justify-content-end mb-2">
+
+                <input type="checkbox" asp-for="@Model.aircrafts[current.ProductId].IsSelected" class="form-control col-1" />
+                <button type="button" class="btn btn-dark mr-2 delete-item" data-itemid="@current.ProductId">Delete<i class="fas fa-trash-alt ml-1"></i></button>
             </div>
         </div>
 
             totalprice += price;
 
         }
+        <div class="space-element"></div>
     </div>
-    <div class="form-row">
 
-        <input asp-for="@Model.Amount" type="hidden" value="@totalprice" />
-
+   
+    <!--total price section-->
+    <div class="total-price-container p-3 bg-light float-right ml-auto fixed-bottom" id="draggable-total-cost">
+        <div class="row p-2 justify-content-center">
+            <div class="col-12">
+                <h3>Total Price</h3>
+                <h4 id="total-price">$ @totalprice</h4>
+            </div>        
+            <div class="col-12 mt-2">
+                <button type="submit" class="btn btn-secondary">Checkout</button>
+            </div>
+            <input asp-for="@Model.Amount" type="hidden" value="@totalprice" />
+        </div>
     </div>
-    <button type="submit" class="btn btn-secondary">Checkout</button>
-    <h1 id="total-price" class="ml-auto">$ @totalprice</h1>
+  
 </form>
 
 @section Scripts {
 
     <script>
         $(document).ready(function () {
+
             reduceItemCount();
+            RemoveCustomization();
+
+            $("#draggable-total-cost").draggable()
 
             //removing the item from the cart
             $('.delete-item').click(function () {
@@ -127,8 +193,114 @@
             });
         });
 
+        //calcualting the total price after removing the customization
+        function calculateTotalCostWhenRemoveCustomization(reducingPercentage, productid) {
+
+            let currentTotal = parseFloat($('#total-price').text().slice(1, $('#total-price').text().length).trim())
+            let aircraftInitalPrice = parseFloat($(`#item-unit-price-${productid}`).text().split(':')[1].trim());
+
+            let reducedPrice = (aircraftInitalPrice * reducingPercentage) / 100;
+            currentTotal = currentTotal - reducedPrice;
+
+            $('#total-price').text(`$ ${Math.floor(currentTotal)}`);
+            $(`#item-custom-unit-price-${productid}`).val(currentTotal);
+        }
+
+        //calculate the unit price when removing the customization
+        function calculateTheTotalForAUnit(reducingPercentage, productid) {
+
+            let aircraftInitalPrice = parseFloat($(`#item-unit-price-${productid}`).text().split(':')[1].trim());
+
+            //selecting the total price for a unit 
+            let unitTotalPrice = parseFloat($(`#item-total-${productid}`).text().split(':')[1].trim())
+
+            unitTotalPrice = unitTotalPrice - (aircraftInitalPrice * reducingPercentage) / 100;
+
+            $(`#item-total-${productid}`).text(`Price : ${unitTotalPrice}`);
+            $(`#item-custom-unit-price-${productid}`).val(unitTotalPrice);
+        }
+
+        function RemoveCustomization() {
+
+            $('.remove-customization-btn').click(function () {
+
+                //selects the data of the current clicked button with its target element to be modified
+                var itemdata = $(this).data('itemid');
+
+                
+                //selects the modification type eg : seat, interior color etc
+                var customizationItem = itemdata.toString().split('-')[1].trim();
+
+                //selects the customization id
+                var currentCustomizationElem = $(`#${itemdata} #customization-id`).val();
+
+                //select the aircraft id
+                let productid = $(`#customization-${customizationItem}-${currentCustomizationElem} #customization-product-id`).val();
+
+
+                //based on the selected item sends the data to be removed
+                if (customizationItem === "seat") {
+
+                    let seatid = $(`#${itemdata} #customization-seat-id`).val();
+                    let percentage = $('#customization-seat-price').val();
+                    calculateTotalCostWhenRemoveCustomization(percentage, productid);
+                    calculateTheTotalForAUnit(percentage, productid);
+                    sendDataOfRemovedCustom(customizationItem, seatid, currentCustomizationElem, $(`#customization-${customizationItem}-${currentCustomizationElem}`))
+                    
+
+
+                }
+                else if (customizationItem === "exterior") {
+
+                    let colorid = $(`#${itemdata} #customization-exterior-color-id`).val()
+                    let percentage = $('#customization-exterior-price').val();
+                    calculateTotalCostWhenRemoveCustomization(percentage, productid);
+                    calculateTheTotalForAUnit(percentage, productid);
+                    sendDataOfRemovedCustom(customizationItem, colorid, currentCustomizationElem, $(`#customization-${customizationItem}-${currentCustomizationElem}`))
+                }
+                else if (customizationItem === "interior") {
+
+                    let colorid = $(`#${itemdata} #customization-interior-color-id`).val()
+                    let percentage = $('#customization-interior-price').val();
+                    calculateTotalCostWhenRemoveCustomization(percentage, productid);
+                    calculateTheTotalForAUnit(percentage, productid);
+                    sendDataOfRemovedCustom(customizationItem, colorid, currentCustomizationElem, $(`#customization-${customizationItem}-${currentCustomizationElem}`))
+                }
+
+            })
+
+        }
+
+        function sendDataOfRemovedCustom(customtype, elementid, customizationid,element) {
+
+
+            console.log(`customtp ${customtype} elementid ${elementid} customizationid${customizationid}`)
+            element.remove();
+
+            $.ajax({
+                url: '/cart/removecustomization',
+                method:'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                customtype: customtype,
+                elementid: elementid,
+                customizationid: customizationid
+                })
+                ,
+                success: function (response) {
+                    console.log(response.msg)
+                    location.reload();
+                    
+                },
+                error: function (error) {
+                    console.log(error.message);
+                }
+            })
+
+        }
 
         function reduceItemCount() {
+
             $('.item-button-decrease-count').click(function () {
 
                 var itemdata = $(this).data('itemid');
@@ -174,6 +346,7 @@
 
         //reduces the item count
         function reduceCountDeleteAJAX(itemdata) {
+
             $.ajax(
                 {
                     url: `/Cart/ReduceItemCount?itemid=${itemdata}`, // Your delete endpoint

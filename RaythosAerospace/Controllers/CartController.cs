@@ -30,8 +30,10 @@ namespace RaythosAerospace.Controllers
         }
 
         
+        //POST
+        //adds the product to the cart
         [HttpPost]
-        public IActionResult AddToCart([FromBody]CartItemViewModel item)
+        public IActionResult AddToCart(CartItemViewModel item)
         {
             string userId = "U0001";
 
@@ -39,7 +41,44 @@ namespace RaythosAerospace.Controllers
 
             AirCraftModel foundcraft = _aircraftRepo.Find(item.aircraft.AircraftId);
 
-            if (foundcraft.ItemCount < item.count)
+            //checking what are the null properties of the model
+            var properties = typeof(CartItemViewModel).GetProperties();
+
+            CustomizationModel custom = new CustomizationModel();
+            bool isCustomizationEnabled = false;
+            custom.CustomId = Guid.NewGuid().ToString();
+
+            foreach(var property in properties)
+            {
+                var value = property.GetValue(item);
+                string propname = property.Name;
+
+                if (value != null && propname== "ColorId")
+                {
+
+                    isCustomizationEnabled = true;
+                    custom.ExteriorColorId = value as string;
+
+                }
+                else if(value != null && propname == "InteriorColorId")
+                {
+                    isCustomizationEnabled = true;
+                    custom.InteriorColorId = value as string;
+                }
+                else if(value != null && propname == "SeatId")
+                {
+                    isCustomizationEnabled = true;
+                    custom.SeatId = value as string;
+                }
+            }
+
+            if (isCustomizationEnabled)
+            {
+                _aircraftRepo.AddCustomization(custom);
+            }
+
+            ///assign product model
+            if (foundcraft.ItemCount > item.count)
             {
                 ProductModel product = new ProductModel
                 {
@@ -50,16 +89,20 @@ namespace RaythosAerospace.Controllers
                     UnitPrice = (int)item.aircraft.AirCraftPrice,
                     UserId = userId,
                     ProductId = Guid.NewGuid().ToString(),
-
+                    CustomizationId = isCustomizationEnabled?custom.CustomId:null
 
                 };
                 item.productAdded = true;
                 _productRepo.AddProduct(product);
             }
 
-          
+            //reset the model to load the view
+            item = null;
+            item = new CartItemViewModel();
+            item.aircraft = foundcraft;
 
-            return View("~/Views/AirCraft/Customize.cshtml",item);
+
+            return RedirectToAction("AircraftPage", "Aircraft", new { airCraftId = item.aircraft.AircraftId });
         }
 
         // GET: CartController
@@ -82,21 +125,37 @@ namespace RaythosAerospace.Controllers
         {
             //getting the cart and cart items for a given user
             CartModel foundCart = _cartRepo.GetCart(userid);
-            Dictionary<string, CheckoutViewModel> aircrafts = new Dictionary<string, CheckoutViewModel>();
-            IEnumerable<CartItemModel> cartitems = _cartRepo.GetAllCartItems(foundCart.CartNumber);
+            Dictionary<string, CheckoutModel> aircrafts = new Dictionary<string, CheckoutModel>();
+            IEnumerable<ProductModel> cartitems = _productRepo.GetProductsByUser(userid);
 
             //iterating the aircrafts and adding them into the dictionary
-            foreach(CartItemModel current in cartitems)
+            foreach(ProductModel current in cartitems)
             {
-                if (!aircrafts.ContainsKey(current.AirCraftId))
+                if (!aircrafts.ContainsKey(current.ProductId))
                 {
                     AirCraftModel foundAirCraft = _aircraftRepo.Find(current.AirCraftId);
-                    CheckoutViewModel temp = new CheckoutViewModel
+                    ProductModel product = _productRepo.GetProduct(current.ProductId);
+                    CustomizationModel customization = _aircraftRepo.GetCustomization(product.CustomizationId);
+
+
+                    CheckoutModel temp = new CheckoutModel
                     {
                         AirCraft = foundAirCraft,
+                        ProductId = current.ProductId,
+                        Product = product,
+                        Customization = customization,
+                        ProductTotalCost = _aircraftRepo.CalculateTotalPriceForAirCraft(current),
+                        Count = current.Count,
+                        ExteriorClr = _aircraftRepo.GetColor(customization.ExteriorColorId),
+                        InteriorClr = _aircraftRepo.GetColor(customization.InteriorColorId),
+                        Seat = _aircraftRepo.GetSeat(customization.SeatId)
+
 
                     };
-                    aircrafts.Add(current.AirCraftId, temp);
+
+                    aircrafts.Add(current.ProductId, temp);
+
+
                 }
             }
 
@@ -118,9 +177,11 @@ namespace RaythosAerospace.Controllers
         [HttpDelete]
         public IActionResult DeleteItem(string itemid)
         {
-            
-            _cartRepo.RemoveCartItem(itemid);
+
     
+           ProductModel deletedModel = _productRepo.DeleteProduct(itemid);
+
+            _aircraftRepo.RemoveCustomization(deletedModel.CustomizationId);
 
             var message = new
             {
@@ -129,6 +190,7 @@ namespace RaythosAerospace.Controllers
             };
 
             return Ok(JsonConvert.SerializeObject(message));
+
         }
 
        [HttpDelete]
@@ -146,68 +208,22 @@ namespace RaythosAerospace.Controllers
             return Ok(JsonConvert.SerializeObject(message));
         }
 
-        // GET: CartController/Create
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CartController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult RemoveCustomization([FromBody]RemoveElementDTO model)
         {
-            try
+
+
+            _aircraftRepo.UpdateCustomization(model);
+
+            var message = new
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                msg = $"customization successfully removed"
+            };
+
+            return Ok(JsonConvert.SerializeObject(message));
         }
 
-        // GET: CartController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: CartController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: CartController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CartController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

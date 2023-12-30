@@ -105,14 +105,7 @@ namespace RaythosAerospace.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public RedirectToActionResult Inst(AirCraftModel model)
-        {
-
-            return RedirectToAction();
-        }
-
-
+   
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,7 +119,21 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         //returns a seat based on the primary key
         public SeatModel GetSeat(string id)
         {
-            return _context.Seats.FirstOrDefault(s=>s.SeatID==id);
+
+            SeatModel foundSeatModel = null;
+
+            try
+            {
+
+                foundSeatModel = _context.Seats.FirstOrDefault(s => s.SeatID == id);
+
+            }
+            catch(Exception e)
+            {
+                foundSeatModel = null;
+            }
+
+            return foundSeatModel;
         }
 
 
@@ -135,7 +150,127 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         public void AddCustomization(CustomizationModel custom)
         {
-            throw new NotImplementedException();
+            _context.Customization.Add(custom);
+            _context.SaveChanges();
         }
+
+        public void RemoveCustomization(string customizationid)
+        {
+            CustomizationModel foundCustomization = GetCustomization(customizationid);
+            _context.Customization.Remove(foundCustomization);
+            _context.SaveChanges();
+        }
+
+        public void UpdateCustomization(RemoveElementDTO item)
+        {
+            if (item.customtype == "seat")
+            {
+                CustomizationModel foundCustomizationModel = _context.Customization.Find(item.customizationid);
+                foundCustomizationModel.SeatId = null;
+                EntityEntry changed = _context.Customization.Attach(foundCustomizationModel);
+                changed.State = EntityState.Modified;
+                _context.SaveChanges();
+
+
+            }
+            else if(item.customtype== "exterior")
+            {
+                CustomizationModel foundCustomizationModel = _context.Customization.Find(item.customizationid);
+                foundCustomizationModel.ExteriorColorId = null;
+                EntityEntry changed = _context.Customization.Attach(foundCustomizationModel);
+                changed.State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            else if(item.customtype== "interior")
+            {
+                CustomizationModel foundCustomizationModel = _context.Customization.Find(item.customizationid);
+                foundCustomizationModel.InteriorColorId = null;
+                EntityEntry changed = _context.Customization.Attach(foundCustomizationModel);
+                changed.State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+        }
+        public CustomizationModel GetCustomization(string customizeId)
+        {
+            CustomizationModel returnedVal = null;
+
+            try {
+                
+                returnedVal = _context.Customization.Find(customizeId);
+            }
+            catch(Exception e)
+            {
+                returnedVal = null;
+            }
+
+            return returnedVal;
+        }
+
+        public double CalculateTotalPriceForAirCraft(ProductModel product)
+        {
+            if (product.CustomizationId == null)
+            {
+                return _context.AirCrafts.Find(product.AirCraftId).AirCraftPrice;
+            }
+            else
+            {
+                CustomizationModel customizationModel = GetCustomization(product.CustomizationId);
+
+                double aircraftPrice = _context.AirCrafts.Find(product.AirCraftId).AirCraftPrice;
+
+                var properties = typeof(CustomizationModel).GetProperties();
+
+                //iterating the customization model and avoiding the null values
+                foreach (var property in properties)
+                {
+                    var value = property.GetValue(customizationModel);
+                    string propname = property.Name;
+
+                    if (value != null && propname == "ExteriorColorId")
+                    {
+
+                        ColorModel foundColor = _context.Colors.Find(value as string);
+                        aircraftPrice = aircraftPrice + (aircraftPrice * foundColor.Price) / 100;
+
+                    }
+                    else if (value != null && propname == "InteriorColorId")
+                    {
+                        ColorModel foundColor = _context.Colors.Find(value as string);
+                        aircraftPrice = aircraftPrice + (aircraftPrice * foundColor.Price) / 100;
+                    }
+                    else if (value != null && propname == "SeatId")
+                    {
+                        SeatModel foundSeat = _context.Seats.Find(value as string);
+                        aircraftPrice = aircraftPrice + (aircraftPrice * foundSeat.UnitPrice) / 100;
+                    }
+                    else if (value != null && propname == "ExtraModifications")
+                    {
+                        continue;
+                    }
+                }
+
+                return aircraftPrice;
+            }
+
+            
+        }
+
+        public ColorModel GetColor(string colorId)
+        {
+            ColorModel foundColor = null;
+            try
+            {
+                foundColor = _context.Colors.Find(colorId);
+            }
+            catch(Exception e)
+            {
+                foundColor = null;
+            }
+
+            return foundColor;
+            
+        }
+
+      
     }
 }

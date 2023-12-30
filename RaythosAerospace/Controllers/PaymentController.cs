@@ -56,7 +56,7 @@ namespace RaythosAerospace.Controllers
 
             try
             {
-                foreach (CheckoutViewModel current in payment.aircrafts.Values)
+                foreach (CheckoutModel current in payment.aircrafts.Values)
                 {
                     if (current.IsSelected)
                     {
@@ -68,7 +68,7 @@ namespace RaythosAerospace.Controllers
                         {
                             ProductID = airCraftModel.AircraftId,
                             Count = current.Count,
-                            UnitPrice = Convert.ToInt32(current.UnitPrice),
+                            UnitPrice = Convert.ToInt32(current.ProductTotalCost),
 
 
                         };
@@ -81,11 +81,11 @@ namespace RaythosAerospace.Controllers
                             PriceData = new SessionLineItemPriceDataOptions
                             {
                                 Currency = currency,
-                                UnitAmount = Convert.ToInt32(airCraftModel.AirCraftPrice) * 100,
+                                UnitAmount = Convert.ToInt32(currentProduct.UnitPrice) * 100,
                                 ProductData = new SessionLineItemPriceDataProductDataOptions
                                 {
                                     Name = airCraftModel.AircraftType,
-                                    Description = "need Engine"
+                                    Description = airCraftModel.AirCraftPrice<currentProduct.UnitPrice?"Customization added":"Standard"
                                 }
                             }
                             ,

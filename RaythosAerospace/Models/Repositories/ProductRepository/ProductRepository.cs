@@ -48,7 +48,7 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
         }
     
 
-        public IList<ProductModel> GetProductByUser(string userid)
+        public IList<ProductModel> GetProductsByUser(string userid)
         {
             return _context.Products.Where(u => u.UserId == userid).ToList();
         }

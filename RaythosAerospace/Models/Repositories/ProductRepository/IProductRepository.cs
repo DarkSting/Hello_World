@@ -15,7 +15,7 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
 
         IList<ProductModel> GetAllProducts();
 
-        IList<ProductModel> GetProductByUser(string userid);
+        IList<ProductModel> GetProductsByUser(string userid);
 
         void AddOrder(ProductModel model);
 

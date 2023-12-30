@@ -4,9 +4,38 @@
     border-radius:5px;
     border:none;
 }
+.checkout-element-card {
 
-@keyframes shake{
+    border: none;
+    border-radius: 5px;
+    padding:10px 20px 5px 20px;
+}
 
+.space-element{
+
+    height:100px;
+}
+
+.customization-elements {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    background-color: #F5F7F8;
+    padding: 4px;
+    border: none;
+    border-radius: 5px;
+}
+
+.total-price-container {
+    border-radius: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+@keyframes shake {
     0% {
         transform: translate(0);
         background-color: #ff0000ff;

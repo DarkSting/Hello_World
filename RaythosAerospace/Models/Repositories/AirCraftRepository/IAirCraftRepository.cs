@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RaythosAerospace.Models.Repositories.ProductRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
     {
         AirCraftModel Delete(string id);
         AirCraftModel Find(string id);
+
+        void RemoveCustomization(string customizationid);
 
         AirCraftModel Insert(AirCraftModel model);
         AirCraftModel Update(AirCraftModel model);
@@ -30,7 +33,15 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         AirCraftModel UpdateSeats(SeatModel seat, string id);
 
         IList<ColorModel> GetAllColors();
+
+        ColorModel GetColor(string colorId);
+
+
         void AddCustomization(CustomizationModel custom);
+        CustomizationModel GetCustomization(string customizeId);
+
+        double CalculateTotalPriceForAirCraft(ProductModel product);
+        void UpdateCustomization(RemoveElementDTO item);
 
 
 

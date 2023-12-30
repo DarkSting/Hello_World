@@ -19,7 +19,7 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
         public string Description { get; set; }
 
  
-        //navigation property
+        //navigation properties
         public ICollection<CartItemModel> CartItems { get; set; }
 
         public ICollection<ProductModel> Products { get; set; }

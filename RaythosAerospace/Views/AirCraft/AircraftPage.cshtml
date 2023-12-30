@@ -12,7 +12,7 @@
 @model CartItemViewModel
 
 <div class="aircraft-page-container">
-    <form>
+    <form asp-controller="cart" asp-action="addtocart">
         <input type="hidden" asp-for="@Model.aircraft.AircraftId" />
         <section class="aircraft-page-product-container">
             <div class="aircraft-page-img-card">
@@ -36,7 +36,7 @@
                     <label for="aircraft-page-exterior-color">Exterior Color:</label>
 
                     <select asp-for="@Model.ColorId" class="form-control aircraft-page-size-option" id="aircraft-page-exterior-color" asp-items="@(new SelectList(ViewBag.Colors, "ColorId", "Color"))">
-                        <option value="null">Choose a color</option>
+                        <option value="">Choose a color</option>
                         <!-- Add more color options -->
                     </select>
                 </div>
@@ -45,7 +45,7 @@
                     <label for="aircraft-page-interior-color">Interior Color:</label>
 
                     <select asp-for="@Model.InteriorColorId" class="form-control aircraft-page-size-option" id="aircraft-page-interior-color" asp-items="@(new SelectList(ViewBag.Colors, "ColorId", "Color"))">
-                        <option value="null">Choose a color</option>
+                        <option value="">Choose a color</option>
                         <!-- Add more color options -->
                     </select>
                 </div>
@@ -228,7 +228,7 @@
            //selects the dropdown values
            var selectedInteriorColorId = $('#aircraft-page-exterior-color').val().trim();
            var selectedExteriorColorId = $('#aircraft-page-interior-color').val().trim();
-           var selectedSeatId = "null";
+           var selectedSeatId = "";
 
 
            //disable the seats for the drones
@@ -238,9 +238,9 @@
 
 
            //gets the percentages from the planes
-           var colorPricePrctExter = selectedExteriorColorId !== "null" ? parseInt($(`#aircraft-page-color-price-${selectedExteriorColorId}`).val()) : 0;
-           var colorPricePrctInter = selectedInteriorColorId !== "null" ? parseInt($(`#aircraft-page-color-price-${selectedInteriorColorId}`).val()) : 0;
-           var seatPricePrct = selectedSeatId !== "null" ? parseInt($(`#aircraft-page-seat-price-${selectedSeatId}`).val()) : 0;
+           var colorPricePrctExter = selectedExteriorColorId !== "" ? parseInt($(`#aircraft-page-color-price-${selectedExteriorColorId}`).val()) : 0;
+           var colorPricePrctInter = selectedInteriorColorId !== "" ? parseInt($(`#aircraft-page-color-price-${selectedInteriorColorId}`).val()) : 0;
+           var seatPricePrct = selectedSeatId !== "" ? parseInt($(`#aircraft-page-seat-price-${selectedSeatId}`).val()) : 0;
 
            console.log(colorPricePrctExter);
            console.log(colorPricePrctInter);
