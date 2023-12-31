@@ -211,3 +211,78 @@ main {
     background-color: #ff4242;
     transition: ease-in 0.4s;
 }
+
+/* Order Tracking */
+.order-tracking-container {
+    margin: 20px;
+    padding: 30px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-tracking-heading {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.order-details {
+    margin-bottom: 20px;
+}
+
+.order-details-heading {
+    font-size: 20px;
+    font-weight: 500;
+    color: #17696a;
+    margin-bottom: 10px;
+}
+
+.order-detail {
+    margin-bottom: 10px;
+}
+
+.order-detail-label {
+    font-weight: 600;
+    margin-right: 10px;
+    color: #333;
+}
+
+.order-detail-value {
+    color: #17696a;
+}
+
+.order-tracking-section-heading {
+    font-size: 24px;
+    font-weight: 500;
+    color: #17696a;
+    margin-bottom: 15px;
+}
+
+.order-tracking-step {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s;
+}
+
+.order-tracking-step:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-tracking-step-name {
+    font-weight: 600;
+    color: #17696a;
+    margin-bottom: 10px;
+}
+
+.order-tracking-step-status {
+    color: #333;
+}

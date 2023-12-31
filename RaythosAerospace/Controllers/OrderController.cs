@@ -43,6 +43,11 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
+        public IActionResult OrderTracking()
+        {
+            return View();
+        }
+
         // GET: OrderController/Details/5
         public ActionResult Details(int id)
         {

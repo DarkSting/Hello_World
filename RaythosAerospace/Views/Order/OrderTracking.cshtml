@@ -1,0 +1,84 @@
+﻿@{
+    Layout = "_Layout"; // Assuming you have a shared layout
+    ViewData["Title"] = "Order Tracking - Raythos Aerospace";
+
+    // Dummy data for order details
+    ViewBag.OrderId = "12345";
+    ViewBag.PurchasedAircraft = "Aircraft Model Z";
+    ViewBag.PurchasedDate = "January 20, 2023";
+    ViewBag.AmountPaid = "$1,500,000";
+
+    // Dummy data for manufacturing tracking
+    ViewBag.DesignEngineeringStatus = "In Progress";
+    ViewBag.PrototypingTestingStatus = "Completed";
+    ViewBag.ComponentAssemblyStatus = "Not Started";
+    ViewBag.TestingCertificationStatus = "Pending";
+
+    // Dummy data for shipping tracking
+    ViewBag.OrderProcessingStatus = "Completed";
+    ViewBag.ShippedStatus = "In Progress";
+    ViewBag.DeliveredStatus = "Not Started";
+}
+
+<div class="order-tracking-container">
+    <h2 class="order-tracking-heading">Order Tracking</h2>
+
+    <!-- Order Details Section -->
+    <div class="order-details">
+        <h3 class="order-details-heading">Order Details</h3>
+        <div class="order-detail">
+            <span class="order-detail-label">Order ID:</span>
+            <span class="order-detail-value">@ViewBag.OrderId</span>
+        </div>
+        <div class="order-detail">
+            <span class="order-detail-label">Purchased Aircraft:</span>
+            <span class="order-detail-value">@ViewBag.PurchasedAircraft</span>
+        </div>
+        <div class="order-detail">
+            <span class="order-detail-label">Purchased Date:</span>
+            <span class="order-detail-value">@ViewBag.PurchasedDate</span>
+        </div>
+        <div class="order-detail">
+            <span class="order-detail-label">Amount Paid:</span>
+            <span class="order-detail-value">@ViewBag.AmountPaid</span>
+        </div>
+    </div>
+
+    <!-- Manufacturing Tracking Section -->
+    <div class="order-tracking-manufacturing">
+        <h3 class="order-tracking-section-heading">Manufacturing Tracking</h3>
+        <div class="order-tracking-step" id="order-tracking-design-engineering">
+            <span class="order-tracking-step-name">Design and Engineering</span>
+            <span class="order-tracking-step-status">@ViewBag.DesignEngineeringStatus</span>
+        </div>
+        <div class="order-tracking-step" id="order-tracking-prototyping-testing">
+            <span class="order-tracking-step-name">Prototyping and Testing</span>
+            <span class="order-tracking-step-status">@ViewBag.PrototypingTestingStatus</span>
+        </div>
+        <div class="order-tracking-step" id="order-tracking-component-assembly">
+            <span class="order-tracking-step-name">Component Manufacturing and Assembly</span>
+            <span class="order-tracking-step-status">@ViewBag.ComponentAssemblyStatus</span>
+        </div>
+        <div class="order-tracking-step" id="order-tracking-testing-certification">
+            <span class="order-tracking-step-name">Testing and Certification</span>
+            <span class="order-tracking-step-status">@ViewBag.TestingCertificationStatus</span>
+        </div>
+    </div>
+
+    <!-- Shipping Tracking Section -->
+    <div class="order-tracking-shipping">
+        <h3 class="order-tracking-section-heading">Shipping Tracking</h3>
+        <div class="order-tracking-step" id="order-tracking-order-processing">
+            <span class="order-tracking-step-name">Order Processing</span>
+            <span class="order-tracking-step-status">@ViewBag.OrderProcessingStatus</span>
+        </div>
+        <div class="order-tracking-step" id="order-tracking-shipped">
+            <span class="order-tracking-step-name">Shipped</span>
+            <span class="order-tracking-step-status">@ViewBag.ShippedStatus</span>
+        </div>
+        <div class="order-tracking-step" id="order-tracking-delivered">
+            <span class="order-tracking-step-name">Delivered</span>
+            <span class="order-tracking-step-status">@ViewBag.DeliveredStatus</span>
+        </div>
+    </div>
+</div>
