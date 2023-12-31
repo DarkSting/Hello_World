@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using RaythosAerospace.Models.Repositories.OrderRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 
 namespace RaythosAerospace.Controllers
 {
@@ -19,13 +21,23 @@ namespace RaythosAerospace.Controllers
         private readonly ICustomService _key;
         ILogger<PaymentController> _logger;
         private readonly IAirCraftRepository _airCraftRepo;
-
-        public PaymentController(ICustomService keys, ILogger<PaymentController> logger,IAirCraftRepository airCraftRepository)
+        private readonly OrderController _orderController;
+        private readonly CartController _cartController;
+        private readonly IOrderRepository _orderRepo;
+        private readonly IProductRepository _productRepo;
+        public PaymentController(ICustomService keys, ILogger<PaymentController> logger,IAirCraftRepository airCraftRepository,
+            OrderController orderController,CartController cartController,IOrderRepository orderRepo,IProductRepository  productRepo
+            )
         {
             _key = keys;
             _logger = logger;
             logger.LogDebug(keys.GetPublicKey());
             _airCraftRepo = airCraftRepository;
+            _orderController = orderController;
+            _cartController = cartController;
+            _orderRepo = orderRepo;
+            _productRepo = productRepo;
+
         }
 
 
@@ -42,17 +54,32 @@ namespace RaythosAerospace.Controllers
         public IActionResult ProcessPayment(PaymentModel payment)
         {
 
+            //validating the inputs
+            if (payment.shippingId==null || payment.shippingAddress==null)
+            {
+                payment.aircrafts = null;
+                PaymentModel errorModel = _cartController._prepareDataForLoad(ViewBag, payment.UserId);
+                return View("~/Views/Cart/ViewUserCart.cshtml", errorModel); 
+            }
 
             var currency = "usd"; // Currency code
             var successUrl = "https://localhost:44331/payment/paymentsuccess";
             var cancelUrl = "https://localhost:44331/payment/paymentfailed";
             StripeConfiguration.ApiKey = _key.GetSecretKey();
 
+            //stripe session items
             List<SessionLineItemOptions> items = new List<SessionLineItemOptions>();
 
+            //purchas view model to track details for the order controller
             PurchaseViewModel purchasedet = new PurchaseViewModel();
 
+            //gets shipping model
+            ShippingModel shipmodel = _orderRepo.GetShipping(payment.shippingId);
             //set the id of the client who purchase the products
+
+            purchasedet.UserId = payment.UserId;
+            purchasedet.shippingId = payment.shippingId;
+            purchasedet.shippingAddress = payment.shippingAddress;
 
             try
             {
@@ -62,13 +89,16 @@ namespace RaythosAerospace.Controllers
                     {
 
                         AirCraftModel airCraftModel = _airCraftRepo.Find(current.AirCraft.AircraftId);
+                      
 
                         //adding products for purchases 
                         Models.Repositories.PaymentRepository.Product currentProduct = new Models.Repositories.PaymentRepository.Product
                         {
-                            ProductID = airCraftModel.AircraftId,
+
+                            AirCraftId = airCraftModel.AircraftId,
+                            ProductID = current.ProductId,
                             Count = current.Count,
-                            UnitPrice = Convert.ToInt32(current.ProductTotalCost),
+                            UnitPrice = Convert.ToInt32(current.ProductTotalCost)+shipmodel.ShippingCost,
 
 
                         };
@@ -85,7 +115,7 @@ namespace RaythosAerospace.Controllers
                                 ProductData = new SessionLineItemPriceDataProductDataOptions
                                 {
                                     Name = airCraftModel.AircraftType,
-                                    Description = airCraftModel.AirCraftPrice<currentProduct.UnitPrice?"Customization added":"Standard"
+                                    Description = (airCraftModel.AirCraftPrice<currentProduct.UnitPrice?"Customization added":"Standard")+ "+ Shipping Price Included"
                                 }
                             }
                             ,
@@ -123,6 +153,7 @@ namespace RaythosAerospace.Controllers
                 var session = service.Create(options);
 
                 return Redirect(session.Url);
+
             }
             catch(Exception e)
             {
@@ -135,9 +166,12 @@ namespace RaythosAerospace.Controllers
         public IActionResult PaymentSuccess()
         {
             PurchaseViewModel model = JsonConvert.DeserializeObject<PurchaseViewModel>((TempData["PurchaseData"] as string));
+
             TempData["PurchaseData"] = null;
 
-            return View(model);
+           OrderModel createdOrder =  _orderController.InitiateOrder(model);
+
+            return View(createdOrder);
         }
 
         public IActionResult PaymentFailed()
@@ -146,3 +180,4 @@ namespace RaythosAerospace.Controllers
         }
     } 
 }
+;

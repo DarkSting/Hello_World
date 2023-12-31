@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RaythosAerospace.Controllers;
 using RaythosAerospace.CustomServices;
 // using RaythosAerospace.Keys;
 using RaythosAerospace.Models.Repositories;
@@ -46,7 +47,9 @@ namespace RaythosAerospace
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
-            
+            services.AddScoped<OrderController>();
+            services.AddScoped<CartController>();
+
 
         }
 

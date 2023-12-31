@@ -14,6 +14,7 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
         ProductModel DeleteProduct(string productid);
 
         IList<ProductModel> GetAllProducts();
+        bool AssigningOrderIDsTotheProduct(string orderId, string productId);
 
         IList<ProductModel> GetProductsByUser(string userid);
 

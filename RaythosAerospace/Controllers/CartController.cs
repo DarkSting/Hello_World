@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RaythosAerospace.Models.Repositories.ProductRepository;
-
+using RaythosAerospace.Models.Repositories.OrderRepository;
 
 namespace RaythosAerospace.Controllers
 {
@@ -19,13 +19,17 @@ namespace RaythosAerospace.Controllers
         private readonly ICartRepository _cartRepo;
         private readonly IAirCraftRepository _aircraftRepo;
         private readonly IProductRepository _productRepo;
+        private readonly IOrderRepository _orderRepo;
 
-        public CartController(ICartRepository cartRepo, IAirCraftRepository aircraftRepo,IProductRepository productRepo)
+        public CartController(ICartRepository cartRepo, IAirCraftRepository aircraftRepo,IProductRepository productRepo,
+            IOrderRepository orderRepo
+            )
         {
 
             _cartRepo = cartRepo;
             _aircraftRepo = aircraftRepo;
             _productRepo = productRepo;
+            _orderRepo = orderRepo;
 
         }
 
@@ -115,18 +119,21 @@ namespace RaythosAerospace.Controllers
             return View(_prepareDataForLoad(ViewBag, userid));
         }
 
+      
+
 
         public ViewResult Checkout(PaymentModel model)
         {
             return View("~/Views/Payment/Checkout.cshtml",model);
         }
 
-        private PaymentModel _prepareDataForLoad(dynamic bag,string userid)
+        public PaymentModel _prepareDataForLoad(dynamic bag,string userid)
         {
             //getting the cart and cart items for a given user
             CartModel foundCart = _cartRepo.GetCart(userid);
             Dictionary<string, CheckoutModel> aircrafts = new Dictionary<string, CheckoutModel>();
             IEnumerable<ProductModel> cartitems = _productRepo.GetProductsByUser(userid);
+            IEnumerable<ShippingModel> shippings = _orderRepo.GetShippingMethods();
 
             //iterating the aircrafts and adding them into the dictionary
             foreach(ProductModel current in cartitems)
@@ -162,11 +169,14 @@ namespace RaythosAerospace.Controllers
             bag.Cart = foundCart;
             bag.CartItems = cartitems;
             bag.AirCrafts = aircrafts;
+            bag.Shippings = shippings;
 
             PaymentModel model = new PaymentModel
             {
                 aircrafts = aircrafts,
-                cartitems = cartitems
+                cartitems = cartitems,
+                UserId = userid
+                
             };
 
             return model;

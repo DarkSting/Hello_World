@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using RaythosAerospace.Models.Repositories.InvoiceRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
+using RaythosAerospace.Models.Repositories.PaymentRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
@@ -18,13 +20,17 @@ namespace RaythosAerospace.Controllers
         private readonly IOrderRepository _orderRepo;
         private readonly IAirCraftRepository _airCraftRepo;
         private readonly IUserRepository _userRepo;
+        private readonly IProductRepository _productRepo;
 
 
-        public OrderController(IOrderRepository orderRepo,IAirCraftRepository airCraftRepo,IUserRepository userRepo)
+        public OrderController(IOrderRepository orderRepo,IAirCraftRepository airCraftRepo,IUserRepository userRepo,
+            IProductRepository productRepo
+            )
         {
             _orderRepo = orderRepo;
             _airCraftRepo = airCraftRepo;
             _userRepo = userRepo;
+            _productRepo = productRepo;
         }
         // GET: OrderController
         public ActionResult Index()
@@ -36,6 +42,41 @@ namespace RaythosAerospace.Controllers
         public ActionResult Details(int id)
         {
             return View();
+        }
+
+        public OrderModel InitiateOrder(PurchaseViewModel model)
+        {
+
+            ShippingModel shippingMethod = _orderRepo.GetShipping(model.shippingId);
+
+
+            OrderModel newOrder = new OrderModel
+            {
+                OrderDateTime = DateTime.Now.Date,
+                OrderId = "OD-" + Guid.NewGuid().ToString(),
+                Discounts = 0,
+                ShippingAddress = model.shippingAddress,
+                ShippingId = shippingMethod.ShippingId,
+                ShippingCost = shippingMethod.ShippingCost,
+                TotalAmount = model.totalPrice,
+                EstimatedDeliveryDate = DateTime.Now.AddMonths(3),
+                OrderStatus = OrderStatusEnum.Initiating.ToString(),
+                PaymentMethod = "Online",
+                UserId = model.UserId,
+                Subtotal = model.totalPrice,
+                ShippingMethod = Delivery.TransportByShipping.ToString()
+
+            };
+
+            _orderRepo.Create(newOrder);
+
+            foreach(Product current in model.Products)
+            {
+                _productRepo.AssigningOrderIDsTotheProduct(newOrder.OrderId, current.ProductID);
+            }
+
+            return newOrder;
+
         }
 
         // GET: OrderController/Create

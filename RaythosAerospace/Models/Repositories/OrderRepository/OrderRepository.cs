@@ -50,6 +50,10 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
             return updated;
         }
 
+       public ShippingModel GetShipping(string shippingId)
+        {
+            return _context.Shippings.Find(shippingId);
+        }
         public IEnumerable<ShippingModel> GetShippingMethods()
         {
             return _context.Shippings.ToList();

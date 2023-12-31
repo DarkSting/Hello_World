@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,6 +39,32 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
             return foundproduct;
         }
 
+        
+        public bool AssigningOrderIDsTotheProduct(string orderId,string productId)
+        {
+            ProductModel model = _context.Products.Find(productId);
+
+            model.OrderId = orderId;
+
+            bool recordUpdated = false;
+
+            try
+            {
+
+                EntityEntry changed = _context.Products.Attach(model);
+                changed.State = EntityState.Modified;
+                _context.SaveChanges();
+                recordUpdated = true;
+
+            }catch(Exception e)
+            {
+                recordUpdated = false;
+            }
+
+            return recordUpdated;
+        }
+
+
         public IList<ProductModel> GetAllProducts()
         {
             return _context.Products.ToList();
@@ -46,11 +74,10 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
         {
             return _context.Products.Find(productid);
         }
-    
 
         public IList<ProductModel> GetProductsByUser(string userid)
         {
-            return _context.Products.Where(u => u.UserId == userid).ToList();
+            return _context.Products.Where(u => u.UserId == userid && u.OrderId==null).ToList();
         }
     }
 }
