@@ -5,6 +5,7 @@
     CartModel cart = ViewBag.Cart;
     Dictionary<string, CheckoutModel> aircrafts = ViewBag.AirCrafts;
     double totalprice = 0;
+    double selectedItemsPrice = 0;
     IEnumerable<ShippingModel> shippings = ViewBag.Shippings;
 }
 
@@ -41,7 +42,7 @@
 
             <input type="hidden" asp-for="@Model.aircrafts[current.ProductId].ProductId" />
 
-            <div class="card catalog-card col-10 mt-2 checkout-element-card" id="item-@current.AirCraft.AircraftId" class="cart-item">
+            <div class="card catalog-card col-10 mt-2 checkout-element-card" id="item-@current.AirCraft.AircraftId">
                 <h4>@aircraftdesc</h4>
                 <input type="hidden" id="product-id" value="@current.ProductId" />
                 <p id="item-unit-price-@current.ProductId">Price: @current.AirCraft.AirCraftPrice</p>
@@ -64,6 +65,7 @@
                 </div>
                 <input type="hidden" asp-for="@Model.aircrafts[current.ProductId].AirCraft.AircraftId" />
                 <input type="hidden" asp-for="@Model.aircrafts[current.ProductId].Count" value="@count" id="model-count-@Model.aircrafts[current.ProductId].AirCraft.AircraftId" />
+                <input type="hidden" asp-for="@Model.aircrafts[current.ProductId].Count" value="@count" id="model-count-@current.ProductId" />
 
                 <!--aircraft customizations-->
                 @if (Model.aircrafts[current.ProductId].Seat != null || Model.aircrafts[current.ProductId].ExteriorClr != null || Model.aircrafts[current.ProductId].InteriorClr != null)
@@ -120,7 +122,7 @@
                 <!--select box and remove item-->
                 <div class="row justify-content-end mb-2">
 
-                    <input type="checkbox" asp-for="@Model.aircrafts[current.ProductId].IsSelected" class="form-control col-1" />
+                    <input type="checkbox" id="checkbox:@current.ProductId" asp-for="@Model.aircrafts[current.ProductId].IsSelected" class="form-control col-1 product-check" />
                     <button type="button" class="btn btn-dark mr-2 delete-item" data-itemid="@current.ProductId">Delete<i class="fas fa-trash-alt ml-1"></i></button>
                 </div>
             </div>
@@ -128,7 +130,7 @@
             totalprice += price;
 
         }
-        <div class="space-element"></div>
+        
     </div>
 
 
@@ -153,10 +155,18 @@
                 <input asp-for="@Model.shippingAddress" class="form-control aircraft-page-size-option" />
                 <span asp-validation-for="@Model.shippingAddress" class="text-danger"></span>
             </div>
-            <div class="col-6 justify-content-around">
+            <div class="col-3 justify-content-center">
                 <h3>Total Price</h3>
                 <h4 id="total-price">$ @totalprice</h4>
-                <button type="submit" class="btn btn-secondary ml-2">Checkout</button>
+            </div>
+            <div class="col-12 justify-content-center mt-5 mb-5">
+                <div class="row justify-content-center">
+                    <h5>Selected Items Total Price : </h5>
+                    <h5 class="mr-3" id="selected-total-price">$ @selectedItemsPrice</h5>
+                    <h5>Shipping Cost For Per Flight : </h5>
+                    <h5 class="mr-3" id="selected-shipping-cost"></h5>
+                    <button type="submit" class="btn btn-secondary ml-2">Checkout</button>
+                </div>
             </div>
         </div>
         <input asp-for="@Model.Amount" type="hidden" value="@totalprice" />
@@ -177,8 +187,50 @@
             RemoveCustomization();
             deleteProduct();
             setThePriceForTheCurrentShipping();
+            selectionOfTheProductItems();
 
-            
+            var selectedTotal = 0;
+
+            function selectionOfTheProductItems() {
+
+               
+                parseInt($('#selected-total-price').text().slice(1, $('#selected-total-price').text().length).trim());
+
+                let currentSelectedShippingId = $('#shipping-dropdown').val();
+                
+
+                var shippingPrice = 0;
+
+                if (currentSelectedShippingId !== "") {
+
+                    shippingPrice = parseInt($(`#shipping-id-${currentSelectedShippingId}`));
+                }
+
+                $(".catalog-card input[type='checkbox']").change(function () {
+
+                    var isCheckBoxSelected = $(this).is(":checked");
+                    var checkBoxId = $(this).attr("id");
+                    var selectedProductId = checkBoxId.toString().split(':')[1];
+                    var selectedProductPrice = $(`#item-custom-unit-price-${checkBoxId.toString().split(':')[1]}`).val();
+                    let productCount = $(`#model-count-${selectedProductId}`).val()
+                    //item-custom-unit-price
+                    if (isCheckBoxSelected) {
+                        var checkboxId = $(this).attr("id");
+
+                        selectedTotal = selectedTotal + (selectedProductPrice * productCount);
+                       
+                    } else {
+
+                        selectedTotal = selectedTotal - (selectedProductPrice * productCount)
+                        
+                    }
+
+
+                    $('#selected-total-price').text(`$ ${selectedTotal}`)
+
+                });
+
+            }
 
 
             //set shipping price according to the selected shipping method
@@ -205,6 +257,8 @@
 
                     let currentVal = $('#shipping-dropdown').val() === "" ? 0 : parseInt($(`#shipping-id-${selectedValue}`).val());
                     //deducting the previous price before new price is subtracted
+
+                    $('#selected-shipping-cost').text(currentVal);
 
                     if (currentVal != previousVal) {
                         currentTotal = currentTotal - previousVal;

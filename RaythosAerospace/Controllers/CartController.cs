@@ -145,6 +145,7 @@ namespace RaythosAerospace.Controllers
                     CustomizationModel customization = _aircraftRepo.GetCustomization(product.CustomizationId);
 
 
+
                     CheckoutModel temp = new CheckoutModel
                     {
                         AirCraft = foundAirCraft,
@@ -153,9 +154,9 @@ namespace RaythosAerospace.Controllers
                         Customization = customization,
                         ProductTotalCost = _aircraftRepo.CalculateTotalPriceForAirCraft(current),
                         Count = current.Count,
-                        ExteriorClr = _aircraftRepo.GetColor(customization.ExteriorColorId),
-                        InteriorClr = _aircraftRepo.GetColor(customization.InteriorColorId),
-                        Seat = _aircraftRepo.GetSeat(customization.SeatId)
+                        ExteriorClr =  _aircraftRepo.GetColor(customization==null?null:customization.ExteriorColorId),
+                        InteriorClr = _aircraftRepo.GetColor(customization == null ? null : customization.InteriorColorId),
+                        Seat = _aircraftRepo.GetSeat(customization == null ? null : customization.SeatId)
 
 
                     };
