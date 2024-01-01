@@ -25,6 +25,22 @@ namespace RaythosAerospace.Models.Repositories.AdminRepository
             return foundAdmin.FullName;
         }
 
+        public AdminModel GetAdmin(string email)
+        {
+            AdminModel foundModel = null;
+
+            try
+            {
+               foundModel =  _context.Admins.FirstOrDefault(a => a.Email == email);
+
+            }catch(Exception e)
+            {
+                foundModel = null;
+            }
+
+            return foundModel;
+        }
+
         public string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);

@@ -21,5 +21,7 @@ namespace RaythosAerospace.Models.Repositories.AdminRepository
         string HashPassword(string password);
 
         bool VerifyPassword(string inputPassword, string hashedPassword);
+
+        AdminModel GetAdmin(string email);
     }
 }

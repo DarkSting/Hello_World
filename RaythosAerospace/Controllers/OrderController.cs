@@ -27,13 +27,26 @@ namespace RaythosAerospace.Controllers
             IProductRepository productRepo
             )
         {
+
             _orderRepo = orderRepo;
             _airCraftRepo = airCraftRepo;
             _userRepo = userRepo;
             _productRepo = productRepo;
+
         }
         // GET: OrderController
         public ActionResult Index()
+        {
+           
+            return View();
+        }
+
+        public IActionResult ViewOrders()
+        {
+            return View();
+        }
+
+        public IActionResult ViewAnOrderForUser(string orderId)
         {
             return View();
         }
@@ -42,6 +55,63 @@ namespace RaythosAerospace.Controllers
         public ActionResult Details(int id)
         {
             return View();
+        }
+
+        public IActionResult OrderHistory()
+        {
+            string userid = "U0001";
+            IList<OrderModel> foundOrders = _orderRepo.GetAllOrdersForAUser(userid);
+            Dictionary<string, IList<ProductModel>> orderDesc = new Dictionary<string, IList<ProductModel>>();
+            
+            //iterating each order and getting the products related to the order
+            foreach(OrderModel current in foundOrders)
+            {
+               
+                orderDesc.Add(current.OrderId, new List<ProductModel>());
+                IList<ProductModel> foundProducts = _productRepo.GetProductsByUser(userid);
+
+                //iterating the aircrafts and assign their ids to the aircraft products
+                foreach(ProductModel currentProduct in foundProducts)
+                {
+                    currentProduct.AirCraft = new AirCraftModel();
+                    currentProduct.AirCraft.AircraftType = _airCraftRepo.Find(currentProduct.AirCraftId).AircraftType;
+                }
+
+                orderDesc[current.OrderId] = foundProducts;
+
+            }
+
+            OrderDTO orderDTO = new OrderDTO
+            {
+                orders = foundOrders,
+                orderdesc = orderDesc
+            };
+
+            return View(orderDTO);
+        }
+
+        public IActionResult OrderTracking(string orderId)
+        {
+
+
+            OrderModel foundOrder = _orderRepo.Find(orderId);
+            IList<ProductModel> productDesc = new List<ProductModel>();
+          
+            //iterating the aircrafts and assign them to the aircraft products
+            foreach (ProductModel currentProduct in productDesc)
+            {
+                currentProduct.AirCraft = _airCraftRepo.Find(currentProduct.AirCraftId);
+                currentProduct.Customize = _airCraftRepo.GetCustomization(currentProduct.CustomizationId);
+            }
+
+
+            OrderDetailsDTO orderDTO = new OrderDetailsDTO
+            {
+                order = foundOrder,
+                products = productDesc
+            };
+
+            return View(orderDTO);
         }
 
         public OrderModel InitiateOrder(PurchaseViewModel model)

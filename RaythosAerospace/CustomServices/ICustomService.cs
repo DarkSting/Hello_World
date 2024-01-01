@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RaythosAerospace.Keys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,5 +11,7 @@ namespace RaythosAerospace.CustomServices
         void ReadKeys();
         string GetPublicKey();
         string GetSecretKey();
+
+        JWTSettingsModel GetJWTSettings();
     }
 }

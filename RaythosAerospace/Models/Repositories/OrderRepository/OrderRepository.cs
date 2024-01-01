@@ -36,6 +36,23 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
             return foundModel;
         }
 
+        //Get All orders for a user
+        public IList<OrderModel> GetAllOrdersForAUser(string userid)
+        {
+            IList<OrderModel> foundList = null;
+            try
+            {
+                foundList = _context.Orders.Where(u => u.UserId == userid).ToList();
+            }
+            catch(Exception e)
+            {
+                foundList = null;
+            }
+             
+
+            return foundList;
+        }
+
         public OrderModel Find(string id)
         {
             return _context.Orders.FirstOrDefault(o => o.OrderId == id);

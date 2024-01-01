@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RaythosAerospace.Models.Repositories.AdminRepository;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,11 @@ namespace RaythosAerospace.Controllers
     public class AdminController : Controller
     {
         private readonly IAdminRepository _adminRepo;
-
-        public AdminController(IAdminRepository adminrepo)
+        private readonly JWTController _jwt;
+        public AdminController(IAdminRepository adminrepo,JWTController jwt)
         {
             _adminRepo = adminrepo;
+            _jwt = jwt;
         }
 
         // GET: /Admin/Register
@@ -47,12 +50,15 @@ namespace RaythosAerospace.Controllers
 
             if (isValid)
             {
-                // Successful login logic (e.g., set authentication cookie, redirect, etc.)
+                string token = _jwt.AssignToken(viewmodel.Email);
+                _jwt.AttachToken(token, Response.Cookies);
+
+
                 return RedirectToAction("Index", "Home"); // Redirect to a dashboard or home page
             }
             else
             {
-                // Handle invalid login (e.g., return to login page with error message)
+                
                 ModelState.AddModelError(string.Empty, "Invalid login attempt");
                 return View(viewmodel);
             }

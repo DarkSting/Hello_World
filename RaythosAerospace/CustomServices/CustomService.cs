@@ -23,6 +23,11 @@ namespace RaythosAerospace.CustomServices
 
         }
 
+        public JWTSettingsModel GetJWTSettings()
+        {
+           return _key.JWTsettings;
+        }
+
         public string GetPublicKey()
         {
             return _key.publicKey;
