@@ -16,46 +16,14 @@ namespace RaythosAerospace.Controllers
             _adminRepo = adminrepo;
         }
 
-        // GET: /Admin/Register
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        // POST: /Admin/Register
-        [HttpPost]
-        public IActionResult Register(AdminModel admin)
-        {
-            _adminRepo.RegisterAdmin(admin,admin.Password);
-            return RedirectToAction("Login");
-        }
-
-        // GET: /Admin/Login
-        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /Admin/Login
-        [HttpPost]
-        public IActionResult Login(AdminViewModel viewmodel)
+        public IActionResult Dashboard()
         {
-
-            bool isValid = _adminRepo.ValidateLogin(viewmodel.Email, viewmodel.Password);
-
-            if (isValid)
-            {
-                // Successful login logic (e.g., set authentication cookie, redirect, etc.)
-                return RedirectToAction("Index", "Home"); // Redirect to a dashboard or home page
-            }
-            else
-            {
-                // Handle invalid login (e.g., return to login page with error message)
-                ModelState.AddModelError(string.Empty, "Invalid login attempt");
-                return View(viewmodel);
-            }
+            return View();
         }
     }
 }

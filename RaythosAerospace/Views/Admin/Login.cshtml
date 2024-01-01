@@ -1,16 +1,21 @@
-﻿@model AdminViewModel
+﻿@{
+    Layout = "_AdminHome";
+    ViewData["Title"] = "Raythos Aerospace - Administrator Login";
+}
 
-<form asp-action="Login" method="post">
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
+<section class="container mt-4">
+    <div class="login-container text-center">
+        <h2 class="display-4 mb-4">Administrator Login</h2>
+        <form class="login-form">
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" class="form-control custom-input login-form-input mx-auto" id="loginEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" class="form-control custom-input login-form-input mx-auto" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn btn-primary login-form-button mx-auto">Login</button>
+        </form>
     </div>
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
-    </div>
-    <button type="submit">Login</button>
-
-    <!-- Display validation errors -->
-    <div asp-validation-summary="All" class="text-danger"></div>
-</form>
+</section>

@@ -200,6 +200,7 @@ main {
 
 .order-history-track-button {
     background-color: #17696a;
+    text-align: center;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -208,8 +209,10 @@ main {
 }
 
 .order-history-track-button:hover {
+    text-decoration: none;
     background-color: #ff4242;
     transition: ease-in 0.4s;
+    color: white;
 }
 
 /* Order Tracking */

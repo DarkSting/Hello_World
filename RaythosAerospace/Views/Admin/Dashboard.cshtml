@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Administrator Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="display-4">Welcome Back!</h2>
+
+    <div class="row mt-4">
+        <!-- Admin Registration -->
+        <div class="col-lg-4 mb-4">
+            <div class="card admin-dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Admin Registration</h5>
+                    <p class="card-text">Register new administrators.</p>
+                    <a href="@Url.Action("AdminRegistration", "Admin")" class="btn btn-primary">Go to Admin Registration</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aircraft Management -->
+        <div class="col-lg-4 mb-4">
+            <div class="card admin-dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Aircraft Management</h5>
+                    <p class="card-text">Manage aircrafts.</p>
+                    <a href="@Url.Action("AircraftManagement", "Admin")" class="btn btn-primary">Go to Aircraft Management</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Management -->
+        <div class="col-lg-4 mb-4">
+            <div class="card admin-dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Inventory Management</h5>
+                    <p class="card-text">Manage inventory details.</p>
+                    <a href="#" class="btn btn-primary">Go to Inventory Management</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Management -->
+        <div class="col-lg-4 mb-4">
+            <div class="card admin-dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Order Management</h5>
+                    <p class="card-text">Manage customer orders.</p>
+                    <a href="#" class="btn btn-primary">Go to Order Management</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Management -->
+        <div class="col-lg-4 mb-4">
+            <div class="card admin-dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Customer Management</h5>
+                    <p class="card-text">Manage customer information.</p>
+                    <a href="#" class="btn btn-primary">Go to Customer Management</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile -->
+        <div class="col-lg-4 mb-4">
+            <div class="card admin-dashboard-card">
+                <div class="card-body">
+                    <h5 class="card-title">Profile</h5>
+                    <p class="card-text">View and update your profile.</p>
+                    <a href="#" class="btn btn-primary">Go to Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿.admin-dashboard-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+    background-color: #D8D8D8;
+}
+
+.admin-dashboard-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-dashboard-card .card-body {
+    padding: 30px;
+}
+
+.admin-dashboard-card .card-title {
+    font-weight: 600;
+    color: #17696a;
+    font-size: 1.2rem;
+}
+
+.admin-dashboard-card .card-text {
+    color: #555;
+}
+
+.admin-dashboard-card .btn-primary {
+    background-color: #17696a;
+    padding: 10px;
+    border: none;
+    width: 250px;
+}
