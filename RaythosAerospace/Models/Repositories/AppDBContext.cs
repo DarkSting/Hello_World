@@ -141,6 +141,8 @@ namespace RaythosAerospace.Models.Repositories
                .WithOne(i => i.Invoice)
                .HasForeignKey<InvoiceModel>(o => o.OrderId);
 
+
+
             ////////////////////////////////////////////////////////////////////
 
             /////////////////// cart item table //////////////////////////////
@@ -230,7 +232,10 @@ namespace RaythosAerospace.Models.Repositories
             EngineModel[] engines = new EngineModel[8];
             SeatModel[] seats = new SeatModel[5];
             ColorModel[] colors = new ColorModel[paints.Length];
-    
+            AirCraftModel[] airCrafts = new AirCraftModel[5];
+
+
+
 
             for (int i = 0; i < engines.Length; i++)
             {

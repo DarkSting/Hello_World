@@ -157,8 +157,17 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public void RemoveCustomization(string customizationid)
         {
             CustomizationModel foundCustomization = GetCustomization(customizationid);
-            _context.Customization.Remove(foundCustomization);
-            _context.SaveChanges();
+
+            try
+            {
+                _context.Customization.Remove(foundCustomization);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            
         }
 
         public void UpdateCustomization(RemoveElementDTO item)

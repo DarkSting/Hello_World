@@ -79,5 +79,20 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
         {
             return _context.Products.Where(u => u.UserId == userid && u.OrderId==null).ToList();
         }
+
+
+        //reducing the count for a product
+        public void ReduceProductCountByOne(string productId)
+        {
+            ProductModel foundProduct = _context.Products.Find(productId);
+
+            foundProduct.Count--;
+
+            EntityEntry changed =_context.Products.Attach(foundProduct);
+            changed.State = EntityState.Modified;
+
+            _context.SaveChanges();
+
+        }
     }
 }

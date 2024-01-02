@@ -22,8 +22,8 @@
             <img src="~/images/aircraft-a320.jpg" class="card-img-top catalog-card-img" alt="Aircraft Model 1">
             <div class="card-body">
                 <h5 class="card-title">@current.Manufacturer</h5>
-                <h6 class="card-title">@current.AircraftType</h6>
-                <p class="card-text">Starting from @current.AirCraftPrice</p>
+                <h6 class="card-title">AirCraft Type : @current.AircraftType</h6>
+                <p class="card-text">Starting from USD - @current.AirCraftPrice</p>
                 @if (current.ItemCount > 0)
                 {
                     <p class="card-text"><strong>Availability:</strong> In Stock</p>
@@ -33,7 +33,7 @@
                     <p class="card-text text-danger"><strong class="text-dark">Availability:</strong> Out of Stock</p>
                 }
 
-                <p class="card-text">Color : @current.Color</p>
+                <p class="card-text">Color : Customizations available</p>
                 <p class="card-text"><strong>Total Sold:</strong> 50</p>
                 <a href="/AirCraft/AircraftPage?airCraftId=@current.AircraftId" class="btn btn-primary">View Details</a>
             </div>

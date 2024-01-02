@@ -72,6 +72,7 @@
                     {
                         <input type="hidden" id="aircraft-page-seat-price-@((currentcolor as SeatModel).SeatID)" value="@((currentcolor as SeatModel).UnitPrice)" />
                     }
+
                 }
 
 
@@ -170,6 +171,7 @@
        {
 
            var instockcount = @Model.aircraft.ItemCount;
+           var globalTotalPrice = 0;
 
            //controls the count 
            listenToCountChange()
@@ -225,6 +227,7 @@
        function updateTotalCost() {
            var totalprice = @Model.aircraft.AirCraftPrice;
 
+           console.log(totalprice);
            //selects the dropdown values
            var selectedInteriorColorId = $('#aircraft-page-exterior-color').val().trim();
            var selectedExteriorColorId = $('#aircraft-page-interior-color').val().trim();

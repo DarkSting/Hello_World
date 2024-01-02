@@ -57,6 +57,7 @@
                 <!--unit price-->
                 <input type="hidden" asp-for="@current.AirCraft.AircraftType" />
                 <input type="hidden" value="@(price/count)" id="item-price-@current.AirCraft.AircraftId" />
+                <input type="hidden" id="aircraft-product-id-@current.AirCraft.AircraftId" value="@current.ProductId"/>
                 <!--air craft details-->
                 <div class="d-flex flex-row align-items-start">
                     <button class="btn btn-secondary btn-danger mr-2 item-button-decrease-count" data-itemid="@current.AirCraft.AircraftId" type="button">-</button>
@@ -237,21 +238,12 @@
             function setThePriceForTheCurrentShipping() {
 
 
-                let currentTotal = parseFloat($('#total-price').text().slice(1, $('#total-price').text().length).trim())
-
-                let currentSelectedShippingId = $('#shipping-dropdown').val();
-
-
-                if (currentSelectedShippingId !== "") {
-
-                    previousVal = parseInt($(`#shipping-id-${currentSelectedShippingId}`));
-                    console.log("shipping id is not null")
-                }
-                else {
-                    previousVal = 0;
-                }
 
                 $('#shipping-dropdown').change(function () {
+
+                    let currentTotal = parseFloat($('#total-price').text().slice(1, $('#total-price').text().length).trim())
+
+                    console.log(currentTotal);
         
                     var selectedValue = $(this).val();
 
@@ -263,6 +255,7 @@
                     if (currentVal != previousVal) {
                         currentTotal = currentTotal - previousVal;
                         currentTotal = currentTotal + currentVal;
+                        console.log(currentTotal);
                         previousVal = currentVal;
                         $('#total-price').text(`$ ${currentTotal}`);
                     }
@@ -415,12 +408,18 @@
                     })
                     ,
                     success: function (response) {
-                        console.log(response.msg)
+                        var res = JSON.parse(response);
+                        $('#messageBoxLabel').text('Success');
+                        $('.modal-body').html('<p>Success: ' + res.msg + '</p>');
+                        $('#messageBox').modal('show');
                         location.reload();
 
                     },
                     error: function (error) {
-                        console.log(error.message);
+                        var res = JSON.parse(error);
+                        $('#messageBoxLabel').text('Error Modal');
+                        $('.modal-body').html('<p>Error: ' + res.msg + '</p>');
+                        $('#messageBox').modal('show');
                     }
                 })
 
@@ -444,14 +443,20 @@
 
                     }
                     else {
-                        //re-evaluating the total
+                        //re-evaluating the total 
                         $(`#item-count-${itemdata}`).text((prevcount - 1).toString());
                         let totalprice = parseFloat($('#total-price').text().slice(1, $('#total-price').text().length).trim());
                         console.log($(`#item-price-${itemdata}`).val());
                         totalprice -= parseFloat($(`#item-price-${itemdata}`).val())
                         $('#total-price').text('$ ' + totalprice.toString());
 
+                        var productIdForAircraft = $(`#aircraft-product-id-${itemdata}`).val()
+
                         $(`#model-count-${itemdata}`).val(prevcount - 1)
+                        $(`#model-count-${productIdForAircraft}`).val(prevcount - 1)
+
+                        console.log($(`#model-count-${productIdForAircraft}`).val());
+                        console.log($(`#model-count-${itemdata}`).val());
 
                         //animating the element when removing
                         $(this).prop('disabled', true);
@@ -465,25 +470,12 @@
                         }, 850);
 
                         //update the database
-                        //reduceCountDeleteAJAX(itemdata);
+                        reduceCountDeleteAJAX(productIdForAircraft);
                     }
 
                 })
             }
 
-            //scroll function
-            function scrollEffect() {
-                $(window).scroll(function () {
-                    var element = $("#stickyElement");
-                    var scrollTop = $(window).scrollTop();
-
-                    if (scrollTop > element.offset().top) {
-                        element.addClass("fixed");
-                    } else {
-                        element.removeClass("fixed");
-                    }
-                });
-            }
 
             //reduces the item count
             function reduceCountDeleteAJAX(itemdata) {
@@ -494,13 +486,18 @@
                         method: 'DELETE',
                         success: function (response) {
 
-                            console.log(response);
+                            console.log(response.msg);
+                            var res = JSON.parse(response);
+                            $('#messageBoxLabel').text('Success');
+                            $('.modal-body').html('<p>Success: ' + res.msg + '</p>');
+                            $('#messageBox').modal('show');
 
 
                         },
                         error: function (error) {
+                            var res = JSON.parse(error);
                             $('#messageBoxLabel').text('Error Modal');
-                            $('.modal-body').html('<p>Error: ' + error.message + '</p>');
+                            $('.modal-body').html('<p>Error: ' + res.msg + '</p>');
                             $('#messageBox').modal('show');
                         }
                     });

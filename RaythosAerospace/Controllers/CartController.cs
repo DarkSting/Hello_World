@@ -207,12 +207,11 @@ namespace RaythosAerospace.Controllers
        [HttpDelete]
         public IActionResult ReduceItemCount(string itemid)
         {
-            CartItemModel deleted = _cartRepo.RemoveCartItemByAirCraftTag(itemid);
-            AirCraftModel deletedAirCraft = _aircraftRepo.Find(deleted.AirCraftId);
+            _productRepo.ReduceProductCountByOne(itemid);
 
             var message = new
             {
-                msg = $"{deletedAirCraft.AircraftType} is removed from the cart"
+                msg = $"{itemid} is removed from the cart"
 
             };
 
@@ -226,9 +225,10 @@ namespace RaythosAerospace.Controllers
 
             _aircraftRepo.UpdateCustomization(model);
 
+
             var message = new
             {
-                msg = $"customization successfully removed"
+                msg = $"{model.customtype} customization successfully removed"
             };
 
             return Ok(JsonConvert.SerializeObject(message));
