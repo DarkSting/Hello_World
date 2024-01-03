@@ -34,6 +34,18 @@ namespace RaythosAerospace.Controllers
             return RedirectToAction("Login");
         }
 
+        [HttpGet]
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult AircraftManagement()
+        {
+            return View();
+        }
+
         // GET: /Admin/Login
         [HttpGet]
         public IActionResult Login()
@@ -54,7 +66,7 @@ namespace RaythosAerospace.Controllers
                 _jwt.AttachToken(token, Response.Cookies);
 
 
-                return RedirectToAction("Index", "Home"); // Redirect to a dashboard or home page
+                return RedirectToAction("Dashboard"); // Redirect to a dashboard or home page
             }
             else
             {

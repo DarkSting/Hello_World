@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
@@ -21,10 +22,11 @@ namespace RaythosAerospace.Controllers
         private readonly IAirCraftRepository _airCraftRepo;
         private readonly IUserRepository _userRepo;
         private readonly IProductRepository _productRepo;
+        private readonly JWTController _jwtController;
 
 
         public OrderController(IOrderRepository orderRepo,IAirCraftRepository airCraftRepo,IUserRepository userRepo,
-            IProductRepository productRepo
+            IProductRepository productRepo, JWTController jwtController
             )
         {
 
@@ -32,6 +34,7 @@ namespace RaythosAerospace.Controllers
             _airCraftRepo = airCraftRepo;
             _userRepo = userRepo;
             _productRepo = productRepo;
+            _jwtController = jwtController;
 
         }
         // GET: OrderController
@@ -57,10 +60,21 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
+        [HttpGet]
+
         public IActionResult OrderHistory()
         {
-            string userid = "U0001";
-            IList<OrderModel> foundOrders = _orderRepo.GetAllOrdersForAUser(userid);
+
+
+            UserModel userModel = _jwtController.GetUserFromTheCookies("JWT",Request);
+
+            if (userModel==null){
+
+                return View("~/Views/Shared/Error.cshtml");
+            }
+
+            
+            IList<OrderModel> foundOrders = _orderRepo.GetAllOrdersForAUser(userModel.UserId);
             Dictionary<string, IList<ProductModel>> orderDesc = new Dictionary<string, IList<ProductModel>>();
             
             //iterating each order and getting the products related to the order
@@ -68,7 +82,7 @@ namespace RaythosAerospace.Controllers
             {
                
                 orderDesc.Add(current.OrderId, new List<ProductModel>());
-                IList<ProductModel> foundProducts = _productRepo.GetProductsByUser(userid);
+                IList<ProductModel> foundProducts = _productRepo.GetProductsByUser(userModel.UserId);
 
                 //iterating the aircrafts and assign their ids to the aircraft products
                 foreach(ProductModel currentProduct in foundProducts)

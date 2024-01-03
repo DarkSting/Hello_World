@@ -11,7 +11,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark align-items-center">
-        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+        <a class="navbar-brand" href="@Url.Action("Login", "Admin")">
             <img src="~/images/raythos-aerospace-logo.png" alt="Raythos Aerospace Logo" class="img-fluid logo-img" />
             <span class="ml-1">Raythos Aerospace</span>
         </a>
@@ -21,19 +21,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                    <a class="nav-link" href="@Url.Action("Login", "Admin")">Login</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Registration", "Home")">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Login", "Home")">User Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Login", "Admin")">Admin Login</a>
-                </li>
-               
-
             </ul>
         </div>
     </nav>

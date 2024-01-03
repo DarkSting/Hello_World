@@ -9,7 +9,23 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
     {
         void Insert(UserModel user);
 
-        UserModel Find(string id);
+        UserModel Find(string nic);
+
+        UserModel GetUserByEmail(string email);
+
+        void RegisterUser(UserModel model,string password);
+
+        void UpdateUser(UserModel model);
+
+        bool UpdatePassword(string email, string password, string oldpassword);
+
+        string DeleteUser(string nic);
+
+        bool ValidateLogin(string email, string password);
+        string HashPassword(string password);
+
+        bool VerifyPassword(string inputPassword, string hashedPassword);
+
         int GetCount();
     }
 }

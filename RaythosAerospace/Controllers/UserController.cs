@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,22 +10,47 @@ namespace RaythosAerospace.Controllers
 {
     public class UserController : Controller
     {
+
+
+        private readonly IUserRepository _userRepo;
+        private readonly JWTController _jwt;
+
+        public UserController(IUserRepository userRepo,JWTController jwt)
+        {
+            _userRepo = userRepo;
+            _jwt = jwt;
+        }
         // GET: UserController
         public IActionResult Dashboard()
         {
             return View();
         }
 
-        // GET: UserController/Details/5
-        public ViewResult Details(int id)
+        public IActionResult Login(UserModel user,IResponseCookies cookies)
         {
-            return View();
+
+            bool isValid = _userRepo.ValidateLogin(user.Email,user.Password);
+            if (isValid)
+            {
+                string token = _jwt.AssignToken(user.Email);
+                _jwt.AttachToken(token, cookies);
+
+
+                return RedirectToAction("Dashboard","User"); 
+            }
+            else
+            {
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt");
+                return View();
+            }
+
         }
 
-        // GET: UserController/Create
-        public IActionResult Create()
+        public IActionResult Register(UserModel user)
         {
-            return View();
+            _userRepo.RegisterUser(user,user.Password);
+            return View("Login");
         }
 
         public ViewResult Success()
@@ -34,7 +60,6 @@ namespace RaythosAerospace.Controllers
 
         // POST: UserController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
             try

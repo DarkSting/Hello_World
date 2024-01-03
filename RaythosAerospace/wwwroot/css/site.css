@@ -1,23 +1,17 @@
 ﻿/* Common */
 body {
-
     background-color: #E8E6E8;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-
 }
 
 main {
-
     flex: 1;
-
 }
 
 .logo-img {
-
     max-height: 30px;
-
 }
 
 .nav-profile-icon {
@@ -93,34 +87,34 @@ main {
     gap: 12px;
 }
 
-.aircraft-page-small-card img {
-    width: 100px;
-    height: 100px;
-    border-radius: 4px;
-    cursor: pointer;
-}
+    .aircraft-page-small-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 
 .aircraft-page-product-info {
     width: 60%;
 }
 
-.aircraft-page-product-info h3 {
-    font-size: 32px;
-    font-weight: 600;
-}
+    .aircraft-page-product-info h3 {
+        font-size: 32px;
+        font-weight: 600;
+    }
 
-.aircraft-page-product-info h4 {
-    font-size: 22px;
-    font-weight: 500;
-    color: #ff4242;
-    margin: 6px 0;
-}
+    .aircraft-page-product-info h4 {
+        font-size: 22px;
+        font-weight: 500;
+        color: #ff4242;
+        margin: 6px 0;
+    }
 
-.aircraft-page-product-info p {
-    color: #424551;
-    margin: 15px 0;
-    width: 70%;
-}
+    .aircraft-page-product-info p {
+        color: #424551;
+        margin: 15px 0;
+        width: 70%;
+    }
 
 .aircraft-page-size-option {
     width: 300px;
@@ -136,10 +130,10 @@ main {
     font-weight: 600;
 }
 
-.aircraft-page-buy-button:hover {
-    background: #ff4242;
-    transition: ease-in 0.4s;
-}
+    .aircraft-page-buy-button:hover {
+        background: #ff4242;
+        transition: ease-in 0.4s;
+    }
 
 .aircraft-details-grid {
     display: grid;
@@ -189,9 +183,9 @@ main {
     transition: box-shadow 0.3s;
 }
 
-.order-history-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .order-history-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
 .order-history-details {
     margin-bottom: 10px;
@@ -214,12 +208,12 @@ main {
     cursor: pointer;
 }
 
-.order-history-track-button:hover {
-    text-decoration: none;
-    background-color: #ff4242;
-    transition: ease-in 0.4s;
-    color: white;
-}
+    .order-history-track-button:hover {
+        text-decoration: none;
+        background-color: #ff4242;
+        transition: ease-in 0.4s;
+        color: white;
+    }
 
 /* Order Tracking */
 .order-tracking-container {
@@ -282,9 +276,9 @@ main {
     transition: box-shadow 0.3s;
 }
 
-.order-tracking-step:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+    .order-tracking-step:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
 .order-tracking-step-name {
     font-weight: 600;

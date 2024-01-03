@@ -6,14 +6,13 @@
     <title>@ViewData["Title"]</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/custom.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark align-items-center">
-        <a class="navbar-brand" href="@Url.Action("Index", "User")">
+        <a class="navbar-brand" href="@Url.Action("Dashboard", "Admin")">
             <img src="~/images/raythos-aerospace-logo.png" alt="Raythos Aerospace Logo" class="img-fluid logo-img" />
             <span class="ml-1">Raythos Aerospace</span>
         </a>
@@ -22,16 +21,24 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <!--
-    <li class="nav-item active">
-        <a class="nav-link" href="@Url.Action("Index", "User")">Dashboard</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="@Url.Action("AircraftCatalog", "AirCraft")">Aircraft Catalog</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="@Url.Action("OrderHistory", "Order")">Order History</a>
-    </li>-->
+                <li class="nav-item active">
+                    <a class="nav-link" href="@Url.Action("Dashboard", "Admin")">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("AdminRegistration", "Admin")">Admin Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("AircraftManagement", "Admin")">Aircraft Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Inventory Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Order Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Customer Management</a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">

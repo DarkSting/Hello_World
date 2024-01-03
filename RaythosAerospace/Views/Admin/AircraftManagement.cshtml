@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Aircraft Management";
+}
+
+<section>
+    <div class="aircraft-management-container text-center">
+        <!-- Hero Banner with Aircraft Image -->
+        <div class="aircraft-management-hero-banner">
+            <img src="~/images/aircrafts.jpg" alt="Aircraft Image" class="img-fluid aircraft-management-hero-img">
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="aircraft-management-buttons-section mt-4">
+            <h2 class="display-4 mb-4">Aircraft Management</h2>
+            <div class="row">
+                <!-- Add Aircraft Button -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card aircraft-management-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Add an Aircraft</h5>
+                            <p class="card-text">Click here to add a new aircraft.</p>
+                            <a href="@Url.Action("AddAircraft", "Admin")" class="btn btn-primary aircraft-management-btn">Add Aircraft</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Aircrafts Button -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card aircraft-management-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Manage Aircrafts</h5>
+                            <p class="card-text">Click here to view and manage existing aircrafts.</p>
+                            <a href="@Url.Action("ManageAircrafts", "Admin")" class="btn btn-primary aircraft-management-btn">Manage Aircrafts</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

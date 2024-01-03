@@ -80,9 +80,9 @@ main {
     margin-bottom: 10px;
 }
 
-.already-have-account a:hover {
-    text-decoration: none;
-}
+    .already-have-account a:hover {
+        text-decoration: none;
+    }
 
 .text-danger {
     color: #dc3545;
@@ -122,6 +122,6 @@ main {
     margin-bottom: 10px;
 }
 
-.do-not-have-account a:hover {
-    text-decoration: none;
-}
+    .do-not-have-account a:hover {
+        text-decoration: none;
+    }

@@ -72,7 +72,8 @@ namespace RaythosAerospace
             services.AddScoped<OrderController>();
             services.AddScoped<CartController>();
             services.AddScoped<JWTController>();
-            
+            services.AddScoped<UserController>();
+
 
 
         }

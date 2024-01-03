@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RaythosAerospace.CustomServices;
+using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,10 +18,12 @@ namespace RaythosAerospace.Controllers
     {
 
         private readonly ICustomService _customservice;
+        private readonly IUserRepository _userRepo;
 
-        public JWTController(ICustomService customservice)
+        public JWTController(ICustomService customservice, IUserRepository userRepo)
         {
             _customservice = customservice;
+            _userRepo = userRepo;
         }
         public IActionResult Index()
         {
@@ -34,6 +37,36 @@ namespace RaythosAerospace.Controllers
             TokenExpired
         }
 
+        public UserModel GetUserFromTheCookies(string key,HttpRequest request)
+        {
+            string token = GetCookieValue(key, request);
+
+            if (string.IsNullOrEmpty(token))
+            {
+
+                return null;
+            }
+
+            string email = GetLoggedUser(token);
+
+            UserModel userModel = _userRepo.GetUserByEmail(email);
+
+            return userModel;
+        }
+
+        public string GetCookieValue(string key,HttpRequest request)
+        {
+            string cookieVal =  request.Cookies[key];
+
+            if (string.IsNullOrEmpty(cookieVal))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return cookieVal;
+            }
+        }
 
         public void AttachToken(string token, IResponseCookies Cookies)
         {
@@ -53,7 +86,7 @@ namespace RaythosAerospace.Controllers
             var token = handler.ReadJwtToken(accessToken);
 
 
-            var userIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
+            var userIdClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
             if (userIdClaim != null)
             {
                 string userId = userIdClaim.Value as string;

@@ -12,8 +12,8 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
     public class UserModel
     {
         [Key]
-        [Required(ErrorMessage = "Please provide the User ID")]
-        [Display(Name = "Invoice Status")]
+        [Required(ErrorMessage = "Please provide the NIC number")]
+        [Display(Name = "NIC")]
         public string UserId { get; set; }
 
         [Required(ErrorMessage = "Please provide the name")]
@@ -23,6 +23,19 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
         [Required(ErrorMessage = "Please provide the email")]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Please provide the date of birth")]
+        [Display(Name = "Date Of Birth")]
+        public DateTime DOB { get; set; }
+
+        [Required(ErrorMessage = "Please provide the address")]
+        [Display(Name = "Date Of Birth")]
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "Please provide the address")]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
 
 
         //navigate properties

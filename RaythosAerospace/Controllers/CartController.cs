@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RaythosAerospace.Models.Repositories.ProductRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
+using RaythosAerospace.Models.Repositories.UserRepository;
 
 namespace RaythosAerospace.Controllers
 {
@@ -20,9 +21,10 @@ namespace RaythosAerospace.Controllers
         private readonly IAirCraftRepository _aircraftRepo;
         private readonly IProductRepository _productRepo;
         private readonly IOrderRepository _orderRepo;
+        private readonly JWTController _jwtController;
 
         public CartController(ICartRepository cartRepo, IAirCraftRepository aircraftRepo,IProductRepository productRepo,
-            IOrderRepository orderRepo
+            IOrderRepository orderRepo, JWTController jwtController
             )
         {
 
@@ -30,6 +32,7 @@ namespace RaythosAerospace.Controllers
             _aircraftRepo = aircraftRepo;
             _productRepo = productRepo;
             _orderRepo = orderRepo;
+            _jwtController = jwtController;
 
         }
 
@@ -39,9 +42,15 @@ namespace RaythosAerospace.Controllers
         [HttpPost]
         public IActionResult AddToCart(CartItemViewModel item)
         {
-            string userId = "U0001";
+            UserModel userModel = _jwtController.GetUserFromTheCookies("JWT", Request);
 
-            CartModel foundCart = _cartRepo.GetCart(userId);
+            if (userModel == null)
+            {
+
+                return View("~/Views/Shared/Error.cshtml");
+            }
+
+            CartModel foundCart = _cartRepo.GetCart(userModel.UserId);
 
             AirCraftModel foundcraft = _aircraftRepo.Find(item.aircraft.AircraftId);
 
@@ -91,7 +100,7 @@ namespace RaythosAerospace.Controllers
                     AddedDate = DateTime.Now.Date,
                     Count = item.count,
                     UnitPrice = (int)item.aircraft.AirCraftPrice,
-                    UserId = userId,
+                    UserId = userModel.UserId,
                     ProductId = Guid.NewGuid().ToString(),
                     CustomizationId = isCustomizationEnabled?custom.CustomId:null
 
@@ -114,9 +123,15 @@ namespace RaythosAerospace.Controllers
         public IActionResult ViewUserCart(string userid)
         {
 
-            userid = "U0001";
+            UserModel userModel = _jwtController.GetUserFromTheCookies("JWT", Request);
 
-            return View(_prepareDataForLoad(ViewBag, userid));
+            if (userModel == null)
+            {
+
+                return View("~/Views/Shared/Error.cshtml");
+            }
+
+            return View(_prepareDataForLoad(ViewBag, userModel.UserId));
         }
 
       
