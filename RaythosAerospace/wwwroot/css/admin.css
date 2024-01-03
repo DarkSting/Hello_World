@@ -1,4 +1,41 @@
-﻿.admin-dashboard-card {
+﻿/* Common */
+body {
+    background-color: #E8E6E8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.logo-img {
+    max-height: 30px;
+}
+
+.nav-profile-icon {
+    max-height: 30px;
+    max-width: 30px;
+}
+
+.dropdown-menu {
+    right: 0;
+    left: auto;
+    max-width: 100vw;
+}
+
+.footer {
+    color: #f8f9fa;
+    flex-shrink: 0;
+}
+
+.footer-paragraph {
+    margin-bottom: 5px;
+}
+
+/* Dashboard */
+.admin-dashboard-card {
     border: 1px solid #ddd;
     border-radius: 8px;
     transition: box-shadow 0.3s;
@@ -28,4 +65,79 @@
     padding: 10px;
     border: none;
     width: 250px;
+}
+
+/* Admin Registration */
+.admin-registration-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-registration-form {
+    background-color: #F8F8F8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.admin-registration-form-input {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.admin-registration-form-button {
+    width: 20%;
+    padding: 10px;
+}
+
+.text-danger {
+    color: #dc3545;
+    margin-left: 1px;
+}
+
+/* Aircraft Management */
+.aircraft-management-container {
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.aircraft-management-hero-img {
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.aircraft-management-buttons-section {
+    text-align: center;
+}
+
+.aircraft-management-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.aircraft-management-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.aircraft-management-card .card-title {
+    font-weight: 600;
+    color: #17696a;
+    font-size: 1.2rem;
+}
+
+.aircraft-management-card .card-text {
+    color: #555;
+}
+
+.aircraft-management-btn {
+    width: 200px;
 }

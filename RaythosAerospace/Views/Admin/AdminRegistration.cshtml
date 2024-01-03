@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Admin Registration";
+}
+
+<section class="container mt-4">
+    <div class="admin-registration-container text-center">
+        <h2 class="display-4 mb-4">Create an Account</h2>
+        <form class="admin-registration-form">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="admin-registration-email">Email<span class="text-danger">*</span></label>
+                    <input type="email" class="form-control admin-registration-form-input" id="admin-registration-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="admin-registration-full-name">Full Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control admin-registration-form-input" id="admin-registration-fullName" placeholder="Enter your full name" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="admin-registration-dob">Date of Birth<span class="text-danger">*</span></label>
+                    <input type="date" class="form-control admin-registration-form-input" id="admin-registration-dob" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="admin-registration-nicNumber">NIC Number<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control admin-registration-form-input" id="admin-registration-nicNumber" placeholder="Enter your NIC number" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="admin-registration-address">Address<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control admin-registration-form-input" id="admin-registration-address" placeholder="Enter your address" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="admin-registration-gender">Gender<span class="text-danger">*</span></label>
+                    <select class="form-control admin-registration-form-input" id="admin-registration-gender" required>
+                        <option value="" disabled selected>Select your gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary admin-registration-form-button">Create Account</button>
+        </form>
+    </div>
+</section>

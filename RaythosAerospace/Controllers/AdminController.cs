@@ -25,5 +25,15 @@ namespace RaythosAerospace.Controllers
         {
             return View();
         }
+
+        public IActionResult AdminRegistration()
+        {
+            return View();
+        }
+
+        public IActionResult AircraftManagement()
+        {
+            return View();
+        }
     }
 }
