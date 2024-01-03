@@ -35,5 +35,20 @@ namespace RaythosAerospace.Controllers
         {
             return View();
         }
+
+        public IActionResult AddAircraft()
+        {
+            return View();
+        }
+
+        public IActionResult ManageAircrafts()
+        {
+            return View();
+        }
+
+        public IActionResult ManageAircraftsPage()
+        {
+            return View();
+        }
     }
 }

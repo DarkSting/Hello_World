@@ -1,0 +1,165 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Add Aircraft";
+}
+
+<section>
+    <div class="add-aircraft-management-container text-center mt-4">
+        <!-- Title -->
+        <h2 class="display-4 mb-4">Add Aircraft</h2>
+
+        <!-- Aircraft Form -->
+        <form class="add-aircraft-form" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+                <!-- Aircraft Model -->
+                <div class="form-group col-md-6">
+                    <label for="model" class="add-aircraft-label">Aircraft Model<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control add-aircraft-input" id="model" name="model" required>
+                </div>
+
+                <!-- Aircraft Type -->
+                <div class="form-group col-md-6">
+                    <label for="type" class="add-aircraft-label">Aircraft Type<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control add-aircraft-input" id="type" name="type" required>
+                </div>
+            </div>
+
+            <!-- Upload Images (Up to 4) -->
+            <div class="form-group">
+                <label for="images" class="add-aircraft-label">Upload Images (Up to 4)<span class="text-danger">*</span></label>
+                <input type="file" class="form-control-file add-aircraft-input" id="images" name="images[]" multiple required>
+            </div>
+
+            <!-- Display Uploaded Images -->
+            <div class="add-aircraft-uploaded-images-section">
+                <div class="row">
+                    <!-- Display up to 4 images -->
+                    @for (int i = 0; i < 4; i++)
+                    {
+                        <div class="col-md-3 mb-3">
+                            <div class="add-aircraft-uploaded-image-container">
+                                <img src="path/to/your/uploaded/image.jpg" alt="Uploaded Image" class="img-fluid add-aircraft-uploaded-image">
+                                <button type="button" class="btn btn-danger add-aircraft-delete-image-btn">Delete</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Registration Number -->
+                <div class="form-group col-md-6 mt-2">
+                    <label for="registrationNumber" class="add-aircraft-label">Registration Number<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control add-aircraft-input" id="registrationNumber" name="registrationNumber" required>
+                </div>
+
+                <!-- Seat Capacity -->
+                <div class="form-group col-md-6 mt-2">
+                    <label for="seatCapacity" class="add-aircraft-label">Seat Capacity<span class="text-danger">*</span></label>
+                    <input type="number" class="form-control add-aircraft-input" id="seatCapacity" name="seatCapacity" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Engine Type -->
+                <div class="form-group col-md-6">
+                    <label for="engineType" class="add-aircraft-label">Engine Type<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control add-aircraft-input" id="engineType" name="engineType" required>
+                </div>
+
+                <!-- Fuel Capacity -->
+                <div class="form-group col-md-6">
+                    <label for="fuelCapacity" class="add-aircraft-label">Fuel Capacity<span class="text-danger">*</span></label>
+                    <input type="number" class="form-control add-aircraft-input" id="fuelCapacity" name="fuelCapacity" required>
+                </div>
+            </div>
+
+            <!-- Customization Options -->
+            <h4 class="mt-4">Customization Options</h4>
+
+            <!-- Interior Color (Multiple Values) -->
+            <div class="form-group mt-4" id="interiorColorsContainer">
+                <label for="interiorColors" class="add-aircraft-label">Interior Colors</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control add-aircraft-input" id="interiorColors" name="interiorColors[]" placeholder="Click on the add option button to add an option">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-success add-option-btn" data-container="interiorColorsContainer">Add Option</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exterior Color (Multiple Values) -->
+            <div class="form-group" id="exteriorColorsContainer">
+                <label for="exteriorColors" class="add-aircraft-label">Exterior Colors</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control add-aircraft-input" id="exteriorColors" name="exteriorColors[]" placeholder="Click on the add option button to add an option">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-success add-option-btn" data-container="exteriorColorsContainer">Add Option</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Seat Capacity (Multiple Values) -->
+            <div class="form-group" id="customSeatCapacitiesContainer">
+                <label for="customSeatCapacities" class="add-aircraft-label">Custom Seat Capacities</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control add-aircraft-input" id="customSeatCapacities" name="customSeatCapacities[]" placeholder="Click on the add option button to add an option">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-success add-option-btn" data-container="customSeatCapacitiesContainer">Add Option</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary add-aircraft-btn">Add Aircraft</button>
+        </form>
+    </div>
+</section>
+
+@section scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add option button click handler
+            document.querySelectorAll('.add-option-btn').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var containerId = this.getAttribute('data-container');
+                    var container = document.getElementById(containerId);
+
+                    // Create new input field
+                    var input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'form-control add-aircraft-input';
+                    input.placeholder = 'Enter option';
+
+                    // Create new input group
+                    var inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+                    inputGroup.appendChild(input);
+
+                    // Create delete button
+                    var deleteButton = document.createElement('button');
+                    deleteButton.type = 'button';
+                    deleteButton.className = 'btn btn-danger delete-option-btn';
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', function () {
+                        container.removeChild(inputGroup);
+                    });
+
+                    // Append new input group to the container
+                    inputGroup.appendChild(deleteButton);
+                    container.appendChild(inputGroup);
+                });
+            });
+
+            // Delete option button click handler
+            document.querySelectorAll('.delete-option-btn').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var inputGroup = this.parentNode;
+                    var container = inputGroup.parentNode;
+                    container.removeChild(inputGroup);
+                });
+            });
+        });
+    </script>
+}

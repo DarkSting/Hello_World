@@ -141,3 +141,53 @@ main {
 .aircraft-management-btn {
     width: 200px;
 }
+
+/* Add Aircraft */
+.add-aircraft-form {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #F8F8F8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.add-aircraft-label {
+    font-weight: 600;
+    color: #17696a;
+}
+
+.add-aircraft-input {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-aircraft-uploaded-images-section {
+    margin-top: 20px;
+}
+
+.add-aircraft-uploaded-image-container {
+    position: relative;
+}
+
+.add-aircraft-uploaded-image {
+    max-width: 200px;
+    height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.add-aircraft-delete-image-btn {
+    font-size: 14px;
+    padding: 5px;
+}
+
+.add-aircraft-btn {
+    width: 100%;
+    padding: 10px;
+}
