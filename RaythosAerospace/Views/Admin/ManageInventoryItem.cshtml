@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Manage Inventory Item";
+}
+
+<section>
+    <div class="container mt-4 text-center">
+        <h2 class="display-4 mb-4">Manage Inventory Item</h2>
+
+        <div class="card inventory-item-details-card">
+            <img src="~/images/inventory-item.jpg" class="card-img-top inventory-item-details-img" alt="Inventory Item">
+            <div class="card-body">
+                <h5 class="card-title">Item Details</h5>
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="itemName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" id="itemName" name="itemName" value="Item Name Placeholder" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value="50" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control" id="price" name="price" value="5000" required>
+                        </div>
+                        <!-- Add more input fields in similar fashion -->
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update Item</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

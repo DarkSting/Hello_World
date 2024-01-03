@@ -191,3 +191,95 @@ main {
     width: 100%;
     padding: 10px;
 }
+
+/* Inventory Management */
+.inventory-management-container {
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.inventory-management-hero-img {
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.inventory-management-buttons-section {
+    text-align: center;
+}
+
+.inventory-management-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.inventory-management-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-management-card .card-title {
+    font-weight: 600;
+    color: #17696a;
+    font-size: 1.2rem;
+}
+
+.inventory-management-card .card-text {
+    color: #555;
+}
+
+.inventory-management-btn {
+    width: 200px;
+}
+
+/* Add Inventory Item */
+.add-inventory-item-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #F8F8F8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.add-inventory-item-label {
+    font-weight: 600;
+    color: #17696a;
+}
+
+.add-inventory-item-input {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-inventory-item-uploaded-images-section {
+    margin-top: 20px;
+}
+
+.add-inventory-item-uploaded-image-container {
+    position: relative;
+}
+
+.add-inventory-item-uploaded-image {
+    max-width: 200px;
+    height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.add-inventory-item-delete-image-btn {
+    font-size: 14px;
+    padding: 5px;
+}
+
+.add-inventory-item-btn {
+    width: 100%;
+    padding: 10px;
+}

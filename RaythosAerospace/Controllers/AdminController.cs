@@ -50,5 +50,30 @@ namespace RaythosAerospace.Controllers
         {
             return View();
         }
+
+        public IActionResult InventoryManagement()
+        {
+            return View();
+        }
+
+        public IActionResult AddInventoryItem()
+        {
+            return View();
+        }
+
+        public IActionResult ManageInventory()
+        {
+            return View();
+        }
+
+        public IActionResult ManageInventoryItem()
+        {
+            return View();
+        }
+
+        public IActionResult CustomerManagement()
+        {
+            return View();
+        }
     }
 }

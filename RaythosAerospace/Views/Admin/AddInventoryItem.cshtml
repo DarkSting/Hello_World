@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Add Inventory Item";
+}
+
+<section>
+    <div class="add-inventory-item-container text-center mt-4">
+        <!-- Title -->
+        <h2 class="display-4 mb-4">Add Item to Inventory</h2>
+
+        <!-- Inventory Item Form -->
+        <form class="add-inventory-item-form" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <!-- Item Name -->
+                <div class="form-group col-md-6">
+                    <label for="itemName" class="add-inventory-item-label">Item Name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control add-inventory-item-input" id="itemName" name="itemName" required>
+                </div>
+
+                <!-- Item Type -->
+                <div class="form-group col-md-6">
+                    <label for="itemType" class="add-inventory-item-label">Item Type<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control add-inventory-item-input" id="itemType" name="itemType" required>
+                </div>
+            </div>
+
+            <!-- Other Fields... -->
+            <!-- Item Description -->
+            <div class="form-group">
+                <label for="itemDescription" class="add-inventory-item-label">Item Description</label>
+                <textarea class="form-control add-inventory-item-input" id="itemDescription" name="itemDescription" rows="4"></textarea>
+            </div>
+
+            <!-- Item Price -->
+            <div class="form-group">
+                <label for="itemPrice" class="add-inventory-item-label">Item Price<span class="text-danger">*</span></label>
+                <input type="number" class="form-control add-inventory-item-input" id="itemPrice" name="itemPrice" required>
+            </div>
+
+            <!-- Item Quantity -->
+            <div class="form-group">
+                <label for="itemQuantity" class="add-inventory-item-label">Item Quantity<span class="text-danger">*</span></label>
+                <input type="number" class="form-control add-inventory-item-input" id="itemQuantity" name="itemQuantity" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary add-inventory-item-btn">Add Item to Inventory</button>
+        </form>
+    </div>
+</section>
