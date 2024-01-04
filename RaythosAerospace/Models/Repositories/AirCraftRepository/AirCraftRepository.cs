@@ -24,13 +24,27 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         public AirCraftModel Find(string id)
         {
-           return _context.AirCrafts.FirstOrDefault(a => a.AircraftId == id);
+
+           AirCraftModel foundAirCraft = _context.AirCrafts.FirstOrDefault(a => a.AircraftId == id);
+
+            foundAirCraft.Photos = GetAllImages(id);
+            foundAirCraft.EngineType = GetEngine(foundAirCraft.AircraftId);
+
+            return foundAirCraft;
         }
 
         //get all aircrafts
         public IList<AirCraftModel> GetAirCrafts()
         {
-            return _context.AirCrafts.ToList();
+            IList<AirCraftModel> airCrafts = _context.AirCrafts.ToList();
+
+            foreach(AirCraftModel current in airCrafts)
+            {
+                current.Photos = GetAllImages(current.AircraftId);
+               
+            }
+
+            return airCrafts;
         }
 
         
@@ -283,7 +297,6 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public void UploadPhoto(AirCraftPhoto photo)
         {
             
-
             try
             {
                 _context.AirCraftPhoto.Add(photo);
@@ -293,6 +306,12 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
             {
                 return;
             }
+
+        }
+
+        public IList<AirCraftPhoto> GetAllImages(string aircraftId)
+        {
+            return _context.AirCraftPhoto.Where(p => p.AirCraftID == aircraftId).ToList();
         }
     }
 }

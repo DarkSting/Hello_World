@@ -77,13 +77,23 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
 
         public bool ValidateLogin(string email, string password)
         {
-            UserModel admin = _context.Users.FirstOrDefault(a => a.Email == email);
+           
 
-            if (admin != null)
+            try
             {
-                // Compare hashed passwords
-                return VerifyPassword(password, admin.Password);
+                UserModel admin = _context.Users.FirstOrDefault(a => a.Email == email);
+
+                if (admin != null)
+                {
+                    // Compare hashed passwords
+                    return VerifyPassword(password, admin.Password);
+                }
             }
+            catch(Exception e)
+            {
+                return false;
+            }
+           
 
             return false;
         }

@@ -17,6 +17,8 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         AirCraftModel Update(AirCraftModel model);
 
         void UploadPhoto(AirCraftPhoto photo);
+
+        IList<AirCraftPhoto> GetAllImages(string aircraftId);
         IEnumerable<EngineModel> GetEngineTypes();
         IEnumerable<SeatModel> GetSeatTypes();
 

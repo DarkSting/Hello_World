@@ -45,7 +45,7 @@ namespace RaythosAerospace.Controllers
 
 
         [HttpPost]
-        public IActionResult Registration(UserModel user)
+        public IActionResult Registration(UserLoginDTO user)
         {
 
             if (ModelState.IsValid)
@@ -55,8 +55,8 @@ namespace RaythosAerospace.Controllers
                 CartModel newCart = new CartModel
                 {
                     CartNumber = "CT-" + Guid.NewGuid().ToString(),
-                    UseId = user.UserId,
-                    Description = user.Name+" "+"Cart"
+                    UseId = user.Credentials.UserId,
+                    Description = user.Credentials.Name+" "+"Cart"
                 };
                 
               IActionResult result = _userController.Register(user);

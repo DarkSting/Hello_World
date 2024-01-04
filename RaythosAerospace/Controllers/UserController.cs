@@ -39,7 +39,7 @@ namespace RaythosAerospace.Controllers
                 return RedirectToAction("Dashboard","User"); 
             }
             else
-            {
+            {   
                 if (user.Credentials.Password != user.ConfirmedPass)
                 {
                     ModelState.AddModelError(string.Empty, "Password mismatch");
@@ -50,9 +50,18 @@ namespace RaythosAerospace.Controllers
 
         }
 
-        public IActionResult Register(UserModel user)
+        public IActionResult Register(UserLoginDTO user)
         {
-            _userRepo.RegisterUser(user,user.Password);
+
+            if (user.Credentials.Password != user.ConfirmedPass)
+            {
+                ModelState.AddModelError(string.Empty, "Password mismatch");
+                return View();
+            }
+
+            UserModel newModel = user.Credentials;
+            _userRepo.RegisterUser(newModel,user.Credentials.Password);
+
             return View("Login");
         }
 

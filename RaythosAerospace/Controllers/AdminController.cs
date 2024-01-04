@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RaythosAerospace.Models.Repositories.AdminRepository;
+using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace RaythosAerospace.Controllers
     {
         private readonly IAdminRepository _adminRepo;
         private readonly JWTController _jwt;
-        public AdminController(IAdminRepository adminrepo,JWTController jwt)
+        private readonly IAirCraftRepository _aircraftRepo;
+        public AdminController(IAdminRepository adminrepo,JWTController jwt,IAirCraftRepository aircraftRepo)
         {
             _adminRepo = adminrepo;
             _jwt = jwt;
+            _aircraftRepo = aircraftRepo;
         }
 
         // GET: /Admin/Register
@@ -88,9 +91,13 @@ namespace RaythosAerospace.Controllers
 
         public IActionResult ManageAircrafts()
         {
-            return View();
+            AirCraftCreateDTO DTO = new AirCraftCreateDTO();
+
+            DTO.airCrafts = _aircraftRepo.GetAirCrafts();
+            return View(DTO);
         }
 
+        [HttpGet]
         public IActionResult ManageAircraftsPage()
         {
             return View();

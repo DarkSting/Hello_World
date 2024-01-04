@@ -109,7 +109,7 @@ namespace RaythosAerospace.Controllers
 
 
             OrderModel foundOrder = _orderRepo.Find(orderId);
-            IList<ProductModel> productDesc = new List<ProductModel>();
+            IList<ProductModel> productDesc = _productRepo.GetProductsByUser(foundOrder.UserId);
           
             //iterating the aircrafts and assign them to the aircraft products
             foreach (ProductModel currentProduct in productDesc)
@@ -221,7 +221,7 @@ namespace RaythosAerospace.Controllers
         public ActionResult Edit(string id)
         {
             OrderModel foundModel = _orderRepo.Find(id);
-            //PrepareDataForLoadPage(foundModel.UserId,foundModel.AirCraftId,ViewBag);
+
             return View(foundModel);
         }
 
@@ -231,41 +231,6 @@ namespace RaythosAerospace.Controllers
             return View(models);
         }
 
-        // POST: OrderController/Edit/5
-        [HttpPost]
-        public IActionResult Edit(OrderModel model)
-        {
-
-            if (ModelState.IsValid)
-            {
-                _orderRepo.Update(model);
-            }
-
-            //PrepareDataForLoadPage(model.UserId, model.AirCraftId, ViewBag);
-
-            return View();
-            
-        }
-
-        // GET: OrderController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: OrderController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+      
     }
 }

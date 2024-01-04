@@ -9,14 +9,13 @@
         <h2 class="display-4 mb-4">Add Aircraft</h2>
 
         <!-- Aircraft Form -->
-        <form class="add-aircraft-form" method="post" enctype="multipart/form-data">
-
+        <form class="add-aircraft-form" asp-action="Create" method="post" enctype="multipart/form-data">
 
 
             <!-- Upload Images (Up to 4) -->
             <div class="form-group">
                 <label for="images" class="add-aircraft-label">Upload Images (Up to 4)<span class="text-danger">*</span></label>
-                <input asp-for="@Model.Photos" class="form-control-file add-aircraft-input" id="images" name="images[]" multiple required>
+                <input asp-for="@Model.Photos" class="form-control-file add-aircraft-input" id="images" />
             </div>
 
             <!-- Display Uploaded Images -->

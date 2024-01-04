@@ -95,14 +95,14 @@ namespace RaythosAerospace.Controllers
             {
                 _repo.Insert(model.AirCraftDet);
 
-                int count = 0;
+                int count = 1;
                 //iterating photos
                foreach(IFormFile current in model.Photos)
                 {
                     AirCraftPhoto currentPhoto = new AirCraftPhoto();
 
                     //adding the properties to the photo
-                    string uniqueName = $"{current.FileName}_"+Guid.NewGuid().ToString()+"_"+count.ToString();
+                    string uniqueName = $"{count.ToString()}_"+Guid.NewGuid().ToString()+"_"+ current.FileName;
                     string rootpath = _hosting.WebRootPath;
                     string targetFolder = Path.Combine(rootpath, "images");
                     string filePath = Path.Combine(targetFolder, uniqueName);
@@ -113,6 +113,7 @@ namespace RaythosAerospace.Controllers
                     currentPhoto.Date = DateTime.Now;
                     currentPhoto.FilePath = filePath;
                     currentPhoto.PhotoID ="P:"+Guid.NewGuid().ToString();
+                    currentPhoto.fileName = uniqueName;
 
                     _repo.UploadPhoto(currentPhoto);
                 }

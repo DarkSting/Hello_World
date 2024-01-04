@@ -42,7 +42,7 @@
                     <td>@order.OrderStatus</td>
 
                     <td>
-                        <a asp-controller="Order" asp-action="edit" asp-route-id="@order.OrderId" class="btn btn-dark">Update</a>
+                        <a href="/Order/Edit?id=@order.OrderId" class="btn btn-dark">Update</a>
                     </td>
                 </tr>
             }

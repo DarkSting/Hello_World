@@ -16,14 +16,45 @@
         <input type="hidden" asp-for="@Model.aircraft.AircraftId" />
         <section class="aircraft-page-product-container">
             <div class="aircraft-page-img-card">
-                <img src="~/images/aircraft-a320.jpg" alt="" id="aircraft-page-featured-image">
-                <div class="aircraft-page-small-card">
-                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
-                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
-                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
-                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
-                    <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
-                </div>
+
+                @if (Model.aircraft.Photos.Count>0)
+                {
+
+
+                    <img src="~/images/@Model.aircraft.Photos.ElementAt(0).fileName" alt="" id="aircraft-page-featured-image">
+
+                    <div class="aircraft-page-small-card">
+
+                        @for (int i = 1; i < Model.aircraft.Photos.Count; i++)
+                        {
+                            AirCraftPhoto foundPhoto = Model.aircraft.Photos.ElementAt(i);
+
+                            if (i == 0)
+                            {
+                                <img src="~/images/@foundPhoto.fileName" alt="" id="aircraft-page-featured-image">
+                                continue;
+                            }
+
+
+                            <img src="~/images/@foundPhoto.fileName" alt="" class="aircraft-page-small-img">
+
+                        }
+
+                    </div>
+
+                }
+                else
+                {
+                    <img src="~/images/aircraft-a320.jpg" alt="" id="aircraft-page-featured-image">
+                    <div class="aircraft-page-small-card">
+                        <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                        <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                        <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                        <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                        <img src="~/images/aircraft.jpg" alt="" class="aircraft-page-small-img">
+                    </div>
+                }
+
             </div>
 
             <div class="aircraft-page-product-info">
@@ -136,7 +167,7 @@
                     </div>
                     <div class="aircraft-detail">
                         <span class="aircraft-detail-label">Engine Type:</span>
-                        <span class="aircraft-detail-value"></span>
+                        <span class="aircraft-detail-value">@Model.aircraft.EngineType.EngineType</span>
                     </div>
                     <div class="aircraft-detail">
                         <span class="aircraft-detail-label">Fuel Capacity:</span>
@@ -153,10 +184,6 @@
                     <div class="aircraft-detail">
                         <span class="aircraft-detail-label">Width:</span>
                         <span class="aircraft-detail-value">@Model.aircraft.Width</span>
-                    </div>
-                    <div class="aircraft-detail">
-                        <span class="aircraft-detail-label">Comfort:</span>
-                        <span class="aircraft-detail-value">Luxury</span>
                     </div>
                 </div>
             </div>

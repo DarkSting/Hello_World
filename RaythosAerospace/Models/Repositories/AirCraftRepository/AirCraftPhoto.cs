@@ -17,6 +17,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         public string AirCraftID { get; set; }
 
+        public string fileName { get; set; }
         //navigation
         public AirCraftModel airCraft { get; set; }
     }

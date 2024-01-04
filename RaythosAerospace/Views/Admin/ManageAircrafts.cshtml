@@ -3,44 +3,29 @@
     ViewData["Title"] = "Raythos Aerospace - Manage Aircrafts";
 }
 
+@model AirCraftCreateDTO
+
 <section>
     <div class="container mt-4">
         <h2 class="display-4 mb-4">Manage Aircrafts</h2>
 
         <div class="row mt-4">
-            @for (int i = 1; i <= 3; i++)
+            @foreach(AirCraftModel current in Model.airCrafts)
             {
                 <div class="col-md-4">
                     <div class="card catalog-card">
-                        <img src="~/images/aircraft-a320.jpg" class="card-img-top catalog-card-img" alt="Aircraft Model @(i)">
+                        <img src="~/images/aircraft-a320.jpg" class="card-img-top catalog-card-img" alt="Aircraft Model @(current.AircraftId)">
                         <div class="card-body">
-                            <h5 class="card-title">Model A@(i)</h5>
-                            <p class="card-text">Starting from $@(i * 500000)</p>
-                            <p class="card-text"><strong>Availability:</strong> @(i % 2 == 0 ? "In Stock" : "Out of Stock")</p>
-                            <p class="card-text"><strong>Total Sold:</strong> @(i * 10)</p>
-                            <a href="@Url.Action("ManageAircraftsPage", "Admin")" class="btn btn-primary">Manage Details</a>
+                            <h5 class="card-title">Model : @current.AircraftType</h5>
+                            <p class="card-text">Starting from $@(current.AirCraftPrice)</p>
+                            <p class="card-text"><strong>Availability:</strong> @(current.ItemCount > 0 ? "In Stock" : "Out of Stock")</p>
+                            <p class="card-text"><strong>Total Sold:</strong> </p>
+                            <a href="/Admin/ManageAircraftsPage?aircraftId=@current.AircraftId" class="btn btn-primary">Manage Details</a>
                         </div>
                     </div>
                 </div>
             }
         </div>
 
-        <div class="row mt-4 mb-4">
-            @for (int i = 4; i <= 6; i++)
-            {
-                <div class="col-md-4">
-                    <div class="card catalog-card">
-                        <img src="~/images/aircraft-a320.jpg" class="card-img-top catalog-card-img" alt="Aircraft Model @(i)">
-                        <div class="card-body">
-                            <h5 class="card-title">Model B@(i)</h5>
-                            <p class="card-text">Starting from $@(i * 500000)</p>
-                            <p class="card-text"><strong>Availability:</strong> @(i % 2 == 0 ? "In Stock" : "Out of Stock")</p>
-                            <p class="card-text"><strong>Total Sold:</strong> @(i * 10)</p>
-                            <a href="@Url.Action("ManageAircraftsPage", "Admin")" class="btn btn-primary">Manage Details</a>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
     </div>
 </section>

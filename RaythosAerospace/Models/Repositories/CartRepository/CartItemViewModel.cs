@@ -18,5 +18,7 @@ namespace RaythosAerospace.Models.Repositories.CartRepository
         public string SeatId { get; set; }
 
         public bool productAdded { get; set; }
+
+
     }
 }
