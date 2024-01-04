@@ -1,139 +1,177 @@
-﻿@model RaythosAerospace.Models.Repositories.AirCraftRepository.AirCraftModel
+﻿@model AirCraftCreateDTO
 
-@{ 
-    Layout = "_Layout";
-}
+@{ Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Add Aircraft"; }
 
-<h4>AirCraftModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="aircraft" asp-action="create" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="@Model.AircraftId" class="control-label"></label>
-                <input asp-for="@Model.AircraftId" class="form-control" />
-                <span asp-validation-for="@Model.AircraftId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.AircraftType" class="control-label"></label>
-                <select asp-for="@Model.AircraftType" class="form-control" asp-items="@(ViewBag.AircraftTypes as List<SelectListItem>)"></select>
-                <span asp-validation-for="@Model.AircraftType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.AirCraftPrice" class="control-label"></label>
-                <input asp-for="@Model.AirCraftPrice" class="form-control" />
+<section>
+    <div class="add-aircraft-management-container text-center mt-4">
+        <!-- Title -->
+        <h2 class="display-4 mb-4">Add Aircraft</h2>
 
-            </div>
+        <!-- Aircraft Form -->
+        <form class="add-aircraft-form" method="post" enctype="multipart/form-data">
+
+
+
+            <!-- Upload Images (Up to 4) -->
             <div class="form-group">
-                <label asp-for="@Model.RegistrationNumber" class="control-label"></label>
-                <input asp-for="@Model.RegistrationNumber" class="form-control" />
-                <span asp-validation-for="@Model.RegistrationNumber" class="text-danger"></span>
+                <label for="images" class="add-aircraft-label">Upload Images (Up to 4)<span class="text-danger">*</span></label>
+                <input asp-for="@Model.Photos" class="form-control-file add-aircraft-input" id="images" name="images[]" multiple required>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.Manufacturer" class="control-label"></label>
-                <input asp-for="@Model.Manufacturer" class="form-control" />
-                <span asp-validation-for="@Model.Manufacturer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.YearOfManufacture" class="control-label"></label>
-                <input asp-for="@Model.YearOfManufacture" class="form-control" />
-                <span asp-validation-for="@Model.YearOfManufacture" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.SeatingCapacity" class="control-label"></label>
-                <input asp-for="@Model.SeatingCapacity" class="form-control" />
-                <span asp-validation-for="@Model.SeatingCapacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.MaximumRange" class="control-label"></label>
-                <input asp-for="@Model.MaximumRange" class="form-control" />
-                <span asp-validation-for="@Model.MaximumRange" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.EngineId" class="control-label"></label>
-                <select id="engineDropdown" class="form-control">
-                    <option value="">Select an Engine</option>
-                    @foreach (EngineModel current in ViewBag.Engines)
+
+            <!-- Display Uploaded Images -->
+            <div class="add-aircraft-uploaded-images-section">
+                <div class="row">
+                    <!-- Display up to 4 images -->
+                    @for (int i = 0; i < 4; i++)
                     {
-                        <option value="@current.EngineId">@current.EngineType</option>
-                    }
-                </select>
-                <input type="hidden" id="selectedEngineIdField" asp-for="@Model.EngineId" />
-
-                <span asp-validation-for="@Model.EngineId" class="text-danger"></span>
+        <div class="col-md-3 mb-3">
+            <div class="add-aircraft-uploaded-image-container">
+                <img src="" alt="Uploaded Image" id="image-@i" class="img-fluid add-aircraft-uploaded-image">
+                <button type="button" class="btn btn-danger add-aircraft-delete-image-btn" data-custom-value="image-@i">Delete</button>
             </div>
-            <div class="form-group">
-                <label asp-for="@Model.MaxAllowedEngines" class="control-label"></label>
-                <input asp-for="@Model.MaxAllowedEngines" class="form-control" />
-                <span asp-validation-for="@Model.MaxAllowedEngines" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.FuelCapacity" class="control-label"></label>
-                <input asp-for="@Model.FuelCapacity" class="form-control" />
-                <span asp-validation-for="@Model.FuelCapacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Weight" class="control-label"></label>
-                <input asp-for="@Model.Weight" class="form-control" />
-                <span asp-validation-for="@Model.Weight" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Length" class="control-label"></label>
-                <input asp-for="@Model.Length" class="form-control" />
-                <span asp-validation-for="@Model.Length" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Width" class="control-label"></label>
-                <input asp-for="@Model.Width" class="form-control" />
-                <span asp-validation-for="@Model.Width" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Height" class="control-label"></label>
-                <input asp-for="@Model.Height" class="form-control" />
-                <span asp-validation-for="@Model.Height" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.SeatID" class="control-label"></label>
-                <select id="seatDropdown" class="form-control">
-                    <option value="">Select an Seat</option>
-                    @foreach (SeatModel current in ViewBag.Seats)
-                    {
-                        <option value="@current.SeatID">@current.SeatType</option>
-                    }
-                </select>
-                <input type="hidden" id="selectedseatIdField" asp-for="@Model.SeatID" />
-
-                <span asp-validation-for="@Model.SeatID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.MaxSeatesAllowed" class="control-label"></label>
-                <input asp-for="@Model.MaxSeatesAllowed" class="form-control" />
-                <span asp-validation-for="@Model.MaxSeatesAllowed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.MaxWingSpan" class="control-label"></label>
-                <input asp-for="@Model.MaxWingSpan" class="form-control" />
-
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.ManfacturedDate" class="control-label"></label>
-                <input asp-for="@Model.ManfacturedDate" class="form-control" />
-
+        </div>}
+                </div>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Submit" class="btn btn-outline-primary" />
+            <!--sgd-->
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.AircraftId" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.AircraftId" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet..AircraftId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.AircraftType" class="add-aircraft-label"></label>
+                    <select asp-for="@Model.AirCraftDet.AircraftType" class="form-control add-aircraft-input" asp-items="@(ViewBag.AircraftTypes as List<SelectListItem>)"></select>
+                    <span asp-validation-for="@Model.AirCraftDet.AircraftType" class="text-danger"></span>
+                </div>
             </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.AirCraftPrice" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.AirCraftPrice" class="form-control add-aircraft-input" />
+
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.RegistrationNumber" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.RegistrationNumber" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.RegistrationNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.Manufacturer" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.Manufacturer" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.Manufacturer" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.YearOfManufacture" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.YearOfManufacture" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.YearOfManufacture" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.SeatingCapacity" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.SeatingCapacity" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.SeatingCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.MaximumRange" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.MaximumRange" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet..MaximumRange" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.EngineId" class="add-aircraft-label"></label>
+                    <select id="engineDropdown" class="form-control add-aircraft-input">
+                        <option value="">Select an Engine</option>
+                        @foreach (EngineModel current in ViewBag.Engines)
+                        {
+            <option value="@current.EngineId">@current.EngineType</option>}
+                    </select>
+                    <input type="hidden" id="selectedEngineIdField" asp-for="@Model.AirCraftDet.EngineId" />
+
+                    <span asp-validation-for="@Model.AirCraftDet.EngineId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.MaxAllowedEngines" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.MaxAllowedEngines" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.MaxAllowedEngines" class="text-danger"></span>
+
+                    <label asp-for="@Model.AirCraftDet.FuelCapacity" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.FuelCapacity" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.FuelCapacity" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.Weight" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.Weight" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.Weight" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.Length" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.Length" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.Length" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.Width" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.Width" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.Width" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.Height" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.Height" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.Height" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.SeatID" class="add-aircraft-label"></label>
+                    <select id="seatDropdown" class="form-control add-aircraft-input">
+                        <option value="">Select an Seat</option>
+                        @foreach (SeatModel current in ViewBag.Seats)
+                        {
+            <option value="@current.SeatID">@current.SeatType</option>}
+                    </select>
+                    <input type="hidden" id="selectedseatIdField" asp-for="@Model.AirCraftDet.SeatID" />
+
+                    <span asp-validation-for="@Model.AirCraftDet.SeatID" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.MaxSeatesAllowed" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.MaxSeatesAllowed" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.MaxSeatesAllowed" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="@Model.AirCraftDet.MaxWingSpan" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.MaxWingSpan" class="form-control add-aircraft-input" />
+
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-group">
+                        <label asp-for="@Model.AirCraftDet.ManfacturedDate" class="add-aircraft-label"></label>
+                        <input asp-for="@Model.AirCraftDet.ManfacturedDate" class="form-control add-aircraft-input" />
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary add-aircraft-btn">Add Aircraft</button>
         </form>
     </div>
-</div>
+</section>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
+@section scripts {
     <script>
         $(document).ready(function () {
             $('#engineDropdown').change(function () {
@@ -143,7 +181,7 @@
 
                 $('#selectedEngineIdField').val(selectedEngineId);
 
-               
+
             });
 
             $('#seatDropdown').change(function () {
@@ -154,8 +192,32 @@
 
 
             });
+
+            //adding images
+            $('#images').change(function (e) {
+                var files = e.target.files;
+                if (files.length > 0) {
+                    $('.add-aircraft-uploaded-image').each(function (index) {
+                        if (index < files.length) {
+                            var reader = new FileReader();
+                            reader.onload = function (event) {
+                                $(this).attr('src', event.target.result);
+                            }.bind(this);
+
+                            reader.readAsDataURL(files[index]);
+                        }
+                    });
+                }
+            });
+
+            //delete a photo
+            $('.add-aircraft-delete-image-btn').click(function () {
+                var customValue = $(this).data('custom-value');
+
+                $(`#${customValue}`).attr('src', '');
+                
+            });
+
         });
-
     </script>
-
 }

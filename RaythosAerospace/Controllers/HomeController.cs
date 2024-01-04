@@ -72,7 +72,7 @@ namespace RaythosAerospace.Controllers
 
 
         [HttpPost]
-        public IActionResult Login(UserModel logincred)
+        public IActionResult Login(UserLoginDTO logincred)
         {
             return  _userController.Login(logincred,Response.Cookies);
         }

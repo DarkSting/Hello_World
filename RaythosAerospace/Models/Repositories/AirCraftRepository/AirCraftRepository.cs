@@ -280,6 +280,19 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
             
         }
 
-      
+        public void UploadPhoto(AirCraftPhoto photo)
+        {
+            
+
+            try
+            {
+                _context.AirCraftPhoto.Add(photo);
+                _context.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                return;
+            }
+        }
     }
 }

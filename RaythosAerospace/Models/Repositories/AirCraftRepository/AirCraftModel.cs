@@ -1,4 +1,5 @@
-﻿using RaythosAerospace.Models.Repositories.CartRepository;
+﻿using Microsoft.AspNetCore.Http;
+using RaythosAerospace.Models.Repositories.CartRepository;
 using RaythosAerospace.Models.Repositories.OrderRepository;
 using RaythosAerospace.Models.Repositories.ProductRepository;
 using System;
@@ -106,6 +107,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         public ICollection<ProductModel> Products { get; set; }
 
-    
+        public ICollection<AirCraftPhoto> Photos { get; set; }
+
     }
 }

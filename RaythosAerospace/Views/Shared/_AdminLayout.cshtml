@@ -31,13 +31,13 @@
                     <a class="nav-link" href="@Url.Action("AircraftManagement", "Admin")">Aircraft Management</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Inventory Management</a>
+                    <a class="nav-link" href="@Url.Action("InventoryManagement", "Admin")">Inventory Management</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Order Management</a>
+                    <a class="nav-link" href="@Url.Action("OrderManagement", "Admin")">Order Management</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Customer Management</a>
+                    <a class="nav-link" href="@Url.Action("CustomerManagement", "Admin")">Customer Management</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -46,7 +46,7 @@
                         <img src="~/images/profile-icon.png" alt="Profile Icon" class="nav-profile-icon">
                     </a>
                     <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="#">Profile</a>
+                        <a class="dropdown-item" href="@Url.Action("ProfileManagement", "Admin")">Profile</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Logout</a>
                     </div>

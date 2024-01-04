@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Inventory Management";
+}
+
+<section>
+    <div class="inventory-management-container text-center">
+        <!-- Hero Banner -->
+        <div class="inventory-management-hero-banner">
+            <img src="~/images/inventory.jpg" alt="Inventory Image" class="img-fluid inventory-management-hero-img">
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="inventory-management-buttons-section mt-4">
+            <h2 class="display-4 mb-4">Inventory Management</h2>
+            <div class="row">
+                <!-- Add Inventory Button -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card inventory-management-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Add an Item to Inventory</h5>
+                            <p class="card-text">Click here to add a new item to the inventory.</p>
+                            <a href="@Url.Action("AddInventoryItem", "Admin")" class="btn btn-primary inventory-management-btn">Add an Item</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manage Inventory Button -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card inventory-management-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Manage Inventory</h5>
+                            <p class="card-text">Click here to view and manage existing inventory.</p>
+                            <a href="@Url.Action("ManageInventory", "Admin")" class="btn btn-primary inventory-management-btn">Manage Inventory</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

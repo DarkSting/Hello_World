@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Customer Management";
+}
+
+<section>
+    <div class="container mt-4 text-center">
+        <h2 class="display-4 mb-4">Customer Management</h2>
+
+        <div class="row mt-4">
+            @for (int i = 1; i <= 3; i++)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card customer-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Customer @(i)</h5>
+                            <p class="card-text"><strong>Email:</strong> customer@(i)example.com</p>
+                            <p class="card-text"><strong>Phone:</strong> +1 123-456-789@(i)</p>
+                            <p class="card-text"><strong>Address:</strong> 123 Street, City@(i), Country</p>
+                            <button class="btn btn-danger" onclick="deactivateAccount(@(i))">Deactivate Account</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    function deactivateAccount(customerId) {
+        alert("Account deactivated for customer with ID: " + customerId);
+    }
+</script>

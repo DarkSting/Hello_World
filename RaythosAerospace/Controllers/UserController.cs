@@ -26,13 +26,13 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
-        public IActionResult Login(UserModel user,IResponseCookies cookies)
+        public IActionResult Login(UserLoginDTO user,IResponseCookies cookies)
         {
 
-            bool isValid = _userRepo.ValidateLogin(user.Email,user.Password);
+            bool isValid = _userRepo.ValidateLogin(user.Credentials.Email,user.Credentials.Password);
             if (isValid)
             {
-                string token = _jwt.AssignToken(user.Email);
+                string token = _jwt.AssignToken(user.Credentials.Email);
                 _jwt.AttachToken(token, cookies);
 
 
@@ -40,8 +40,11 @@ namespace RaythosAerospace.Controllers
             }
             else
             {
-
-                ModelState.AddModelError(string.Empty, "Invalid login attempt");
+                if (user.Credentials.Password != user.ConfirmedPass)
+                {
+                    ModelState.AddModelError(string.Empty, "Password mismatch");
+                }
+                
                 return View();
             }
 
@@ -58,60 +61,6 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
-        // POST: UserController/Create
-        [HttpPost]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: UserController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+      
     }
 }

@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Manage Inventory";
+}
+
+<section>
+    <div class="container mt-4 text-center">
+        <h2 class="display-4 mb-4">Manage Inventory</h2>
+
+        <div class="row mt-4">
+            @for (int i = 1; i <= 3; i++)
+            {
+                <div class="col-md-4">
+                    <div class="card inventory-card">
+                        <img src="~/images/inventory-item.jpg" class="card-img-top inventory-card-img" alt="Inventory Item @(i)">
+                        <div class="card-body">
+                            <h5 class="card-title">Item A@(i)</h5>
+                            <p class="card-text">Quantity: @(i * 10)</p>
+                            <p class="card-text">Price: $@(i * 1000)</p>
+                            <a href="@Url.Action("ManageInventoryItem", "Admin", new { itemId = i })" class="btn btn-primary">Manage Item</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row mt-4 mb-4">
+            @for (int i = 4; i <= 6; i++)
+            {
+                <div class="col-md-4">
+                    <div class="card inventory-card">
+                        <img src="~/images/inventory-item.jpg" class="card-img-top inventory-card-img" alt="Inventory Item @(i)">
+                        <div class="card-body">
+                            <h5 class="card-title">Item B@(i)</h5>
+                            <p class="card-text">Quantity: @(i * 10)</p>
+                            <p class="card-text">Price: $@(i * 1000)</p>
+                            <a href="@Url.Action("ManageInventoryItem", "Admin", new { itemId = i })" class="btn btn-primary">Manage Item</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

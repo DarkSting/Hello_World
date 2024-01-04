@@ -46,6 +46,8 @@ namespace RaythosAerospace.Models.Repositories
 
         public DbSet<AdminModel> Admins { get; set; }
 
+        public DbSet<AirCraftPhoto> AirCraftPhoto { get; set; }
+
         public DbSet<ColorModel> Colors { get; set; }
 
         public DbSet<CustomizationModel> Customization { get; set; }
@@ -68,6 +70,11 @@ namespace RaythosAerospace.Models.Repositories
                 .HasOne(s => s.Seat)
                 .WithMany(a => a.AirCraftModels)
                 .HasForeignKey(f => f.SeatID);
+
+            modelBuilder.Entity<AirCraftPhoto>()
+               .HasOne(e => e.airCraft)
+               .WithMany(a => a.Photos)
+               .HasForeignKey(f => f.AirCraftID);
 
             /////////////////// customization table ////////////////////////////////
             modelBuilder.Entity<CustomizationModel>()

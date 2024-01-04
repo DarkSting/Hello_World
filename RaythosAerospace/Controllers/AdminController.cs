@@ -28,9 +28,13 @@ namespace RaythosAerospace.Controllers
 
         // POST: /Admin/Register
         [HttpPost]
-        public IActionResult Register(AdminModel admin)
+        public IActionResult Register(AdminLoginDTO admin)
         {
-            _adminRepo.RegisterAdmin(admin,admin.Password);
+            if (admin.credintials.Password != admin.confirmedPass)
+            {
+                return View();
+            }
+            _adminRepo.RegisterAdmin(admin.credintials,admin.credintials.Password);
             return RedirectToAction("Login");
         }
 
@@ -55,7 +59,7 @@ namespace RaythosAerospace.Controllers
 
         // POST: /Admin/Login
         [HttpPost]
-        public IActionResult Login(AdminViewModel viewmodel)
+        public IActionResult Login(AdminModel viewmodel)
         {
 
             bool isValid = _adminRepo.ValidateLogin(viewmodel.Email, viewmodel.Password);
@@ -70,10 +74,51 @@ namespace RaythosAerospace.Controllers
             }
             else
             {
+             
+                 ModelState.AddModelError(string.Empty, "Ivalid Login");
                 
-                ModelState.AddModelError(string.Empty, "Invalid login attempt");
-                return View(viewmodel);
+                return View();
             }
+        }
+
+        public IActionResult AddAircraft()
+        {
+            return View();
+        }
+
+        public IActionResult ManageAircrafts()
+        {
+            return View();
+        }
+
+        public IActionResult ManageAircraftsPage()
+        {
+            return View();
+        }
+
+        public IActionResult InventoryManagement()
+        {
+            return View();
+        }
+
+        public IActionResult AddInventoryItem()
+        {
+            return View();
+        }
+
+        public IActionResult ManageInventory()
+        {
+            return View();
+        }
+
+        public IActionResult ManageInventoryItem()
+        {
+            return View();
+        }
+
+        public IActionResult CustomerManagement()
+        {
+            return View();
         }
     }
 }

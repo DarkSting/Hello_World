@@ -101,7 +101,18 @@ namespace RaythosAerospace.Models.Repositories.AdminRepository
 
         public bool VerifyPassword(string inputPassword, string hashedPassword)
         {
-            return BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
+            bool verified = false;
+
+            try
+            {
+                verified = BCrypt.Net.BCrypt.Verify(inputPassword, hashedPassword);
+            }
+            catch(Exception e)
+            {
+                verified = false;
+            }
+
+            return verified;
         }
     }
 }
