@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RaythosAerospace.Models.Repositories;
 
 namespace RaythosAerospace.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240105080742_order-table-updated")]
+    partial class ordertableupdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -520,14 +522,29 @@ namespace RaythosAerospace.Migrations
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ComponentAssemblyStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeliveredStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DesignEngineeringStatus")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Discounts")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("EstimatedDeliveryDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("MyProperty")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("OrderDateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderProcessingStatus")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderStatus")
                         .HasColumnType("nvarchar(max)");
@@ -537,6 +554,12 @@ namespace RaythosAerospace.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrototypingTestingStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippedStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ShippingAddress")
@@ -555,6 +578,9 @@ namespace RaythosAerospace.Migrations
 
                     b.Property<double>("Subtotal")
                         .HasColumnType("float");
+
+                    b.Property<string>("TestingCertificationStatus")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("TotalAmount")
                         .HasColumnType("float");
@@ -637,35 +663,14 @@ namespace RaythosAerospace.Migrations
                     b.Property<string>("CartId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ComponentAssemblyStatus")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
                     b.Property<string>("CustomizationId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DeliveredStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DesignEngineeringStatus")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("OrderProcessingStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PrototypingTestingStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShippedStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TestingCertificationStatus")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UnitPrice")
                         .HasColumnType("int");

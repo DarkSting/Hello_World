@@ -122,7 +122,7 @@
 
                 <!--select box and remove item-->
                 <div class="row justify-content-end mb-2">
-
+                    <p>Select this product</p>
                     <input type="checkbox" id="checkbox:@current.ProductId" asp-for="@Model.aircrafts[current.ProductId].IsSelected" class="form-control col-1 product-check" />
                     <button type="button" class="btn btn-dark mr-2 delete-item" data-itemid="@current.ProductId">Delete<i class="fas fa-trash-alt ml-1"></i></button>
                 </div>

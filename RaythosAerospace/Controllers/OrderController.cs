@@ -60,6 +60,54 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
+
+        [HttpGet]
+
+        public IActionResult ClientOrderHistory()
+        {
+
+
+            UserModel userModel = _jwtController.GetUserFromTheCookies("JWT", Request);
+
+            if (userModel == null)
+            {
+
+                return View("~/Views/Shared/Error.cshtml");
+            }
+
+
+            IList<OrderModel> foundOrders = _orderRepo.GetAllOrdersForAUser(userModel.UserId);
+            Dictionary<string, IList<ProductModel>> orderDesc = new Dictionary<string, IList<ProductModel>>();
+
+            //iterating each order and getting the products related to the order
+            foreach (OrderModel current in foundOrders)
+            {
+
+                orderDesc.Add(current.OrderId, new List<ProductModel>());
+                IList<ProductModel> foundProducts = _productRepo.GetProductsByUser(userModel.UserId);
+
+                //iterating the aircrafts and assign their ids to the aircraft products
+                foreach (ProductModel currentProduct in foundProducts)
+                {
+                    currentProduct.AirCraft = new AirCraftModel();
+                    currentProduct.AirCraft.AircraftType = _airCraftRepo.Find(currentProduct.AirCraftId).AircraftType;
+                }
+
+                orderDesc[current.OrderId] = foundProducts;
+
+            }
+
+            OrderDTO orderDTO = new OrderDTO
+            {
+                orders = foundOrders,
+                orderdesc = orderDesc
+            };
+
+            return View(orderDTO);
+        }
+
+
+
         [HttpGet]
 
         public IActionResult OrderHistory()
@@ -172,6 +220,31 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult AdminGetAllOrders()
+        {
+            OrderDTO foundOrders = new();
+
+            foundOrders.orders = _orderRepo.GetAllOrders();
+
+            return View(foundOrders);
+
+
+        }
+
+        [HttpGet]
+        public IActionResult OrderEditing(string userId)
+        {
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult OrderEditing(OrderDetailsDTO dto)
+        {
+
+            return View();
+        }
 
         private void PrepareDataForLoadPage(string? userid, string? aircraftid,dynamic bag)
         {

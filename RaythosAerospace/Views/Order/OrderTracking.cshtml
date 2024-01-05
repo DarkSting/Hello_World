@@ -1,26 +1,8 @@
-﻿@{
-    Layout = "_Layout"; // Assuming you have a shared layout
-    ViewData["Title"] = "Order Tracking - Raythos Aerospace";
-
-    // Dummy data for order details
-    ViewBag.OrderId = "12345";
-    ViewBag.PurchasedAircraft = "Aircraft Model Z";
-    ViewBag.PurchasedDate = "January 20, 2023";
-    ViewBag.AmountPaid = "$1,500,000";
-
-    // Dummy data for manufacturing tracking
-    ViewBag.DesignEngineeringStatus = "In Progress";
-    ViewBag.PrototypingTestingStatus = "Completed";
-    ViewBag.ComponentAssemblyStatus = "Not Started";
-    ViewBag.TestingCertificationStatus = "Pending";
-
-    // Dummy data for shipping tracking
-    ViewBag.OrderProcessingStatus = "Completed";
-    ViewBag.ShippedStatus = "In Progress";
-    ViewBag.DeliveredStatus = "Not Started";
+﻿@model OrderDetailsDTO
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Raythos Aerospace - Order Tracking";
 }
-
-@model OrderDetailsDTO
 
 <div class="order-tracking-container">
     <h2 class="order-tracking-heading">Order Tracking</h2>
@@ -36,35 +18,126 @@
         <!--product details-->
         @foreach (ProductModel current in Model.products)
         {
-            <div class="order-detail">
+            <div class="order-detail mt-5">
                 <span class="order-detail-label">Purchased Aircraft:</span>
                 <span class="order-detail-value">@current.AirCraft.AircraftType</span>
                 <span class="order-detail-value"><strong>Unit Price : </strong>@current.AirCraft.AirCraftPrice</span>
                 <span class="order-detail-value">@current.AirCraft.AircraftType</span>
             </div>
+
             <!-- Manufacturing Tracking Section -->
-            <div class="order-tracking-manufacturing">
-                <h3 class="order-tracking-section-heading">Manufacturing Tracking</h3>
-                <div class="order-tracking-step" id="order-tracking-design-engineering">
-                    <span class="order-tracking-step-name">Design and Engineering</span>
-                    <span class="order-tracking-step-status">@ViewBag.DesignEngineeringStatus</span>
+            @if (current.TestingCertificationStatus == null || current.TestingCertificationStatus == string.Empty)
+            {
+                <div class="order-tracking-manufacturing">
+                    <h3 class="order-tracking-section-heading">Manufacturing Tracking</h3>
+                    @if (current.DesignEngineeringStatus != OrderTrackingEnum.DesignEngineeringStatus.Completed.ToString())
+                    {
+
+
+
+                        <div class="order-tracking-step" id="order-tracking-design-engineering">
+                            <span class="order-tracking-step-name">Design and Engineering</span>
+
+                            @if (current.DesignEngineeringStatus == null)
+                            {
+                                <span class="order-tracking-step-status">Not Started</span>
+                            }
+                            else
+                            {
+                                <span class="order-tracking-step-status">@current.DesignEngineeringStatus"</span>
+                            }
+
+                        </div>
+                    }
+                    else if (current.PrototypingTestingStatus != OrderTrackingEnum.PrototypingTestingStatus.Completed.ToString())
+                    {
+                        <div class="order-tracking-step" id="order-tracking-prototyping-testing">
+                            <span class="order-tracking-step-name">Prototyping and Testing</span>
+
+                            @if (current.PrototypingTestingStatus == null)
+                            {
+                                <span class="order-tracking-step-status">Not Started</span>
+                            }
+                            else
+                            {
+                                <span class="order-tracking-step-status">@current.PrototypingTestingStatus"</span>
+                            }
+                        </div>
+                    }
+                    else if (current.ComponentAssemblyStatus != OrderTrackingEnum.ComponentAssemblyStatus.Completed.ToString())
+                    {
+                        <div class="order-tracking-step" id="order-tracking-component-assembly">
+                            <span class="order-tracking-step-name">Component Manufacturing and Assembly</span>
+                            @if (current.ComponentAssemblyStatus == null)
+                            {
+                                <span class="order-tracking-step-status">Not Started</span>
+                            }
+                            else
+                            {
+                                <span class="order-tracking-step-status">@current.ComponentAssemblyStatus"</span>
+                            }
+                        </div>
+                    }
+                    else if (current.TestingCertificationStatus != OrderTrackingEnum.TestingCertificationStatus.Completed.ToString())
+                    {
+                        <div class="order-tracking-step" id="order-tracking-testing-certification">
+                            <span class="order-tracking-step-name">Testing and Certification</span>
+                            @if (current.TestingCertificationStatus == null)
+                            {
+                                <span class="order-tracking-step-status">Not Started</span>
+                            }
+                            else
+                            {
+                                <span class="order-tracking-step-status">@current.TestingCertificationStatus"</span>
+                            }
+                        </div>
+                    }
+
+
+
                 </div>
-                <div class="order-tracking-step" id="order-tracking-prototyping-testing">
-                    <span class="order-tracking-step-name">Prototyping and Testing</span>
-                    <span class="order-tracking-step-status">@ViewBag.PrototypingTestingStatus</span>
+            }
+
+            else
+            {
+                <div class="order-tracking-shipping">
+                    <h3 class="order-tracking-section-heading">Shipping Tracking</h3>
+                    @if (current.ShippedStatus != OrderTrackingEnum.ShippedStatus.Shipped.ToString())
+                    {
+                        <div class="order-tracking-step" id="order-tracking-order-processing">
+                            <span class="order-tracking-step-name">status</span>
+                            @if (current.ShippedStatus == null)
+                            {
+                                <span class="order-tracking-step-status">Not Started</span>
+                            }
+                            else
+                            {
+                                <span class="order-tracking-step-status">@current.ShippedStatus"</span>
+                            }
+                        </div>
+                    }
+                    else if (current.DeliveredStatus == OrderTrackingEnum.DeliveredStatus.Delivered.ToString())
+                    {
+                        <div class="order-tracking-step" id="order-tracking-order-processing">
+                            <span class="order-tracking-step-name">status</span>
+                            @if (current.DeliveredStatus == null)
+                            {
+                                <span class="order-tracking-step-status">"Not Started"</span>
+                            }
+                            else
+                            {
+                                <span class="order-tracking-step-status">@current.DeliveredStatus"</span>
+                            }
+                        </div>
+                    }
+
+                    >
                 </div>
-                <div class="order-tracking-step" id="order-tracking-component-assembly">
-                    <span class="order-tracking-step-name">Component Manufacturing and Assembly</span>
-                    <span class="order-tracking-step-status">@ViewBag.ComponentAssemblyStatus</span>
-                </div>
-                <div class="order-tracking-step" id="order-tracking-testing-certification">
-                    <span class="order-tracking-step-name">Testing and Certification</span>
-                    <span class="order-tracking-step-status">@ViewBag.TestingCertificationStatus</span>
-                </div>
-            </div>
+            }
+
         }
 
-        <div class="order-detail">
+        <div class="order-detail m-4">
             <span class="order-detail-label">Purchased Date:</span>
             <span class="order-detail-value">@Model.order.OrderDateTime</span>
         </div>
@@ -75,34 +148,7 @@
     </div>
 
 
-    
-    <!-- Shipping Tracking Section -->
-    <div class="order-tracking-shipping">
-        <h3 class="order-tracking-section-heading">Shipping Tracking</h3>
-        @if (OrderStatusEnum.Initiating.ToString() == Model.order.OrderStatus)
-        {
-            <div class="order-tracking-step" id="order-tracking-order-processing">
-                <span class="order-tracking-step-name">Order Processing</span>
-            </div>
-        }
-        else if (OrderStatusEnum.Building.ToString() == Model.order.OrderStatus)
-        {
-            <div class="order-tracking-step" id="order-tracking-order-processing">
-                <span class="order-tracking-step-name">Building</span>
-            </div>
-        }
-        else if (OrderStatusEnum.Delivering.ToString() == Model.order.OrderStatus)
-        {
-            <div class="order-tracking-step" id="order-tracking-order-processing">
-                <span class="order-tracking-step-name">Delivering</span>
-            </div>
-        }
-        else if (OrderStatusEnum.Delivered.ToString() == Model.order.OrderStatus)
-        {
-            <div class="order-tracking-step" id="order-tracking-order-processing">
-                <span class="order-tracking-step-name">Delivered</span>
-            </div>
-        }
 
-    </div>
-</div>
+    <!-- Shipping Tracking Section -->
+
+</div

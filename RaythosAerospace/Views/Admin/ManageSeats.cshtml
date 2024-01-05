@@ -1,0 +1,66 @@
+﻿@model SeatDTO
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Seat Management";
+}
+
+<section>
+    <form asp-action="ManageSeats" method="post">
+        <div class="container mt-4">
+            <h2 class="display-4 mb-4">Seat Management</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Seat ID</th>
+                        <th>Seat Type</th>
+                        <th>Seat Count</th>
+                        <th>Seat Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (int i = 0; i < Model.existingSeats.Count; i++)
+                    {
+
+                        if (i == Model.existingSeats.Count-1)
+                        {
+                            <tr>
+                                <td><strong>Add a new seat</strong></td>
+                            </tr>
+                            <tr>
+                                <td><input type="hidden" asp-for="@Model.existingSeats[i].SeatID" class="form-control" /></td>
+                                <td><input asp-for="@Model.existingSeats[i].SeatType" class="form-control" /></td>
+                                <td><input asp-for="@Model.existingSeats[i].SeatCount" class="form-control" /></td>
+                                <td><input asp-for="@Model.existingSeats[i].UnitPrice" class="form-control" /></td>
+                            </tr>
+                        }
+                        else
+                        {
+                <tr>
+                    <td><input asp-for="@Model.existingSeats[i].SeatID" class="form-control" readonly /></td>
+                    <td><input asp-for="@Model.existingSeats[i].SeatType" class="form-control" /></td>
+                    <td><input asp-for="@Model.existingSeats[i].SeatCount" class="form-control" /></td>
+                    <td><input asp-for="@Model.existingSeats[i].UnitPrice" class="form-control" /></td>
+                    <td><a href="/admin/deleteseat?seatId=@Model.existingSeats[i].SeatID" class="btn btn-danger">Delete</a></td>
+                </tr>
+                        }
+                    }
+                    <tr>
+                        <td colspan="3">
+                            <button type="submit" class="btn btn-secondary">Save Changes</button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </form>
+</section>
+

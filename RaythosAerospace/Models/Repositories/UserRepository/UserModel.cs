@@ -29,7 +29,7 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
         public DateTime DOB { get; set; }
 
         [Required(ErrorMessage = "Please provide the address")]
-        [Display(Name = "Date Of Birth")]
+        [Display(Name = "Address")]
         public string Address { get; set; }
 
         [Required(ErrorMessage = "Please provide the address")]

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = "_AdminLayout";
+    Layout = "_Layout";
     ViewData["Title"] = "Raythos Aerospace - Order History";
 }
 
@@ -33,19 +33,19 @@
 
     @foreach (OrderModel current in Model.orders)
     {
-<div class="order-history-card">
-    <div class="order-history-details">
-        <span class="order-history-id"><strong>Order Id : </strong>@current.OrderId</span>
-        <span class="order-history-product"><strong>Products : </strong> </span>
-        @foreach (ProductModel currentproduct in Model.orderdesc[current.OrderId])
-        {
-            <p>@currentproduct.AirCraft.AircraftType</p>
-        }
-        <span class="order-history-date"><strong>Order Placement Date : </strong>@current.OrderDateTime</span>
-        <span class="order-history-price"><strong>Total Price For The Order : </strong>@current.Subtotal</span>
-    </div>
-    <a href="/Order/OrderTracking?orderId=@current.OrderId" class="order-history-track-button">Track</a>
-</div>
+        <div class="order-history-card">
+            <div class="order-history-details">
+                <span class="order-history-id"><strong>Order Id : </strong>@current.OrderId</span>
+                <span class="order-history-product"><strong>Products : </strong> </span>
+                @foreach (ProductModel currentproduct in Model.orderdesc[current.OrderId])
+                {
+                    <p>@currentproduct.AirCraft.AircraftType</p>
+                }
+                <span class="order-history-date"><strong>Order Placement Date : </strong>@current.OrderDateTime</span>
+                <span class="order-history-price"><strong>Total Price For The Order : </strong>@current.Subtotal</span>
+            </div>
+            <a href="/Order/OrderTracking?orderId=@current.OrderId" class="order-history-track-button">Track</a>
+        </div>
     }
 
 

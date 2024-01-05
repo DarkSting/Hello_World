@@ -57,11 +57,8 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
         [Required]
         public double TotalAmount { get; set; }
 
-        // Order Status
-        [Required]
         public string OrderStatus { get; set; }
 
-        //navigation properties
         public ICollection<OrderAircraftModel> OrderAirCraft { get; set; }
 
         public InvoiceModel Invoice { get; set; }

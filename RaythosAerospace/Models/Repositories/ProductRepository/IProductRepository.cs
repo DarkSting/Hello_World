@@ -13,6 +13,9 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
 
         ProductModel DeleteProduct(string productid);
 
+        IList<ProductModel> GetAllProductsForAnOrder(string orderId);
+
+        void UpdateTheProducts(IList<ProductModel> products);
         void ReduceProductCountByOne(string productId);
 
         IList<ProductModel> GetAllProducts();

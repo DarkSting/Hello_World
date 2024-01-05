@@ -28,6 +28,19 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
 
         public string OrderId { get; set; }
 
+        public string DesignEngineeringStatus { get; set; }
+
+        public string PrototypingTestingStatus { get; set; }
+
+        public string ComponentAssemblyStatus { get; set; }
+        public string TestingCertificationStatus { get; set; }
+
+        public string OrderProcessingStatus { get; set; }
+
+        public string DeliveredStatus { get; set; }
+
+        public string ShippedStatus { get; set; }
+
         //navigation properties
         public AirCraftModel AirCraft { get; set; }
 

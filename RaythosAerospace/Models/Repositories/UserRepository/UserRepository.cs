@@ -29,6 +29,8 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
             UserModel foundUser = _context.Users.FirstOrDefault(n => n.UserId == nic);
 
             _context.Users.Remove(foundUser);
+
+
             _context.SaveChanges();
 
             return foundUser.Name;
@@ -51,7 +53,13 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
 
         public void UpdateUser(UserModel model)
         {
-            EntityEntry updated = _context.Users.Attach(model);
+            UserModel foundUser = _context.Users.Find(model.UserId);
+            foundUser.UserId = model.UserId;
+            foundUser.Name = model.Name;
+            foundUser.Address = model.Address;
+            foundUser.DOB = model.DOB;
+            foundUser.Email = model.Email;
+            EntityEntry updated = _context.Users.Attach(foundUser);
             updated.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
             _context.SaveChanges();
@@ -125,6 +133,11 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
         public UserModel GetUserByEmail(string email)
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
+        public IList<UserModel> GetUsers()
+        {
+            return _context.Users.ToList();
         }
     }
 }

@@ -94,5 +94,36 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
             _context.SaveChanges();
 
         }
+
+        public IList<ProductModel> GetAllProductsForAnOrder(string orderId)
+        {
+            IList<ProductModel> foundList = _context.Products.Where(o => o.OrderId == orderId).ToList();
+
+            foreach(ProductModel current in foundList)
+            {
+                current.AirCraft = _context.AirCrafts.Find(current.AirCraftId);
+            }
+
+            return foundList;
+        }
+
+        public void UpdateTheProducts(IList<ProductModel> products)
+        {
+            foreach(ProductModel current in products)
+            {
+                ProductModel foundProduct = _context.Products.Find(current.ProductId);
+
+                foundProduct.ComponentAssemblyStatus = current.ComponentAssemblyStatus;
+                foundProduct.DesignEngineeringStatus = current.DesignEngineeringStatus;
+                foundProduct.DeliveredStatus = current.DeliveredStatus;
+                foundProduct.TestingCertificationStatus = current.TestingCertificationStatus;
+                foundProduct.PrototypingTestingStatus = current.PrototypingTestingStatus;
+                foundProduct.ShippedStatus = current.ShippedStatus;
+
+                _context.Products.Update(foundProduct);
+            }
+
+            _context.SaveChanges();
+        }
     }
 }

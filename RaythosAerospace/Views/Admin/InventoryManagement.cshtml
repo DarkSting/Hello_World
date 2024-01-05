@@ -18,9 +18,9 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card inventory-management-card">
                         <div class="card-body">
-                            <h5 class="card-title">Add an Item to Inventory</h5>
-                            <p class="card-text">Click here to add a new item to the inventory.</p>
-                            <a href="@Url.Action("AddInventoryItem", "Admin")" class="btn btn-primary inventory-management-btn">Add an Item</a>
+                            <h5 class="card-title">Manage Seats</h5>
+                            <p class="card-text">Click here to view and manage seat stocks</p>
+                            <a href="@Url.Action("ManageSeats", "Admin")" class="btn btn-primary inventory-management-btn">Manage Seat Stocks</a>
                         </div>
                     </div>
                 </div>
@@ -29,12 +29,24 @@
                 <div class="col-lg-6 mb-4">
                     <div class="card inventory-management-card">
                         <div class="card-body">
-                            <h5 class="card-title">Manage Inventory</h5>
-                            <p class="card-text">Click here to view and manage existing inventory.</p>
-                            <a href="@Url.Action("ManageInventory", "Admin")" class="btn btn-primary inventory-management-btn">Manage Inventory</a>
+                            <h5 class="card-title">Manage Colors</h5>
+                            <p class="card-text">Click here to view and manage colors stocks</p>
+                            <a href="@Url.Action("ManageColors", "Admin")" class="btn btn-primary inventory-management-btn">Manage Colors Stocks</a>
                         </div>
                     </div>
                 </div>
+
+
+                <div class="col-lg-6 mb-4">
+                    <div class="card inventory-management-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Manage Engines</h5>
+                            <p class="card-text">Click here to view and manage engine stocks</p>
+                            <a href="@Url.Action("ManageEngines", "Admin")" class="btn btn-primary inventory-management-btn">Manage Engines Stocks</a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

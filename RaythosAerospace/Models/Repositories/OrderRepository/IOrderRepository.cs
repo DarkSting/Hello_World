@@ -16,7 +16,7 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
         ShippingModel GetShipping(string shippingId);
         IEnumerable<ShippingModel> GetShippingMethods();
 
-        IEnumerable<OrderModel> GetAllOrders();
+        IList<OrderModel> GetAllOrders();
 
         OrderModel UpdateOrderState(OrderModel model);
     }

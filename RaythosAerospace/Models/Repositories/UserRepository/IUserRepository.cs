@@ -11,6 +11,8 @@ namespace RaythosAerospace.Models.Repositories.UserRepository
 
         UserModel Find(string nic);
 
+        IList<UserModel> GetUsers();
+
         UserModel GetUserByEmail(string email);
 
         void RegisterUser(UserModel model,string password);

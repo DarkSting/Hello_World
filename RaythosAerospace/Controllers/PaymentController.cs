@@ -54,8 +54,6 @@ namespace RaythosAerospace.Controllers
         [HttpPost]
         public IActionResult ProcessPayment(PaymentModel payment)
         {
-
-            
             //validating the inputs
             if (payment.shippingId==null || payment.shippingAddress==null)
             {

@@ -1,0 +1,110 @@
+﻿@model OrderDetailsDTO
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Order Management";
+}
+
+
+<div class="order-tracking-container">
+
+    <form asp-action="OrderEditing">
+        <h2 class="order-tracking-heading">Order Tracking</h2>
+        <input type="hidden" asp-for="@Model.order.OrderId" />
+        <!-- Order Details Section -->
+        <div class="order-details">
+            <h3 class="order-details-heading">Order Details</h3>
+            <div class="order-detail">
+                <span class="order-detail-label">Order ID:</span>
+                <span class="order-detail-value">@Model.order.OrderId</span>
+            </div>
+
+            <!--product details-->
+            @for (int i = 0; i < Model.products.Count; i++)
+            {
+                <div class="order-detail mt-5">
+                    <span class="order-detail-label">Purchased Aircraft:</span>
+                    <span class="order-detail-value">@Model.products[i].AirCraft.AircraftType</span>
+                    <span class="order-detail-value"><strong>Unit Price : </strong>@Model.products[i].AirCraft.AirCraftPrice</span>
+                    <span class="order-detail-value">@Model.products[i].AirCraft.AircraftType</span>
+                </div>
+
+                <input type="hidden" asp-for="@Model.products[i].ProductId" />
+
+                @* @if (Model.products[i].TestingCertificationStatus == null || Model.products[i].TestingCertificationStatus == string.Empty||
+                           Model.products[i].TestingCertificationStatus != OrderTrackingEnum.TestingCertificationStatus.Completed.ToString()
+                        )
+                    {*@
+                <!-- Manufacturing Tracking Section -->
+                <div class="order-tracking-manufacturing">
+                    <h3 class="order-tracking-section-heading">Manufacturing Tracking</h3>
+
+
+                    <div class="order-tracking-step" id="order-tracking-design-engineering">
+                        <span class="order-tracking-step-name">Design and Engineering</span>
+                        <select asp-for="@Model.products[i].DesignEngineeringStatus" class="form-control" asp-items="(ViewBag.DesignEngineeringStatus as List<SelectListItem>)"></select>
+
+                    </div>
+
+
+                    <div class="order-tracking-step" id="order-tracking-prototyping-testing">
+                        <span class="order-tracking-step-name">Prototyping and Testing</span>
+                        <select asp-for="@Model.products[i].PrototypingTestingStatus" class="form-control" asp-items="(ViewBag.PrototypingTestingStatus as List<SelectListItem>)"></select>
+
+                    </div>
+
+                    <div class="order-tracking-step" id="order-tracking-component-assembly">
+                        <span class="order-tracking-step-name">Component Manufacturing and Assembly</span>
+                        <select asp-for="@Model.products[i].ComponentAssemblyStatus" class="form-control" asp-items="(ViewBag.ComponentAssemblyStatus as List<SelectListItem>)"></select>
+
+                    </div>
+
+                    <div class="order-tracking-step" id="order-tracking-testing-certification">
+                        <span class="order-tracking-step-name">Testing and Certification</span>
+                        <select asp-for="@Model.products[i].TestingCertificationStatus" class="form-control" asp-items="(ViewBag.TestingCertificationStatus as List<SelectListItem>)"></select>
+
+                    </div>
+
+
+
+                </div>
+                @*
+                    }
+                    else
+                    {
+                *@
+                <div class="order-tracking-shipping">
+                    <h3 class="order-tracking-section-heading">Shipping Tracking</h3>
+
+                    <div class="order-tracking-step" id="order-tracking-order-processing">
+                        <span class="order-tracking-step-name">Shipping status</span>
+                        <select asp-for="@Model.products[i].ShippedStatus" class="form-control" asp-items="(ViewBag.ShippedStatus as List<SelectListItem>)"></select>
+
+                    </div>
+
+                    <div class="order-tracking-step" id="order-tracking-order-processing">
+                        <span class="order-tracking-step-name">Delivering status</span>
+                        <select asp-for="@Model.products[i].DeliveredStatus" class="form-control" asp-items="(ViewBag.DeliveredStatus as List<SelectListItem>)"></select>
+
+                    </div>
+
+                </div>
+                @* }*@
+
+            }
+
+            <div class="order-detail m-4">
+                <span class="order-detail-label">Purchased Date:</span>
+                <span class="order-detail-value">@Model.order.OrderDateTime</span>
+            </div>
+            <div class="order-detail">
+                <span class="order-detail-label">Amount Paid:</span>
+                <span class="order-detail-value">@Model.order.Subtotal</span>
+            </div>
+        </div>
+        <button type="submit" class="order-history-track-button">Save Changes</button>
+    </form>
+
+    <!-- Shipping Tracking Section -->
+
+</div>

@@ -33,6 +33,35 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
             return foundAirCraft;
         }
 
+        public IList<SeatModel> GetAllSeats()
+        {
+            return _context.Seats.ToList();
+        }
+
+        public void UpdateSeats(IList<SeatModel> existingSeats)
+        {
+            foreach (SeatModel seat in existingSeats)
+            {
+                if (seat.SeatType==null && seat.UnitPrice==0)
+                {
+                    continue;
+                }
+                else if (seat.SeatType != string.Empty && seat.UnitPrice != 0 && seat.SeatID==null)
+                {
+                    seat.SeatID = "ST-" + Guid.NewGuid().ToString();
+                    _context.Seats.Add(seat);
+                }
+                else
+                {
+
+                    _context.Seats.Update(seat);
+                }
+                
+            }
+
+            _context.SaveChanges();
+        }
+
         //get all aircrafts
         public IList<AirCraftModel> GetAirCrafts()
         {
@@ -110,13 +139,13 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         }
 
         //update seats of an aircraft
-        public AirCraftModel UpdateSeats(SeatModel seat, string id)
+        public SeatModel UpdateSeats(SeatModel seat, string id)
         {
             throw new NotImplementedException();
         }
 
         //gets all engines
-        public IEnumerable<EngineModel> GetEngineTypes()
+        public IList<EngineModel> GetEngineTypes()
         {
             return _context.Engines.ToList();
 
@@ -124,7 +153,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         }
 
         //gets all seats
-        public IEnumerable<SeatModel> GetSeatTypes()
+        public IList<SeatModel> GetSeatTypes()
         {
              return _context.Seats.ToList();
 
@@ -312,6 +341,80 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public IList<AirCraftPhoto> GetAllImages(string aircraftId)
         {
             return _context.AirCraftPhoto.Where(p => p.AirCraftID == aircraftId).ToList();
+        }
+
+        public void DeleteSeat(string seatid)
+        {
+            SeatModel seatModel = _context.Seats.Find(seatid);
+            _context.Seats.Remove(seatModel);
+            _context.SaveChanges();
+        }
+
+        public void DeleteEngine(string engineId)
+        {
+            EngineModel engineModel = _context.Engines.Find(engineId);
+            _context.Engines.Remove(engineModel);
+            _context.SaveChanges();
+        }
+
+        public void DeleteColor(string colorId)
+        {
+            ColorModel colorModel = _context.Colors.Find(colorId);
+            _context.Colors.Remove(colorModel);
+            _context.SaveChanges();
+        }
+
+        public void UpdateColor(ColorModel color)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateEngines(IList<EngineModel> engines)
+        {
+            foreach (EngineModel engine in engines)
+            {
+                if (engine.EngineType == null && engine.UnitPrice == 0)
+                {
+                    continue;
+                }
+                else if (engine.EngineType != string.Empty && engine.UnitPrice != 0 && engine.EngineId == null)
+                {
+                    engine.EngineId = "ENG-" + Guid.NewGuid().ToString();
+                    _context.Engines.Add(engine);
+                }
+                else
+                {
+
+                    _context.Engines.Update(engine);
+                }
+
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void UpdateColors(IList<ColorModel> colors)
+        {
+            foreach (ColorModel color in colors)
+            {
+                if (color.Color == null && color.Price == 0)
+                {
+                    continue;
+                }
+                else if (color.Color != string.Empty && color.Price != 0 && color.ColorId == null)
+                {
+                    color.ColorId = "CLR-" + Guid.NewGuid().ToString();
+                    _context.Colors.Add(color);
+                }
+                else
+                {
+
+                    _context.Colors.Update(color);
+                }
+
+            }
+
+            _context.SaveChanges();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,9 +85,21 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
             return model;
         }
 
-        public IEnumerable<OrderModel> GetAllOrders()
+        public IList<OrderModel> GetAllOrders()
         {
-            return _context.Orders.ToList();
+            IList<OrderModel> orders = _context.Orders.ToList();
+
+            foreach(OrderModel current in orders)
+            {
+                current.Products = _context.Products.Where(p => p.OrderId == current.OrderId).ToList();
+                
+               foreach(ProductModel product in current.Products)
+                {
+                    product.AirCraft = _context.AirCrafts.Find(product.AirCraftId);
+                }
+            }
+
+            return orders;
         }
     }
 }

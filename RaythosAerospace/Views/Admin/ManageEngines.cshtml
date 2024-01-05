@@ -1,0 +1,67 @@
+﻿@model EngineDTO
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Engine Management";
+}
+
+<section>
+    <form asp-action="ManageEngines" method="post">
+        <div class="container mt-4">
+            <h2 class="display-4 mb-4">Engine Management</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Engine ID</th>
+                        <th>Engine Type</th>
+                        <th>Engine Price</th>
+                        <th>Engine Count</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @for (int i = 0; i < Model.Engines.Count; i++)
+                    {
+
+                        if (i == Model.Engines.Count - 1)
+                        {
+                            <tr>
+                                <td><strong>Add a new Engine</strong></td>
+                            </tr>
+                            <tr>
+                                <td><input type="hidden" asp-for="@Model.Engines[i].EngineId" class="form-control" /></td>
+                                <td><input asp-for="@Model.Engines[i].EngineType" class="form-control" /></td>
+                                <td><input asp-for="@Model.Engines[i].UnitPrice" class="form-control" /></td>
+                                <td><input asp-for="@Model.Engines[i].UnitCount" class="form-control" /></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td><input asp-for="@Model.Engines[i].EngineId" class="form-control" readonly /></td>
+                                <td><input asp-for="@Model.Engines[i].EngineType" class="form-control" /></td>
+                                <td><input asp-for="@Model.Engines[i].UnitPrice" class="form-control" /></td>
+                                <td><input asp-for="@Model.Engines[i].UnitCount" class="form-control" /></td>
+                                <td><a href="/admin/DeleteEngine?engineId=@Model.Engines[i].EngineId" class="btn btn-danger">Delete</a></td>
+                            </tr>
+                        }
+                    }
+                    <tr>
+                        <td colspan="3">
+                            <button type="submit" class="btn btn-secondary">Save Changes</button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </form>
+</section>
+
+

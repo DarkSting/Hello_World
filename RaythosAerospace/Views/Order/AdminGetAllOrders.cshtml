@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Raythos Aerospace - Order History";
+}
+
+@model OrderDTO
+
+<div class="order-history-container">
+    <h2 class="order-history-heading">Order History</h2>
+
+
+    @foreach (OrderModel current in Model.orders)
+    {
+        <div class="order-history-card">
+            <div class="order-history-details">
+                <span class="order-history-id"><strong>Order Id : </strong>@current.OrderId</span>
+                <span class="order-history-product"><strong>Products : </strong> </span>
+                @foreach (ProductModel currentproduct in current.Products)
+                {
+                    <p>@currentproduct.AirCraft.AircraftType</p>
+                }
+                <span class="order-history-date"><strong>Order Placement Date : </strong>@current.OrderDateTime</span>
+                <span class="order-history-price"><strong>Total Price For The Order : </strong>@current.Subtotal</span>
+            </div>
+            <a href="/admin/OrderEditing?orderId=@current.OrderId" class="order-history-track-button">Track</a>
+        </div>
+    }
+
+    <!-- Add more order cards as needed -->
+</div>

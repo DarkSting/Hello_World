@@ -13,30 +13,50 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
 
         void RemoveCustomization(string customizationid);
 
+        void DeleteSeat(string seatid);
+
+      
+        void UpdateSeats(IList<SeatModel> existingSeats);
+
+        IList<SeatModel> GetAllSeats();
+        SeatModel GetSeat(string id);
+
+
+        IList<SeatModel> GetSeatTypes();
+
         AirCraftModel Insert(AirCraftModel model);
         AirCraftModel Update(AirCraftModel model);
 
         void UploadPhoto(AirCraftPhoto photo);
 
         IList<AirCraftPhoto> GetAllImages(string aircraftId);
-        IEnumerable<EngineModel> GetEngineTypes();
-        IEnumerable<SeatModel> GetSeatTypes();
+        IList<EngineModel> GetEngineTypes();
+
 
         IList<AirCraftModel> GetAirCrafts();
 
-        SeatModel GetSeat(string id);
+      
         EngineModel GetEngine(string id);
+        void DeleteEngine(string engineId);
 
 
         IList<AirCraftModel> GetAirCraftsByType(string type);
 
         AirCraftModel UpdateEngine(EngineModel engine,string id);
 
-        AirCraftModel UpdateSeats(SeatModel seat, string id);
+        void UpdateEngines(IList<EngineModel> engines);
+
+        SeatModel UpdateSeats(SeatModel seat, string id);
 
         IList<ColorModel> GetAllColors();
 
         ColorModel GetColor(string colorId);
+
+        void DeleteColor(string colorId);
+
+        void UpdateColors(IList<ColorModel> colors);
+
+        void UpdateColor(ColorModel color);
 
 
         void AddCustomization(CustomizationModel custom);
