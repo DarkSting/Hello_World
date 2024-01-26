@@ -1,4 +1,5 @@
 ﻿using RaythosAerospace.Models.Repositories.ProductRepository;
+using RaythosAerospace.Models.Repositories.UserRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
     {
         public OrderModel order { get; set; }
 
+        public Dictionary<string, UserModel> orderedUsers { get; set; }
+
+        public UserModel user { get; set; }
         public IList<ProductModel> products { get; set; }
 
     }

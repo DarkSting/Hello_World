@@ -13,6 +13,8 @@
     {
         <div class="order-history-card">
             <div class="order-history-details">
+                <span class="order-history-date"><strong>Customer : </strong>@Model.orderedUsers[current.OrderId].Name</span>
+                <span class="order-history-date"><strong>Address : </strong>@Model.orderedUsers[current.OrderId].Address</span>
                 <span class="order-history-id"><strong>Order Id : </strong>@current.OrderId</span>
                 <span class="order-history-product"><strong>Products : </strong> </span>
                 @foreach (ProductModel currentproduct in current.Products)

@@ -37,36 +37,14 @@ namespace RaythosAerospace.Controllers
             _jwtController = jwtController;
 
         }
-        // GET: OrderController
-        public ActionResult Index()
-        {
-           
-            return View();
-        }
-
-        public IActionResult ViewOrders()
-        {
-            return View();
-        }
-
-        public IActionResult ViewAnOrderForUser(string orderId)
-        {
-            return View();
-        }
-
-        // GET: OrderController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-
+   
+        //get all orders for a customer
         [HttpGet]
 
         public IActionResult ClientOrderHistory()
         {
 
-
+            //get the current logged users id from the jwt token
             UserModel userModel = _jwtController.GetUserFromTheCookies("JWT", Request);
 
             if (userModel == null)
@@ -77,6 +55,7 @@ namespace RaythosAerospace.Controllers
 
 
             IList<OrderModel> foundOrders = _orderRepo.GetAllOrdersForAUser(userModel.UserId);
+
             Dictionary<string, IList<ProductModel>> orderDesc = new Dictionary<string, IList<ProductModel>>();
 
             //iterating each order and getting the products related to the order
@@ -84,7 +63,7 @@ namespace RaythosAerospace.Controllers
             {
 
                 orderDesc.Add(current.OrderId, new List<ProductModel>());
-                IList<ProductModel> foundProducts = _productRepo.GetProductsByUser(userModel.UserId);
+                IList<ProductModel> foundProducts = _productRepo.GetAllProductsForAnOrder(current.OrderId);
 
                 //iterating the aircrafts and assign their ids to the aircraft products
                 foreach (ProductModel currentProduct in foundProducts)
@@ -107,57 +86,16 @@ namespace RaythosAerospace.Controllers
         }
 
 
-
-        [HttpGet]
-
-        public IActionResult OrderHistory()
-        {
-
-
-            UserModel userModel = _jwtController.GetUserFromTheCookies("JWT",Request);
-
-            if (userModel==null){
-
-                return View("~/Views/Shared/Error.cshtml");
-            }
-
-            
-            IList<OrderModel> foundOrders = _orderRepo.GetAllOrdersForAUser(userModel.UserId);
-            Dictionary<string, IList<ProductModel>> orderDesc = new Dictionary<string, IList<ProductModel>>();
-            
-            //iterating each order and getting the products related to the order
-            foreach(OrderModel current in foundOrders)
-            {
-               
-                orderDesc.Add(current.OrderId, new List<ProductModel>());
-                IList<ProductModel> foundProducts = _productRepo.GetProductsByUser(userModel.UserId);
-
-                //iterating the aircrafts and assign their ids to the aircraft products
-                foreach(ProductModel currentProduct in foundProducts)
-                {
-                    currentProduct.AirCraft = new AirCraftModel();
-                    currentProduct.AirCraft.AircraftType = _airCraftRepo.Find(currentProduct.AirCraftId).AircraftType;
-                }
-
-                orderDesc[current.OrderId] = foundProducts;
-
-            }
-
-            OrderDTO orderDTO = new OrderDTO
-            {
-                orders = foundOrders,
-                orderdesc = orderDesc
-            };
-
-            return View(orderDTO);
-        }
-
+        ///getting tracking status of the order
         public IActionResult OrderTracking(string orderId)
         {
 
-
+            //getting order details from the order repository
             OrderModel foundOrder = _orderRepo.Find(orderId);
-            IList<ProductModel> productDesc = _productRepo.GetProductsByUser(foundOrder.UserId);
+
+         
+            //assign the products for the retreived order
+            IList<ProductModel> productDesc = _productRepo.GetAllProductsForAnOrder(foundOrder.OrderId);
           
             //iterating the aircrafts and assign them to the aircraft products
             foreach (ProductModel currentProduct in productDesc)
@@ -166,7 +104,7 @@ namespace RaythosAerospace.Controllers
                 currentProduct.Customize = _airCraftRepo.GetCustomization(currentProduct.CustomizationId);
             }
 
-
+            //data trasfer object which contains the details that will be displayed on the view
             OrderDetailsDTO orderDTO = new OrderDetailsDTO
             {
                 order = foundOrder,
@@ -176,12 +114,15 @@ namespace RaythosAerospace.Controllers
             return View(orderDTO);
         }
 
+
+        //creating the order
         public OrderModel InitiateOrder(PurchaseViewModel model)
         {
 
+            //getting the shipping details which was selected by the customer
             ShippingModel shippingMethod = _orderRepo.GetShipping(model.shippingId);
 
-
+            //populate the order details
             OrderModel newOrder = new OrderModel
             {
                 OrderDateTime = DateTime.Now.Date,
@@ -200,8 +141,10 @@ namespace RaythosAerospace.Controllers
 
             };
 
+            //creating the order
             _orderRepo.Create(newOrder);
 
+            //assign the order ids to the product
             foreach(Product current in model.Products)
             {
                 _productRepo.AssigningOrderIDsTotheProduct(newOrder.OrderId, current.ProductID);
@@ -211,15 +154,8 @@ namespace RaythosAerospace.Controllers
 
         }
 
-        // GET: OrderController/Create
-        [HttpGet]
-        public ViewResult Create(string? airCraftId, string? userId)
-        {
-            PrepareDataForLoadPage(userId, airCraftId, ViewBag);
 
-            return View();
-        }
-
+        //get all orders of customers 
         [HttpGet]
         public IActionResult AdminGetAllOrders()
         {
@@ -227,25 +163,24 @@ namespace RaythosAerospace.Controllers
 
             foundOrders.orders = _orderRepo.GetAllOrders();
 
+            foundOrders.orderedUsers = new Dictionary<string, UserModel>();
+
+           foreach(OrderModel current in foundOrders.orders)
+            {
+                if (!foundOrders.orderedUsers.ContainsKey(current.OrderId))
+                {
+                    UserModel foundUser = _userRepo.Find(current.UserId);
+                    foundUser.Password = "";
+                    foundOrders.orderedUsers.Add(current.OrderId, foundUser);
+                }
+            }
+
             return View(foundOrders);
 
 
         }
 
-        [HttpGet]
-        public IActionResult OrderEditing(string userId)
-        {
-
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult OrderEditing(OrderDetailsDTO dto)
-        {
-
-            return View();
-        }
-
+        //preparing the values for the dropdowns
         private void PrepareDataForLoadPage(string? userid, string? aircraftid,dynamic bag)
         {
             AirCraftModel foundCraft = _airCraftRepo.Find(aircraftid == null ? "A0001" : aircraftid);
@@ -272,37 +207,7 @@ namespace RaythosAerospace.Controllers
             bag.Shippings = _orderRepo.GetShippingMethods();
         }
 
-        // POST: OrderController/Create
-        [HttpPost]
-        public IActionResult Create(OrderModel model)
-        {
-            
-
-            if (ModelState.IsValid)
-                {
-                    _orderRepo.Create(model);
-                    return RedirectToAction("Home/Index");
-                }
-
-
-            //PrepareDataForLoadPage(model.UserId, model.AirCraftId, ViewBag);
-            return View();
-        }
-
-        // GET: OrderController/Edit/5
-        [HttpGet]
-        public ActionResult Edit(string id)
-        {
-            OrderModel foundModel = _orderRepo.Find(id);
-
-            return View(foundModel);
-        }
-
-        public ActionResult Orders()
-        {
-            IEnumerable<OrderModel> models = _orderRepo.GetAllOrders();
-            return View(models);
-        }
+      
 
       
     }

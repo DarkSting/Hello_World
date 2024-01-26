@@ -15,25 +15,27 @@
             <span class="order-detail-value">@Model.order.OrderId</span>
         </div>
 
+        <div class="order-detail">
+            <span class="order-detail-label">Purchased Date:</span>
+            <span class="order-detail-value">@Model.order.OrderDateTime</span>
+        </div>
+
         <!--product details-->
         @foreach (ProductModel current in Model.products)
         {
-            <div class="order-detail mt-5">
+            <div class="order-detail mt-1 mb-4">
                 <span class="order-detail-label">Purchased Aircraft:</span>
                 <span class="order-detail-value">@current.AirCraft.AircraftType</span>
-                <span class="order-detail-value"><strong>Unit Price : </strong>@current.AirCraft.AirCraftPrice</span>
-                <span class="order-detail-value">@current.AirCraft.AircraftType</span>
+                <span class="order-detail-value ml-3"><strong>Unit Price : </strong>@current.AirCraft.AirCraftPrice</span>
             </div>
 
             <!-- Manufacturing Tracking Section -->
-            @if (current.TestingCertificationStatus == null || current.TestingCertificationStatus == string.Empty)
+            @if (current.TestingCertificationStatus == null || current.TestingCertificationStatus == string.Empty || current.TestingCertificationStatus != "Completed")
             {
                 <div class="order-tracking-manufacturing">
                     <h3 class="order-tracking-section-heading">Manufacturing Tracking</h3>
                     @if (current.DesignEngineeringStatus != OrderTrackingEnum.DesignEngineeringStatus.Completed.ToString())
                     {
-
-
 
                         <div class="order-tracking-step" id="order-tracking-design-engineering">
                             <span class="order-tracking-step-name">Design and Engineering</span>
@@ -44,7 +46,7 @@
                             }
                             else
                             {
-                                <span class="order-tracking-step-status">@current.DesignEngineeringStatus"</span>
+                                <span class="order-tracking-step-status">@current.DesignEngineeringStatus</span>
                             }
 
                         </div>
@@ -60,7 +62,7 @@
                             }
                             else
                             {
-                                <span class="order-tracking-step-status">@current.PrototypingTestingStatus"</span>
+                                <span class="order-tracking-step-status">@current.PrototypingTestingStatus</span>
                             }
                         </div>
                     }
@@ -74,7 +76,7 @@
                             }
                             else
                             {
-                                <span class="order-tracking-step-status">@current.ComponentAssemblyStatus"</span>
+                                <span class="order-tracking-step-status">@current.ComponentAssemblyStatus</span>
                             }
                         </div>
                     }
@@ -88,7 +90,7 @@
                             }
                             else
                             {
-                                <span class="order-tracking-step-status">@current.TestingCertificationStatus"</span>
+                                <span class="order-tracking-step-status">@current.TestingCertificationStatus</span>
                             }
                         </div>
                     }
@@ -105,7 +107,7 @@
                     @if (current.ShippedStatus != OrderTrackingEnum.ShippedStatus.Shipped.ToString())
                     {
                         <div class="order-tracking-step" id="order-tracking-order-processing">
-                            <span class="order-tracking-step-name">status</span>
+                            <span class="order-tracking-step-name">Shipping status</span>
                             @if (current.ShippedStatus == null)
                             {
                                 <span class="order-tracking-step-status">Not Started</span>
@@ -119,28 +121,24 @@
                     else if (current.DeliveredStatus == OrderTrackingEnum.DeliveredStatus.Delivered.ToString())
                     {
                         <div class="order-tracking-step" id="order-tracking-order-processing">
-                            <span class="order-tracking-step-name">status</span>
+                            <span class="order-tracking-step-name">Delivering Status</span>
                             @if (current.DeliveredStatus == null)
                             {
                                 <span class="order-tracking-step-status">"Not Started"</span>
                             }
                             else
                             {
-                                <span class="order-tracking-step-status">@current.DeliveredStatus"</span>
+                                <span class="order-tracking-step-status">@current.DeliveredStatus</span>
                             }
                         </div>
                     }
 
-                    >
+                    
                 </div>
             }
 
         }
 
-        <div class="order-detail m-4">
-            <span class="order-detail-label">Purchased Date:</span>
-            <span class="order-detail-value">@Model.order.OrderDateTime</span>
-        </div>
         <div class="order-detail">
             <span class="order-detail-label">Amount Paid:</span>
             <span class="order-detail-value">@Model.order.Subtotal</span>
@@ -148,7 +146,5 @@
     </div>
 
 
+</div>
 
-    <!-- Shipping Tracking Section -->
-
-</div

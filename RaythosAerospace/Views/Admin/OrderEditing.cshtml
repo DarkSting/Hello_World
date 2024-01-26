@@ -18,33 +18,45 @@
                 <span class="order-detail-label">Order ID:</span>
                 <span class="order-detail-value">@Model.order.OrderId</span>
             </div>
+            <div class="order-detail">
+                <span class="order-detail-label">Purchased Date:</span>
+                <span class="order-detail-value">@Model.order.OrderDateTime</span>
+            </div>
+            <div class="order-detail">
+                <span class="order-detail-label">Customer Name:</span>
+                <span class="order-detail-value">@Model.user.Name</span>
+            </div>
+            <div class="order-detail">
+                <span class="order-detail-label">Customer Address:</span>
+                <span class="order-detail-value">@Model.user.Address</span>
+            </div>
 
             <!--product details-->
             @for (int i = 0; i < Model.products.Count; i++)
             {
-                <div class="order-detail mt-5">
+                <div class="order-detail mt-1 mb-4">
                     <span class="order-detail-label">Purchased Aircraft:</span>
                     <span class="order-detail-value">@Model.products[i].AirCraft.AircraftType</span>
-                    <span class="order-detail-value"><strong>Unit Price : </strong>@Model.products[i].AirCraft.AirCraftPrice</span>
-                    <span class="order-detail-value">@Model.products[i].AirCraft.AircraftType</span>
+                    <span class="order-detail-value ml-3"><strong>Unit Price : </strong>@Model.products[i].AirCraft.AirCraftPrice</span>
                 </div>
 
                 <input type="hidden" asp-for="@Model.products[i].ProductId" />
 
                 @* @if (Model.products[i].TestingCertificationStatus == null || Model.products[i].TestingCertificationStatus == string.Empty||
-                           Model.products[i].TestingCertificationStatus != OrderTrackingEnum.TestingCertificationStatus.Completed.ToString()
-                        )
-                    {*@
+                   Model.products[i].TestingCertificationStatus != OrderTrackingEnum.TestingCertificationStatus.Completed.ToString()
+                )
+            {*@
                 <!-- Manufacturing Tracking Section -->
                 <div class="order-tracking-manufacturing">
                     <h3 class="order-tracking-section-heading">Manufacturing Tracking</h3>
-
 
                     <div class="order-tracking-step" id="order-tracking-design-engineering">
                         <span class="order-tracking-step-name">Design and Engineering</span>
                         <select asp-for="@Model.products[i].DesignEngineeringStatus" class="form-control" asp-items="(ViewBag.DesignEngineeringStatus as List<SelectListItem>)"></select>
 
                     </div>
+
+
 
 
                     <div class="order-tracking-step" id="order-tracking-prototyping-testing">
@@ -69,9 +81,9 @@
 
                 </div>
                 @*
-                    }
-                    else
-                    {
+            }
+            else
+            {
                 *@
                 <div class="order-tracking-shipping">
                     <h3 class="order-tracking-section-heading">Shipping Tracking</h3>
@@ -93,13 +105,10 @@
 
             }
 
-            <div class="order-detail m-4">
-                <span class="order-detail-label">Purchased Date:</span>
-                <span class="order-detail-value">@Model.order.OrderDateTime</span>
-            </div>
+
             <div class="order-detail">
                 <span class="order-detail-label">Amount Paid:</span>
-                <span class="order-detail-value">@Model.order.Subtotal</span>
+                <span class="order-detail-value"><b>@Model.order.Subtotal</b></span>
             </div>
         </div>
         <button type="submit" class="order-history-track-button">Save Changes</button>

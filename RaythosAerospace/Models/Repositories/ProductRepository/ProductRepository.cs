@@ -75,7 +75,7 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
             return _context.Products.Find(productid);
         }
 
-        public IList<ProductModel> GetProductsByUser(string userid)
+        public IList<ProductModel> GetProductAddedToTheCartByUser(string userid)
         {
             return _context.Products.Where(u => u.UserId == userid && u.OrderId==null).ToList();
         }
@@ -124,6 +124,23 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
             }
 
             _context.SaveChanges();
+        }
+
+        public int GetSoldAircraftCount(string aircraftId)
+        {
+            int totalCount = 0;
+
+            IList<ProductModel> products = _context.Products.Where(s => s.AirCraftId == aircraftId && s.OrderId != null).ToList();
+            if (products == null)
+            {
+                return 0;
+            }
+
+            foreach(ProductModel current in products)
+            {
+                totalCount += current.Count;
+            }
+            return totalCount;
         }
     }
 }

@@ -19,7 +19,7 @@
                             <h5 class="card-title">Model : @current.AircraftType</h5>
                             <p class="card-text">Starting from $@(current.AirCraftPrice)</p>
                             <p class="card-text"><strong>Availability:</strong> @(current.ItemCount > 0 ? "In Stock" : "Out of Stock")</p>
-                            <p class="card-text"><strong>Total Sold:</strong> </p>
+                            <p class="card-text"><strong>Total Sold:</strong>@Model.soldCount[current.AircraftId] </p>
                             <a href="/Admin/ManageAircraftsPage?aircraftId=@current.AircraftId" class="btn btn-primary">Manage Details</a>
                         </div>
                     </div>

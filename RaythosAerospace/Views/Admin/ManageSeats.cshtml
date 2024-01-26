@@ -16,7 +16,7 @@
                         <th>Seat ID</th>
                         <th>Seat Type</th>
                         <th>Seat Count</th>
-                        <th>Seat Price</th>
+                        <th>Seat Price Percentage %</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -26,10 +26,13 @@
                     @for (int i = 0; i < Model.existingSeats.Count; i++)
                     {
 
-                        if (i == Model.existingSeats.Count-1)
+                        if (i == Model.existingSeats.Count - 1)
                         {
                             <tr>
-                                <td><strong>Add a new seat</strong></td>
+                                
+                            </tr>
+                            <tr>
+                                <td><h3>Add a new seat</h3></td>
                             </tr>
                             <tr>
                                 <td><input type="hidden" asp-for="@Model.existingSeats[i].SeatID" class="form-control" /></td>
@@ -40,13 +43,13 @@
                         }
                         else
                         {
-                <tr>
-                    <td><input asp-for="@Model.existingSeats[i].SeatID" class="form-control" readonly /></td>
-                    <td><input asp-for="@Model.existingSeats[i].SeatType" class="form-control" /></td>
-                    <td><input asp-for="@Model.existingSeats[i].SeatCount" class="form-control" /></td>
-                    <td><input asp-for="@Model.existingSeats[i].UnitPrice" class="form-control" /></td>
-                    <td><a href="/admin/deleteseat?seatId=@Model.existingSeats[i].SeatID" class="btn btn-danger">Delete</a></td>
-                </tr>
+                            <tr>
+                                <td><input asp-for="@Model.existingSeats[i].SeatID" class="form-control" readonly /></td>
+                                <td><input asp-for="@Model.existingSeats[i].SeatType" class="form-control" /></td>
+                                <td><input asp-for="@Model.existingSeats[i].SeatCount" class="form-control" /></td>
+                                <td><input asp-for="@Model.existingSeats[i].UnitPrice" class="form-control" /></td>
+                                <td><a href="/admin/deleteseat?seatId=@Model.existingSeats[i].SeatID" class="btn btn-danger">Delete</a></td>
+                            </tr>
                         }
                     }
                     <tr>

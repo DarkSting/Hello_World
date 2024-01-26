@@ -46,6 +46,7 @@ namespace RaythosAerospace
             services.AddDbContextPool<AppDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AppConnection"))
             );
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {

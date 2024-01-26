@@ -30,7 +30,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public string Manufacturer { get; set; }
 
         [Required(ErrorMessage = "Please provide the YOM")]
-        [Display(Name = "Year of manufacture")]
+        [Display(Name = "Year of Manufacture")]
         public int YearOfManufacture { get; set; }
 
         [Required(ErrorMessage = "Please provide the seating capacity")]
@@ -43,7 +43,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public double MaximumRange { get; set; }
 
         [Required(ErrorMessage = "Please provide a engine type")]
-        [Display(Name = "Engine type")]
+        [Display(Name = "Engine Type")]
         public string EngineId { get; set; }
         public EngineModel EngineType { get; set; }
 
@@ -52,7 +52,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public int MaxAllowedEngines { get; set; }
 
         [Required(ErrorMessage = "Please provide the fuel capacity")]
-        [Display(Name = "Fuel capacity")]
+        [Display(Name = "Fuel Capacity")]
         public double FuelCapacity { get; set; }
 
         [Required(ErrorMessage = "Please provide the weight")]
@@ -97,7 +97,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
         public DateTime ManfacturedDate { get; set; }
 
         [Required(ErrorMessage = "Please provide the aircraft price")]
-        [Display(Name ="AirCraft price")]
+        [Display(Name ="Aircraft Price")]
         public double AirCraftPrice { get; set; }
 
         //navigation properties

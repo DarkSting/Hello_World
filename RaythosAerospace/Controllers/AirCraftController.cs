@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using RaythosAerospace.Models.Repositories.AirCraftRepository;
 using RaythosAerospace.Models.Repositories.CartRepository;
+using RaythosAerospace.Models.Repositories.OrderRepository;
+using RaythosAerospace.Models.Repositories.ProductRepository;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,32 +19,44 @@ namespace RaythosAerospace.Controllers
 
         private readonly IAirCraftRepository _repo;
         private readonly IWebHostEnvironment _hosting;
-        public AirCraftController(IAirCraftRepository repo,IWebHostEnvironment hosting)
+        private readonly IProductRepository _productRepo;
+
+        public AirCraftController(IAirCraftRepository repo,IWebHostEnvironment hosting, IProductRepository productRepo)
         {
             _repo = repo;
             _hosting = hosting;
-        }
-        // GET: AirCraftController
-        public ViewResult Index()
-        {
-            return View();
+            _productRepo = productRepo;
         }
 
+
+
+        // getting the aircraft catelog view
         public IActionResult AircraftCatalog()
         {
+
+            //  retreive all aircrafts
             ViewBag.aircrafts = _repo.GetAirCrafts();
+
+            // getting the sold count for a particular aircraft
+            ViewBag.soldCount = new Dictionary<string, int>();
+
+            //assign the sold count for an aircraft
+            foreach (AirCraftModel current in ViewBag.AirCrafts)
+            {
+                if (!ViewBag.soldCount.ContainsKey(current.AircraftId))
+                {
+                    int soldcount = GetSoldCount(current.AircraftId);
+                    ViewBag.soldCount.Add(current.AircraftId, soldcount);
+                }
+            }
+
             return View();
         }
 
-        // GET: AirCraftController/Details/5
-        public ViewResult Details(int id)
-        {
-            return View();
-        }
 
 
         [HttpGet]
-        // GET: AirCraftController/Create
+
         public ViewResult Create()
         {
 
@@ -50,6 +64,8 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
+
+        //  gets the aircraft details requested id
         public IActionResult AircraftPage(string airCraftId)
         {
 
@@ -62,10 +78,13 @@ namespace RaythosAerospace.Controllers
             return View(viewModel);
         }
 
+        // view all the aircrafts
         public ViewResult ViewAirCrafts()
         {
             AirCraftViewModel vm = new AirCraftViewModel();
             vm.AirCrafts = _repo.GetAirCrafts();
+            
+
             return View(vm);
         }
 
@@ -87,7 +106,14 @@ namespace RaythosAerospace.Controllers
             return bag;
         }
 
+        // gets the soldcount based on the provided aircraft id
+        public int GetSoldCount(string aircraftid)
+        {
+            
+            return _productRepo.GetSoldAircraftCount(aircraftid); ;
+        }
 
+        // create an aircraft model
         [HttpPost]
         public IActionResult Create(AirCraftCreateDTO model)
         {
@@ -96,12 +122,12 @@ namespace RaythosAerospace.Controllers
                 _repo.Insert(model.AirCraftDet);
 
                 int count = 1;
-                //iterating photos
+                // iterating photos
                foreach(IFormFile current in model.Photos)
                 {
                     AirCraftPhoto currentPhoto = new AirCraftPhoto();
 
-                    //adding the properties to the photo
+                    // adding the properties to the photo
                     string uniqueName = $"{count.ToString()}_"+Guid.NewGuid().ToString()+"_"+ current.FileName;
                     string rootpath = _hosting.WebRootPath;
                     string targetFolder = Path.Combine(rootpath, "images");
@@ -117,11 +143,14 @@ namespace RaythosAerospace.Controllers
 
                     _repo.UploadPhoto(currentPhoto);
                 }
+
                 return RedirectToAction("Success", new { id = model.AirCraftDet.AircraftId });
             }
 
             _FillDropDowns(ViewBag);
+
             return View();
+
         }
 
         [HttpGet]

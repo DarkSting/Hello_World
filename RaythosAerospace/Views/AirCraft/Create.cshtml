@@ -24,12 +24,12 @@
                     <!-- Display up to 4 images -->
                     @for (int i = 0; i < 4; i++)
                     {
-        <div class="col-md-3 mb-3">
-            <div class="add-aircraft-uploaded-image-container">
-                <img src="" alt="Uploaded Image" id="image-@i" class="img-fluid add-aircraft-uploaded-image">
-                <button type="button" class="btn btn-danger add-aircraft-delete-image-btn" data-custom-value="image-@i">Delete</button>
-            </div>
-        </div>}
+                        <div class="col-md-3 mb-3">
+                            <div class="add-aircraft-uploaded-image-container">
+                                <img src="" alt="Uploaded Image" id="image-@i" class="img-fluid add-aircraft-uploaded-image">
+                                <button type="button" class="btn btn-danger add-aircraft-delete-image-btn" data-custom-value="image-@i">Delete</button>
+                            </div>
+                        </div>}
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
                 <div class="form-group col-md-6">
                     <label asp-for="@Model.AirCraftDet.AircraftId" class="add-aircraft-label"></label>
                     <input asp-for="@Model.AirCraftDet.AircraftId" class="form-control add-aircraft-input" />
-                    <span asp-validation-for="@Model.AirCraftDet..AircraftId" class="text-danger"></span>
+                    <span asp-validation-for="@Model.AirCraftDet.AircraftId" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
                     <label asp-for="@Model.AirCraftDet.AircraftType" class="add-aircraft-label"></label>
@@ -90,7 +90,8 @@
                         <option value="">Select an Engine</option>
                         @foreach (EngineModel current in ViewBag.Engines)
                         {
-            <option value="@current.EngineId">@current.EngineType</option>}
+                            <option value="@current.EngineId">@current.EngineType</option>
+}
                     </select>
                     <input type="hidden" id="selectedEngineIdField" asp-for="@Model.AirCraftDet.EngineId" />
 
@@ -101,9 +102,7 @@
                     <input asp-for="@Model.AirCraftDet.MaxAllowedEngines" class="form-control add-aircraft-input" />
                     <span asp-validation-for="@Model.AirCraftDet.MaxAllowedEngines" class="text-danger"></span>
 
-                    <label asp-for="@Model.AirCraftDet.FuelCapacity" class="add-aircraft-label"></label>
-                    <input asp-for="@Model.AirCraftDet.FuelCapacity" class="form-control add-aircraft-input" />
-                    <span asp-validation-for="@Model.AirCraftDet.FuelCapacity" class="text-danger"></span>
+
                 </div>
             </div>
             <div class="row">
@@ -137,7 +136,8 @@
                         <option value="">Select an Seat</option>
                         @foreach (SeatModel current in ViewBag.Seats)
                         {
-            <option value="@current.SeatID">@current.SeatType</option>}
+                            <option value="@current.SeatID">@current.SeatType</option>
+}
                     </select>
                     <input type="hidden" id="selectedseatIdField" asp-for="@Model.AirCraftDet.SeatID" />
 
@@ -156,13 +156,18 @@
 
                 </div>
                 <div class="form-group col-md-6">
-                    <div class="form-group">
-                        <label asp-for="@Model.AirCraftDet.ManfacturedDate" class="add-aircraft-label"></label>
-                        <input asp-for="@Model.AirCraftDet.ManfacturedDate" class="form-control add-aircraft-input" />
-
-                    </div>
+                    <label asp-for="@Model.AirCraftDet.FuelCapacity" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.FuelCapacity" class="form-control add-aircraft-input" />
+                    <span asp-validation-for="@Model.AirCraftDet.FuelCapacity" class="text-danger"></span>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label asp-for="@Model.AirCraftDet.ManfacturedDate" class="add-aircraft-label"></label>
+                    <input asp-for="@Model.AirCraftDet.ManfacturedDate" class="form-control add-aircraft-input" />
+                </div>
+            </div>
+            
 
             <!-- Submit Button -->
             <button type="submit" class="btn btn-primary add-aircraft-btn">Add Aircraft</button>

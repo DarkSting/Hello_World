@@ -11,6 +11,7 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
 
         ProductModel AddProduct(ProductModel model);
 
+        int GetSoldAircraftCount(string aircraftId);
         ProductModel DeleteProduct(string productid);
 
         IList<ProductModel> GetAllProductsForAnOrder(string orderId);
@@ -21,7 +22,7 @@ namespace RaythosAerospace.Models.Repositories.ProductRepository
         IList<ProductModel> GetAllProducts();
         bool AssigningOrderIDsTotheProduct(string orderId, string productId);
 
-        IList<ProductModel> GetProductsByUser(string userid);
+        IList<ProductModel> GetProductAddedToTheCartByUser(string userid);
 
         void AddOrder(ProductModel model);
 

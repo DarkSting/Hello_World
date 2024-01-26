@@ -286,12 +286,13 @@
                             console.log(response);
                             //removes the item elements from the cart and displays a successfull message
                             if (response) {
+                                var res = JSON.parse(response);
                                 $('#messageBoxLabel').text('Success Modal');
-                                $('.modal-body').html('<p>Success: ' + response.msg + '</p>');
+                                $('.modal-body').html('<p>Success: ' + res.msg + '</p>');
 
                             } else {
                                 $('#messageBoxLabel').text('Error Modal');
-                                $('.modal-body').html('<p>Error: ' + response.error + '</p>');
+                                $('.modal-body').html('<p>Error: ' + res.error + '</p>');
                             }
 
                             // Show the modal
@@ -303,8 +304,9 @@
 
                         },
                         error: function (error) {
+                            var res = JSON.parse(error);
                             $('#messageBoxLabel').text('Error Modal');
-                            $('.modal-body').html('<p>Error: ' + error.message + '</p>');
+                            $('.modal-body').html('<p>Error: ' + res.msg + '</p>');
                             $('#messageBox').modal('show');
                         }
                     });

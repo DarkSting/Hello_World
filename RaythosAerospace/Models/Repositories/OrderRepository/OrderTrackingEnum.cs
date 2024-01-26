@@ -10,43 +10,47 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
 
         public enum DesignEngineeringStatus
         {
+            NotStarted,
             Pending,
             InProgress,
             Completed,
-            NotStarted
 
         }
 
         public enum PrototypingTestingStatus
         {
+            NotStarted,
             Pending,
             InProgress,
             Completed,
-            NotStarted
+            
         }
 
         public enum ComponentAssemblyStatus
         {
+            NotStarted,
             Pending,
             InProgress,
             Completed,
-            NotStarted
+            
         }
 
         public enum TestingCertificationStatus
         {
+            NotStarted,
             Pending,
             InProgress,
             Completed,
-            NotStarted
+           
         }
 
         public enum OrderProcessingStatus
         {
+            NotStarted,
             Pending,
             InProgress,
             Completed,
-            NotStarted
+            
         }
 
         public enum DeliveredStatus
@@ -59,10 +63,11 @@ namespace RaythosAerospace.Models.Repositories.OrderRepository
 
         public enum ShippedStatus
         {
+            NotStarted,
             Pending,
             Shipping,
-            Shipped,
-            NotStarted
+            Shipped
+            
         }
     }
 }

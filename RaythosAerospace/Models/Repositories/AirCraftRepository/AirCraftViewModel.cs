@@ -9,6 +9,7 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
     {
         public AirCraftModel aircraft { get; set; }
 
+        public Dictionary<string,int> soldCount { get; set; }
         public string SelectedEngineType { get; set; }
         public string SelectedSeatType { get; set; }
         public IEnumerable<SeatModel> seats { get; set; }

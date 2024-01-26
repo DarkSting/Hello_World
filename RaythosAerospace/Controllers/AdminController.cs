@@ -35,7 +35,7 @@ namespace RaythosAerospace.Controllers
             _productRepo = productRepo;
         }
 
-        // GET: /Admin/Register
+        // GET: 
         [HttpGet]
         public IActionResult Register()
         {
@@ -70,6 +70,7 @@ namespace RaythosAerospace.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+
             return View();
         }
 
@@ -78,10 +79,14 @@ namespace RaythosAerospace.Controllers
         public IActionResult Login(AdminModel viewmodel)
         {
 
+            ViewBag.Validated = false;
+
             bool isValid = _adminRepo.ValidateLogin(viewmodel.Email, viewmodel.Password);
 
             if (isValid)
             {
+
+                
                 string token = _jwt.AssignToken(viewmodel.Email);
                 _jwt.AttachToken(token, Response.Cookies);
 
@@ -91,7 +96,7 @@ namespace RaythosAerospace.Controllers
             else
             {
              
-                 ModelState.AddModelError(string.Empty, "Ivalid Login");
+                ModelState.AddModelError(string.Empty, "Ivalid Login");
                 
                 return View();
             }
@@ -107,13 +112,53 @@ namespace RaythosAerospace.Controllers
             AirCraftCreateDTO DTO = new AirCraftCreateDTO();
 
             DTO.airCrafts = _aircraftRepo.GetAirCrafts();
+            DTO.soldCount = new Dictionary<string, int>();
+
+            foreach (AirCraftModel current in DTO.airCrafts)
+            {
+                if (!DTO.soldCount.ContainsKey(current.AircraftId))
+                {
+                    int soldcount = _productRepo.GetSoldAircraftCount(current.AircraftId);
+                    DTO.soldCount.Add(current.AircraftId, soldcount);
+                }
+            }
+
+            
+
             return View(DTO);
         }
 
-        [HttpGet]
-        public IActionResult ManageAircraftsPage()
+        private dynamic _FillDropDownsOfManageAirCraftPage(dynamic bag)
         {
-            return View();
+            bag.Engines = _aircraftRepo.GetEngineTypes();
+            bag.Seats = _aircraftRepo.GetSeatTypes();
+            var enumList = Enum.GetValues(typeof(AirCraftTypeEnum))
+                            .Cast<AirCraftTypeEnum>()
+                            .Select(e => new SelectListItem
+                            {
+                                Value = e.ToString(),
+                                Text = e.ToString()
+                            }).ToList();
+
+            bag.AircraftTypes = enumList;
+            bag.Colors = _aircraftRepo.GetAllColors();
+            return bag;
+        }
+
+        [HttpGet]
+        public IActionResult ManageAircraftsPage(string aircraftId)
+        {
+            AirCraftModel foundAircraft = _aircraftRepo.Find(aircraftId);
+            _FillDropDownsOfManageAirCraftPage(ViewBag);
+            return View(foundAircraft);
+        }
+
+        [HttpPost]
+        public IActionResult ManageAircraftsPage(AirCraftModel aircraft)
+        {
+            AirCraftModel foundAircraft = _aircraftRepo.Update(aircraft);
+            _FillDropDownsOfManageAirCraftPage(ViewBag);
+            return View(foundAircraft);
         }
 
         public IActionResult InventoryManagement()
@@ -162,6 +207,8 @@ namespace RaythosAerospace.Controllers
             dto.order=_orderRepo.Find(orderId);
             dto.products = _productRepo.GetAllProductsForAnOrder(dto.order.OrderId);
 
+            dto.user = _userRepo.Find(dto.order.UserId);
+            dto.user.Password = "";
 
             //filling dropdowns
             ViewBag.DesignEngineeringStatus = Enum.GetValues(typeof(OrderTrackingEnum.DesignEngineeringStatus))

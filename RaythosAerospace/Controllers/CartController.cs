@@ -147,7 +147,7 @@ namespace RaythosAerospace.Controllers
             //getting the cart and cart items for a given user
             CartModel foundCart = _cartRepo.GetCart(userid);
             Dictionary<string, CheckoutModel> aircrafts = new Dictionary<string, CheckoutModel>();
-            IEnumerable<ProductModel> cartitems = _productRepo.GetProductsByUser(userid);
+            IEnumerable<ProductModel> cartitems = _productRepo.GetProductAddedToTheCartByUser(userid);
             IEnumerable<ShippingModel> shippings = _orderRepo.GetShippingMethods();
 
             //iterating the aircrafts and adding them into the dictionary

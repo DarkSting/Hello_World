@@ -10,7 +10,10 @@ namespace RaythosAerospace.Models.Repositories.AirCraftRepository
     {   
         public AirCraftModel AirCraftDet { get; set; }
 
+        public Dictionary<string,int> soldCount { get; set; }
         public IList<AirCraftModel> airCrafts { get; set; }
         public List<IFormFile> Photos { get; set; }
+
+     
     }
 }

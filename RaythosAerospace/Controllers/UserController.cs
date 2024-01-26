@@ -26,6 +26,27 @@ namespace RaythosAerospace.Controllers
             return View();
         }
 
+        //posts the updated user data
+        [HttpPost]
+        public IActionResult ProfileUpdate(UserModel model)
+        {
+            _userRepo.UpdateUser(model);
+            return View(model);
+        }
+
+        // gets the user from the cookie and retreive the user view
+        [HttpGet]
+        public IActionResult ProfileUpdate()
+        {
+            UserModel userModel = _jwt.GetUserFromTheCookies("JWT", Request);
+            if (userModel == null)
+            {
+
+                return View("~/Views/Shared/Error.cshtml");
+            }
+            return View(_userRepo.Find(userModel.UserId));
+        }
+
         public IActionResult Login(UserLoginDTO user,IResponseCookies cookies)
         {
 
@@ -40,10 +61,9 @@ namespace RaythosAerospace.Controllers
             }
             else
             {   
-                if (user.Credentials.Password != user.ConfirmedPass)
-                {
-                    ModelState.AddModelError(string.Empty, "Password mismatch");
-                }
+                
+               ModelState.AddModelError(string.Empty, "Invalid credentials");
+                
                 
                 return View();
             }
