@@ -140,6 +140,7 @@ const CreateTournementMatches = async (req, res) => {
       let savedMatch = await currentMatch.save();
       mt.push(savedMatch);
       currentMatchId++;
+      
     }
 
     const savedRound = await new RoundModel({
